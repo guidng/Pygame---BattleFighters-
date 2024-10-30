@@ -10,6 +10,7 @@ pygame.display.set_caption('Battlefighters ⚔️')
 
 # Inicia estruturas de dados
 game = True
+sound = True
 frames=0
 current_screen='tela carregamento'
 clock = pygame.time.Clock()
@@ -89,7 +90,7 @@ while game:
         Arcimage_rect.center=(width/2,(height/2)-150)
         window.blit(Arcimage, Arcimage_rect)
 
-        # Cria botão do play:
+        # Cria botão do play e musica:
         # Cria círculo
         radiusplayb=50
         centerplayb=((width/2)-100,(height/2)+70)
@@ -99,9 +100,36 @@ while game:
         centersetb=((width/2)+100,(height/2)+70)
         colorsetb=(214,217,54)
         pygame.draw.circle(window, colorsetb, centersetb, radiussetb) 
-        # Cria Botão:
-        verticesplaybutton=[()]
+        
+        # Importa Botões:
+        Muteimage = pygame.image.load('images/BotaoMute.png')
+        Volumeimage = pygame.image.load('images/Botaovolume.png')
+        if sound==False:
+            Soundimage=Muteimage
+        else:
+            Soundimage=Volumeimage
+        # if CLICARBOTAODIREITO:
+        #     if sound==False:
+        #         sound=True
+        #     else:
+        #         sound=False
+         
+        Soundimagewidth = 100
+        Soundimageheight = 100
+        Soundimage = pygame.transform.scale(Soundimage, (Soundimagewidth, Soundimageheight))
+        Soundimage_rect=Soundimage.get_rect()
+        Soundimage_rect.center=(centersetb)
+        window.blit(Soundimage, Soundimage_rect)
 
+        Playimage = pygame.image.load('images/Botaoplay.png')
+        Playimagewidth = 70
+        Playimageheight = 70
+        Playimage = pygame.transform.scale(Playimage, (Playimagewidth, Playimageheight))
+        Playimage_rect=Playimage.get_rect()
+        Playimage_rect.center=((width/2)-98,(height/2)+70)
+        window.blit(Playimage, Playimage_rect)
+
+        # confere se botão do volume foi apertado 
 
     # Atualiza estado do jogo
     pygame.display.update()  # Mostra o novo frame para o jogador
