@@ -11,7 +11,7 @@ pygame.display.set_caption('Battlefighters ⚔️')
 # Inicia estruturas de dados
 game = True
 frames=0
-tela_atual='tela carregamento'
+current_screen='tela carregamento'
 clock = pygame.time.Clock()
 FPS=60
 countloadbar=0
@@ -21,7 +21,7 @@ while game:
 
     clock.tick(FPS)
 
-    if tela_atual == 'tela carregamento':
+    if current_screen == 'tela carregamento':
         frames+=1
         # Trata eventos
         for event in pygame.event.get():
@@ -29,7 +29,7 @@ while game:
             if event.type == pygame.QUIT:
                 game = False   
         if frames>300:
-            tela_atual = 'tela inicio'
+            current_screen = 'tela inicio'
 
         # Gera imagem
         window.fill((0, 0, 0))  # Preenche o fundo com a cor preta
@@ -62,8 +62,9 @@ while game:
             text = font.render('Concluído!', True, (255,255,255))
             textrect=text.get_rect()
             window.blit(text, (600-textrect[2]/2, 530))
-    
-    if tela_atual == 'tela inicio':
+
+
+    if current_screen == 'tela inicio':
         # Trata eventos
         for event in pygame.event.get():
             # Verifica consequências
@@ -71,9 +72,35 @@ while game:
                 game = False
 
         # Gera imagem
-        window.fill((135,206,250))  # Preenche o fundo com a cor azul
+        BGSSimage=pygame.image.load('images/BGtelainicial.png')
+        BGSSwidth=1200
+        BGSSheight=600
+        BGSSimage = pygame.transform.scale(BGSSimage, (BGSSwidth, BGSSheight))
+        BGSSimage_rect=BGSSimage.get_rect()
+        BGSSimage_rect.center=((width/2),(height/2))
+        window.blit(BGSSimage, BGSSimage_rect)
 
+        # Importa imagem de carregamento
+        Arcimage = pygame.image.load('images/BattlefightersArco.png')
+        Arcimagewidth=600
+        Arcimageheight=200
+        Arcimage = pygame.transform.scale(Arcimage, (Arcimagewidth, Arcimageheight))
+        Arcimage_rect=Arcimage.get_rect()
+        Arcimage_rect.center=(width/2,(height/2)-150)
+        window.blit(Arcimage, Arcimage_rect)
 
+        # Cria botão do play:
+        # Cria círculo
+        radiusplayb=50
+        centerplayb=((width/2)-100,(height/2)+70)
+        colorplayb=(214,217,54)
+        pygame.draw.circle(window, colorplayb, centerplayb, radiusplayb)
+        radiussetb=50
+        centersetb=((width/2)+100,(height/2)+70)
+        colorsetb=(214,217,54)
+        pygame.draw.circle(window, colorsetb, centersetb, radiussetb) 
+        # Cria Botão:
+        verticesplaybutton=[()]
 
 
     # Atualiza estado do jogo
