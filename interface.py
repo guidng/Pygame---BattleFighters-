@@ -145,7 +145,7 @@ while game:
                     if play_area.collidepoint(mouse_pos):
                         current_screen='modo de jogo'
 
-                        
+
         
     if current_screen=='modo de jogo':
 
@@ -176,7 +176,8 @@ while game:
                 if event.button==1:
                     mouse_pos=event.pos
                     if arrow_area.collidepoint(mouse_pos):
-                        current_screen='tela início'
+                        current_screen='tela inicio'
+
 
 
     pygame.display.update()  # Mostra o novo frame para o jogador
