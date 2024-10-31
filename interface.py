@@ -212,7 +212,7 @@ while game:
 
         window.blit(BGSSimage, BGSSimage_rect)
 
-        Gradeimage=pygame.image.load('images/Gradepersonagens.jpg')
+        Gradeimage=pygame.image.load('images/Gradepersonagens.png')
         Gradeimagewidth=1000
         Gradeimageheight=500
         Gradeimage = pygame.transform.scale(Gradeimage, (Gradeimagewidth, Gradeimageheight))
