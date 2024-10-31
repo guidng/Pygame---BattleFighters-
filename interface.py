@@ -74,7 +74,7 @@ while game:
     
     if current_screen == 'tela inicio':
         if song1variable==0:
-            pygame.mixer.music.play(-1)
+            pygame.mixer.music.play(-1,2)
         song1variable+=1
 
         # Gera imagem
@@ -149,15 +149,13 @@ while game:
         
     if current_screen=='modo de jogo':
 
-        # Gamemodeimage=pygame.image.load('images/Mododejogo.png')
-        # Gamemodewidth=1200
-        # Gamemodeheight=600
-        # Gamemodeimage = pygame.transform.scale(Gamemodeimage, (Gamemodewidth, Gamemodeheight))
-        # Gamemodeimage_rect=Gamemodeimage.get_rect()
-        # Gamemodeimage_rect.center=((width/2),(height/2))
-        # window.blit(Gamemodeimage, Gamemodeimage_rect) 
-
-        window.fill((0, 0, 0))  # Preenche o fundo com a cor preta
+        BGSSimage=pygame.image.load('images/BGtelainicial.png')
+        BGSSwidth=1200
+        BGSSheight=600
+        BGSSimage = pygame.transform.scale(BGSSimage, (BGSSwidth, BGSSheight))
+        BGSSimage_rect=BGSSimage.get_rect()
+        BGSSimage_rect.center=((width/2),(height/2))
+        window.blit(BGSSimage, BGSSimage_rect)
 
         Arrowimage=pygame.image.load('images/Setavoltar.png')
         Arrowimagewidth=75
@@ -166,8 +164,26 @@ while game:
         Arrowimage_rect=Arrowimage.get_rect()
         Arrowimage_rect.top = 0
         Arrowimage_rect.left = 0
-        window.blit(Arrowimage, Arrowimage_rect) 
+        window.blit(Arrowimage, Arrowimage_rect)
 
+        x1image=pygame.image.load('images/1v1.png')
+        x1imagewidth=250
+        x1imageheight=250
+        x1image = pygame.transform.scale(x1image, (x1imagewidth, x1imageheight))
+        x1image_rect=x1image.get_rect()
+        x1image_rect.center=((width/2)-150,(height/2))
+        window.blit(x1image, x1image_rect)
+
+        Arcadeimage=pygame.image.load('images/Arcade.png')
+        Arcadeimagewidth=250
+        Arcadeimageheight=250
+        Arcadeimage = pygame.transform.scale(Arcadeimage, (Arcadeimagewidth, Arcadeimageheight))
+        Arcadeimage_rect=Arcadeimage.get_rect()
+        Arcadeimage_rect.center=((width/2)+150,(height/2))
+        window.blit(Arcadeimage, Arcadeimage_rect)
+    
+        x1_area=pygame.Rect(((width/2))-(x1imagewidth/2)-150,(height/2)-(x1imageheight/2),200,200)
+        Arcade_area=pygame.Rect(((width/2))-(Arcadeimagewidth/2)+150,(height/2)-(Arcadeimageheight/2),200,200)
         arrow_area=pygame.Rect(0,0,75,50)
 
         for event in pygame.event.get():
@@ -179,7 +195,25 @@ while game:
                     mouse_pos=event.pos
                     if arrow_area.collidepoint(mouse_pos):
                         current_screen='tela inicio'
+                    if x1_area.collidepoint(mouse_pos):
+                        current_screen='personagens'
+                        modo='1v1'
+                    if Arcade_area.collidepoint(mouse_pos):
+                        current_screen='personagens'
+                        modo='arcade'
+    
 
+    if current_screen=='personagens':
+        window.fill((0, 0, 0))  # Preenche o fundo com a cor preta
+        for event in pygame.event.get():
+            # Verifica consequências
+            if event.type == pygame.QUIT:
+                game = False
+            if event.type==pygame.MOUSEBUTTONDOWN:
+                if event.button==1:
+                    mouse_pos=event.pos
+                    if arrow_area.collidepoint(mouse_pos):
+                        current_screen='modo de jogo'
 
 
     pygame.display.update()  # Mostra o novo frame para o jogador
