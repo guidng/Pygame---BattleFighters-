@@ -18,17 +18,21 @@ current_screen='tela carregamento'
 clock = pygame.time.Clock()
 FPS=60
 countloadbar=0
+
+# Importa imagens de personagens
 Namelist=[]
 Facelist=[]
 area_list=[]
-dic_fullcharacters={}
-list_characters=['Fred Tio','Alekinho','Fred Tio','Alekinho','Fred Tio','Alekinho','Fred Tio','Alekinho','Fred Tio','Alekinho','Fred Tio','Alekinho','Fred Tio','Alekinho','Fred Tio','Alekinho','Fred Tio','Alekinho','Fred Tio','Alekinho']
+Fullbody_list=[]
+Full_list1={}
+Full_list2={}
+list_characters=['Fred Tio','Alekinho','Baiano','Alekinho','Fred Tio','Alekinho','Fred Tio','Alekinho','Fred Tio','Alekinho','Fred Tio','Alekinho','Fred Tio','Alekinho','Fred Tio','Alekinho','Fred Tio','Alekinho','Fred Tio','Alekinho']
 for characters in range(20):
     Characimage = pygame.image.load(f'images/Personagem{characters}.png')
-    # Fullbody = pygame.image.load(f'images/FullPerson{characters}.png').convert()
+    Fullbody = pygame.image.load(f'images/FullPerson{characters}.png')
     Namelist.append(list_characters[characters])
     Facelist.append(Characimage)
-    # dic_fullcharacters[f'{list_characters[characters]}']=Fullbody
+    Fullbody_list.append(Fullbody)
 
 # Carregar a música de fundo
 pygame.mixer.music.load("trilhas_sonoras/trilha_sonora_tela_inicial.mp3")  # Substitua pelo caminho do seu arquivo de música
@@ -40,7 +44,6 @@ while game:
 
     clock.tick(FPS)
     
-
     if current_screen == 'tela carregamento':
         frames+=1
         # Trata eventos
@@ -69,6 +72,8 @@ while game:
         pygame.draw.polygon(window, colorload1, verticesloadbar1)
         verticesloadbar2=[(300,510),(300,525),(300+countloadbar,525),(300+countloadbar,510)]
         colorload2=(15,255,3)
+
+        # Verifica se ultrapassa limite
         if countloadbar+300<900:
             pygame.draw.polygon(window, colorload2, verticesloadbar2)
         else:
@@ -77,6 +82,7 @@ while game:
             pygame.draw.polygon(window, colorload2, verticesloadbar2)
         countloadbar+=3
 
+        # Verifica se atinge limite
         if countloadbar>=600:
             font = pygame.font.SysFont(None, 24)
             text = font.render('Concluído!', True, (255,255,255))
@@ -84,8 +90,10 @@ while game:
             window.blit(text, (600-textrect[2]/2, 530))
 
 
-    
+    # Troca tela
     if current_screen == 'tela inicio':
+        
+        # Da play na musica em loop
         if song1variable==0:
             pygame.mixer.music.play(-1,2)
         song1variable+=1
@@ -159,10 +167,11 @@ while game:
                         current_screen='modo de jogo'
 
 
-        
+    # Troca tela 
     if current_screen=='modo de jogo':
         window.blit(BGSSimage, BGSSimage_rect)
-
+        
+        # Importa imagens
         Arrowimage=pygame.image.load('images/Setavoltar.png')
         Arrowimagewidth=75
         Arrowimageheight=50
@@ -188,6 +197,7 @@ while game:
         Arcadeimage_rect.center=((width/2)+150,(height/2))
         window.blit(Arcadeimage, Arcadeimage_rect)
     
+        # Define areas
         x1_area=pygame.Rect(((width/2))-(x1imagewidth/2)-150,(height/2)-(x1imageheight/2),200,200)
         Arcade_area=pygame.Rect(((width/2))-(Arcadeimagewidth/2)+150,(height/2)-(Arcadeimageheight/2),200,200)
         arrow_area=pygame.Rect(0,0,75,50)
@@ -207,42 +217,61 @@ while game:
                     if Arcade_area.collidepoint(mouse_pos):
                         current_screen='personagens'
                         currentmode='arcade'
-    
+
+        # Cria variáveis de imagem
+        imagepers1=False
+        imagepers2=False
+
+    # Troca tela
     if current_screen=='personagens':
 
+        # Plota Bg
         window.blit(BGSSimage, BGSSimage_rect)
 
+        # Importa imagens
         Gradeimage=pygame.image.load('images/Gradepersonagens.png')
-        Gradeimagewidth=1000
+        Gradeimagewidth=800
         Gradeimageheight=500
         Gradeimage = pygame.transform.scale(Gradeimage, (Gradeimagewidth, Gradeimageheight))
         Gradeimage_rect=Gradeimage.get_rect()
         Gradeimage_rect.center=((width/2),(height/2))
         window.blit(Gradeimage, Gradeimage_rect)
-
         window.blit(Arrowimage, Arrowimage_rect)
 
+        # Nomes, faces e fotos do corpo todo
         counter=0
         for heightcount in range(4):
             for Gridcount in range(5):
                 Name=Namelist[counter]
                 Face=Facelist[counter]
+                Full=Fullbody_list[counter]
                 counter+=1
-                Facewidth=160
+                Facewidth=120
                 Faceheight=75
                 Face = pygame.transform.scale(Face, (Facewidth, Faceheight))
                 Face_rect=Face.get_rect()
-                Face_rect.center=((40+100+90+50+(Gridcount*160)),(50+37.5+100+(heightcount*75)))
+                Face_rect.center=((200+60+85+(Gridcount*130)),(50+37.5+100+(heightcount*75)))
                 window.blit(Face, Face_rect)
-                current_area=((-Facewidth/2)+40+100+90+50+(Gridcount*160), ((-Faceheight/2)+50+37.5+100+(heightcount*75)), Facewidth, Faceheight)
+                current_area=((-Facewidth/2)+200+60+85+(Gridcount*130), ((-Faceheight/2)+50+37.5+100+(heightcount*75)), Facewidth, Faceheight)
                 area_list.append(current_area)
 
                 fontname = pygame.font.SysFont(None, 48)
                 Name = font.render(f'{Name.upper()}', True, (255, 255, 255))
                 Name_rect=Name.get_rect()
-                Name_rect.center=((40+100+90+50+(Gridcount*160)),(-7.5+50+75+100+(heightcount*75)))
+                Name_rect.center=((200+85+60+(Gridcount*130)),(-7.5+50+75+100+(heightcount*75)))
                 window.blit(Name, Name_rect)
 
+                Fullwidth=200
+                Fullheight=500
+                Full = pygame.transform.scale(Full, (Fullwidth, Fullheight))
+                Full_rect1=Full.get_rect()
+                Full_rect2=Full.get_rect()
+                Full_rect1.center=(150,300)
+                Full_list1[Full]=Full_rect1
+                Full_rect2.center=(1050,300)
+                Full_list2[Full]=Full_rect2
+
+        # Botão de confirmar
         Confirmb=pygame.image.load('images/Confirmb.png')
         Confirmedb=pygame.image.load('images/Confirmedb.png')
         Confirmbwidth=300
@@ -275,6 +304,11 @@ while game:
         else:
             window.blit(Confirmedb2, Confirmedb2_rect)
 
+        if imagepers1==True:
+            window.blit(first1, second1)
+        if imagepers2==True:
+            window.blit(first2, second2)
+
         Confirmb1_area=pygame.Rect(250,425,300,200)
         Confirmb2_area=pygame.Rect(650,425,300,200)
 
@@ -290,17 +324,30 @@ while game:
                     for countarea in range(len(area_list)):
                         current_area=pygame.Rect(area_list[countarea])
                         if current_area.collidepoint(mouse_pos):
-                            Fullpers=Namelist[countarea]
+                            diccount=0
+                            for firs,secon in Full_list1.items():
+                                if diccount==countarea:
+                                    if j1==False:
+                                        imagepers1=True
+                                        first1=firs
+                                        second1=secon
+                            diccount=0
+                            for firs,secon in Full_list2.items():
+                                if diccount==countarea:
+                                    if j1==True and j2==False:
+                                        imagepers2=True
+                                        first2=firs
+                                        second2=secon
+                                diccount+=1
+
                     if Confirmb1_area.collidepoint(mouse_pos):
                         if j1==False:
                             j1=True
                         else:
                             j1=False
                     if Confirmb2_area.collidepoint(mouse_pos):
-                        if j2==False:
+                        if j2==False and j1==True:
                             j2=True
-                        else:
-                            j2=False
         if j1 and j2:
             current_screen='tela mapas'
     
