@@ -149,19 +149,21 @@ while game:
         
     if current_screen=='modo de jogo':
 
-        Gamemodeimage=pygame.image.load('images/Mododejogo.png')
-        Gamemodewidth=1200
-        Gamemodeheight=600
-        Gamemodeimage = pygame.transform.scale(Gamemodeimage, (Gamemodewidth, Gamemodeheight))
-        Gamemodeimage_rect=Gamemodeimage.get_rect()
-        Gamemodeimage_rect.center=((width/2),(height/2))
-        window.blit(Gamemodeimage, Gamemodeimage_rect) 
+        # Gamemodeimage=pygame.image.load('images/Mododejogo.png')
+        # Gamemodewidth=1200
+        # Gamemodeheight=600
+        # Gamemodeimage = pygame.transform.scale(Gamemodeimage, (Gamemodewidth, Gamemodeheight))
+        # Gamemodeimage_rect=Gamemodeimage.get_rect()
+        # Gamemodeimage_rect.center=((width/2),(height/2))
+        # window.blit(Gamemodeimage, Gamemodeimage_rect) 
+
+        window.fill((0, 0, 0))  # Preenche o fundo com a cor preta
 
         Arrowimage=pygame.image.load('images/Setavoltar.png')
         Arrowimagewidth=75
         Arrowimageheight=50
         Arrowimage = pygame.transform.scale(Arrowimage, (Arrowimagewidth, Arrowimageheight))
-        Arrowimage_rect=Gamemodeimage.get_rect()
+        Arrowimage_rect=Arrowimage.get_rect()
         Arrowimage_rect.top = 0
         Arrowimage_rect.left = 0
         window.blit(Arrowimage, Arrowimage_rect) 
