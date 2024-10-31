@@ -244,20 +244,36 @@ while game:
                 window.blit(Name, Name_rect)
 
         Confirmb=pygame.image.load('images/Confirmb.png')
+        Confirmedb=pygame.image.load('images/Confirmedb.png')
         Confirmbwidth=300
         Confirmbheight=200
         Confirmb1 = pygame.transform.scale(Confirmb, (Confirmbwidth, Confirmbheight))
         Confirmb2 = pygame.transform.scale(Confirmb, (Confirmbwidth, Confirmbheight))
+        Confirmedb1 = pygame.transform.scale(Confirmedb, (Confirmbwidth, Confirmbheight))
+        Confirmedb2 = pygame.transform.scale(Confirmedb, (Confirmbwidth, Confirmbheight))
         Confirmb1_rect=Confirmb1.get_rect()
         Confirmb2_rect=Confirmb2.get_rect()
+        Confirmedb1_rect=Confirmedb1.get_rect()
+        Confirmedb2_rect=Confirmedb2.get_rect()
 
         Confirmb1_rect.left=250
         Confirmb1_rect.top=425
-        window.blit(Confirmb1, Confirmb1_rect)
+        Confirmedb1_rect.left=250
+        Confirmedb1_rect.top=425
 
         Confirmb2_rect.left=650
         Confirmb2_rect.top=425
-        window.blit(Confirmb2, Confirmb2_rect)
+        Confirmedb2_rect.left=650
+        Confirmedb2_rect.top=425
+        
+        if j1==False:
+            window.blit(Confirmb1, Confirmb1_rect)
+        else:
+            window.blit(Confirmedb1, Confirmedb1_rect)
+        if j2==False:
+            window.blit(Confirmb2, Confirmb2_rect)
+        else:
+            window.blit(Confirmedb2, Confirmedb2_rect)
 
         Confirmb1_area=pygame.Rect(250,425,300,200)
         Confirmb2_area=pygame.Rect(650,425,300,200)
@@ -276,9 +292,15 @@ while game:
                         if current_area.collidepoint(mouse_pos):
                             Fullpers=Namelist[countarea]
                     if Confirmb1_area.collidepoint(mouse_pos):
-                        j1=True
+                        if j1==False:
+                            j1=True
+                        else:
+                            j1=False
                     if Confirmb2_area.collidepoint(mouse_pos):
-                        j2=True
+                        if j2==False:
+                            j2=True
+                        else:
+                            j2=False
         if j1 and j2:
             current_screen='tela mapas'
     
