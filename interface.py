@@ -244,23 +244,23 @@ while game:
                 window.blit(Name, Name_rect)
 
         Confirmb=pygame.image.load('images/Confirmb.png')
-        Confirmbwidth=200
-        Confirmbheight=75
+        Confirmbwidth=300
+        Confirmbheight=200
         Confirmb1 = pygame.transform.scale(Confirmb, (Confirmbwidth, Confirmbheight))
         Confirmb2 = pygame.transform.scale(Confirmb, (Confirmbwidth, Confirmbheight))
-        Confirmb1_rect=Confirmb.get_rect()
-        Confirmb2_rect=Confirmb.get_rect()
+        Confirmb1_rect=Confirmb1.get_rect()
+        Confirmb2_rect=Confirmb2.get_rect()
 
         Confirmb1_rect.left=250
         Confirmb1_rect.top=425
         window.blit(Confirmb1, Confirmb1_rect)
 
-        Confirmb2_rect.right=750
+        Confirmb2_rect.left=650
         Confirmb2_rect.top=425
         window.blit(Confirmb2, Confirmb2_rect)
 
-        Confirmb1_area=pygame.Rect(250,425,200,75)
-        Confirmb2_area=pygame.Rect(550,425,200,75)
+        Confirmb1_area=pygame.Rect(250,425,300,200)
+        Confirmb2_area=pygame.Rect(650,425,300,200)
 
         for event in pygame.event.get():
             # Verifica consequências
@@ -271,8 +271,8 @@ while game:
                     mouse_pos=event.pos
                     if arrow_area.collidepoint(mouse_pos):
                         current_screen='modo de jogo'
-                    for countarea in area_list:
-                        current_area=pygame.Rect(countarea)
+                    for countarea in range(len(area_list)):
+                        current_area=pygame.Rect(area_list[countarea])
                         if current_area.collidepoint(mouse_pos):
                             Fullpers=Namelist[countarea]
                     if Confirmb1_area.collidepoint(mouse_pos):
@@ -284,10 +284,17 @@ while game:
     
     if current_screen=='tela mapas':
         window.fill((0, 0, 0))  # Preenche o fundo com a cor preta
+        window.blit(Arrowimage, Arrowimage_rect)
+        arrow_area=pygame.Rect(0,0,75,50)
         for event in pygame.event.get():
             # Verifica consequências
             if event.type == pygame.QUIT:
                 game = False
+            if event.type==pygame.MOUSEBUTTONDOWN:
+                if event.button==1:
+                    mouse_pos=event.pos
+                    if arrow_area.collidepoint(mouse_pos):
+                        current_screen='personagens'
     
 
     pygame.display.update()  # Mostra o novo frame para o jogador
