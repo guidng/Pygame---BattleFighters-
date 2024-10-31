@@ -16,6 +16,16 @@ current_screen='tela carregamento'
 clock = pygame.time.Clock()
 FPS=60
 countloadbar=0
+Namelist=[]
+Facelist=[]
+dic_fullcharacters={}
+list_characters=['Fred Tio','Alekinho','Fred Tio','Alekinho','Fred Tio','Alekinho','Fred Tio','Alekinho','Fred Tio','Alekinho','Fred Tio','Alekinho','Fred Tio','Alekinho','Fred Tio','Alekinho','Fred Tio','Alekinho','Fred Tio','Alekinho']
+for characters in range(20):
+    Characimage = pygame.image.load(f'images/Personagem{characters}.png')
+    # Fullbody = pygame.image.load(f'images/FullPerson{characters}.png').convert()
+    Namelist.append(list_characters[characters])
+    Facelist.append(Characimage)
+    # dic_fullcharacters[f'{list_characters[characters]}']=Fullbody
 
 # Carregar a música de fundo
 pygame.mixer.music.load("trilhas_sonoras/trilha_sonora_tela_inicial.mp3")  # Substitua pelo caminho do seu arquivo de música
@@ -148,13 +158,6 @@ while game:
 
         
     if current_screen=='modo de jogo':
-
-        BGSSimage=pygame.image.load('images/BGtelainicial.png')
-        BGSSwidth=1200
-        BGSSheight=600
-        BGSSimage = pygame.transform.scale(BGSSimage, (BGSSwidth, BGSSheight))
-        BGSSimage_rect=BGSSimage.get_rect()
-        BGSSimage_rect.center=((width/2),(height/2))
         window.blit(BGSSimage, BGSSimage_rect)
 
         Arrowimage=pygame.image.load('images/Setavoltar.png')
@@ -197,14 +200,45 @@ while game:
                         current_screen='tela inicio'
                     if x1_area.collidepoint(mouse_pos):
                         current_screen='personagens'
-                        modo='1v1'
+                        currentmode='1v1'
                     if Arcade_area.collidepoint(mouse_pos):
                         current_screen='personagens'
-                        modo='arcade'
+                        currentmode='arcade'
     
-
     if current_screen=='personagens':
-        window.fill((0, 0, 0))  # Preenche o fundo com a cor preta
+
+        window.blit(BGSSimage, BGSSimage_rect)
+
+        Gradeimage=pygame.image.load('images/Gradepersonagens.jpg')
+        Gradeimagewidth=1000
+        Gradeimageheight=500
+        Gradeimage = pygame.transform.scale(Gradeimage, (Gradeimagewidth, Gradeimageheight))
+        Gradeimage_rect=Gradeimage.get_rect()
+        Gradeimage_rect.center=((width/2),(height/2))
+        window.blit(Gradeimage, Gradeimage_rect)
+
+        window.blit(Arrowimage, Arrowimage_rect)
+
+        counter=0
+        for heightcount in range(4):
+            for Gridcount in range(5):
+                Name=Namelist[counter]
+                Face=Facelist[counter]
+                counter+=1
+                Facewidth=160
+                Faceheight=75
+                Face = pygame.transform.scale(Face, (Facewidth, Faceheight))
+                Face_rect=Face.get_rect()
+                Face_rect.center=((40+100+90+50+(Gridcount*160)),(50+37.5+100+(heightcount*75)))
+                window.blit(Face, Face_rect)
+
+
+                fontname = pygame.font.SysFont(None, 48)
+                Name = font.render(f'{Name.upper()}', True, (255, 255, 255))
+                Name_rect=Name.get_rect()
+                Name_rect.center=((40+100+90+50+(Gridcount*160)),(-7.5+50+75+100+(heightcount*75)))
+                window.blit(Name, Name_rect)
+
         for event in pygame.event.get():
             # Verifica consequências
             if event.type == pygame.QUIT:
