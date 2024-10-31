@@ -140,18 +140,44 @@ while game:
                             pygame.mixer.music.set_volume(0)  # Define o volume da música (0.0 a 1.0) 
                         else:
                             sound=True
-                            pygame.mixer.music.set_volume(0.1)  # Define o volume da música (0.0 a 1.0) 
+                            pygame.mixer.music.set_volume(0.1)  # Define o volume da música (0.0 a 1.0)
 
                     if play_area.collidepoint(mouse_pos):
-                        current_screen='escolha personagem'
+                        current_screen='modo de jogo'
+
+                        
         
-    if current_screen=='escolha personagem':
-        window.fill((0, 0, 0))  # Preenche o fundo com a cor preta
-        
+    if current_screen=='modo de jogo':
+
+        Gamemodeimage=pygame.image.load('images/Mododejogo.png')
+        Gamemodewidth=1200
+        Gamemodeheight=600
+        Gamemodeimage = pygame.transform.scale(Gamemodeimage, (Gamemodewidth, Gamemodeheight))
+        Gamemodeimage_rect=Gamemodeimage.get_rect()
+        Gamemodeimage_rect.center=((width/2),(height/2))
+        window.blit(Gamemodeimage, Gamemodeimage_rect) 
+
+        Arrowimage=pygame.image.load('images/Setavoltar.png')
+        Arrowimagewidth=75
+        Arrowimageheight=50
+        Arrowimage = pygame.transform.scale(Arrowimage, (Arrowimagewidth, Arrowimageheight))
+        Arrowimage_rect=Gamemodeimage.get_rect()
+        Arrowimage_rect.top = 0
+        Arrowimage_rect.left = 0
+        window.blit(Arrowimage, Arrowimage_rect) 
+
+        arrow_area=pygame.Rect(0,0,75,50)
+
         for event in pygame.event.get():
             # Verifica consequências
             if event.type == pygame.QUIT:
                 game = False
+            if event.type==pygame.MOUSEBUTTONDOWN:
+                if event.button==1:
+                    mouse_pos=event.pos
+                    if arrow_area.collidepoint(mouse_pos):
+                        current_screen='tela início'
+
 
     pygame.display.update()  # Mostra o novo frame para o jogador
  
