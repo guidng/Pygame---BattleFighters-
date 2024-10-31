@@ -11,6 +11,8 @@ pygame.display.set_caption('Battlefighters ⚔️')
 # Inicia estruturas de dados
 game = True
 sound = True
+j1=False
+j2=False
 frames=0
 current_screen='tela carregamento'
 clock = pygame.time.Clock()
@@ -18,6 +20,7 @@ FPS=60
 countloadbar=0
 Namelist=[]
 Facelist=[]
+area_list=[]
 dic_fullcharacters={}
 list_characters=['Fred Tio','Alekinho','Fred Tio','Alekinho','Fred Tio','Alekinho','Fred Tio','Alekinho','Fred Tio','Alekinho','Fred Tio','Alekinho','Fred Tio','Alekinho','Fred Tio','Alekinho','Fred Tio','Alekinho','Fred Tio','Alekinho']
 for characters in range(20):
@@ -231,13 +234,33 @@ while game:
                 Face_rect=Face.get_rect()
                 Face_rect.center=((40+100+90+50+(Gridcount*160)),(50+37.5+100+(heightcount*75)))
                 window.blit(Face, Face_rect)
-
+                current_area=((-Facewidth/2)+40+100+90+50+(Gridcount*160), ((-Faceheight/2)+50+37.5+100+(heightcount*75)), Facewidth, Faceheight)
+                area_list.append(current_area)
 
                 fontname = pygame.font.SysFont(None, 48)
                 Name = font.render(f'{Name.upper()}', True, (255, 255, 255))
                 Name_rect=Name.get_rect()
                 Name_rect.center=((40+100+90+50+(Gridcount*160)),(-7.5+50+75+100+(heightcount*75)))
                 window.blit(Name, Name_rect)
+
+        Confirmb=pygame.image.load('images/Confirmb.png')
+        Confirmbwidth=200
+        Confirmbheight=75
+        Confirmb1 = pygame.transform.scale(Confirmb, (Confirmbwidth, Confirmbheight))
+        Confirmb2 = pygame.transform.scale(Confirmb, (Confirmbwidth, Confirmbheight))
+        Confirmb1_rect=Confirmb.get_rect()
+        Confirmb2_rect=Confirmb.get_rect()
+
+        Confirmb1_rect.left=250
+        Confirmb1_rect.top=425
+        window.blit(Confirmb1, Confirmb1_rect)
+
+        Confirmb2_rect.right=750
+        Confirmb2_rect.top=425
+        window.blit(Confirmb2, Confirmb2_rect)
+
+        Confirmb1_area=pygame.Rect(250,425,200,75)
+        Confirmb2_area=pygame.Rect(550,425,200,75)
 
         for event in pygame.event.get():
             # Verifica consequências
@@ -248,9 +271,26 @@ while game:
                     mouse_pos=event.pos
                     if arrow_area.collidepoint(mouse_pos):
                         current_screen='modo de jogo'
-
+                    for countarea in area_list:
+                        current_area=pygame.Rect(countarea)
+                        if current_area.collidepoint(mouse_pos):
+                            Fullpers=Namelist[countarea]
+                    if Confirmb1_area.collidepoint(mouse_pos):
+                        j1=True
+                    if Confirmb2_area.collidepoint(mouse_pos):
+                        j2=True
+        if j1 and j2:
+            current_screen='tela mapas'
+    
+    if current_screen=='tela mapas':
+        window.fill((0, 0, 0))  # Preenche o fundo com a cor preta
+        for event in pygame.event.get():
+            # Verifica consequências
+            if event.type == pygame.QUIT:
+                game = False
+    
 
     pygame.display.update()  # Mostra o novo frame para o jogador
  
 # Finalização
-pygame.quit()  # Função do PyGame que finaliza os recursos utilizados
+pygame.quit()  # Função do PyGame que  finaliza os recursos utilizados
