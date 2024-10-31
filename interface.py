@@ -19,12 +19,8 @@ countloadbar=0
 
 # Carregar a música de fundo
 pygame.mixer.music.load("trilhas_sonoras/trilha_sonora_tela_inicial.mp3")  # Substitua pelo caminho do seu arquivo de música
-pygame.mixer.music.set_volume(0.1)  # Define o volume da música (0.0 a 1.0)
-pygame.mixer.music.play(-1) 
-
-
-
-
+pygame.mixer.music.set_volume(0.1)  # Define o volume da música (0.0 a 1.0) 
+song1variable=0
 
 # Loop principal
 while game:
@@ -77,13 +73,9 @@ while game:
 
     
     if current_screen == 'tela inicio':
-        
-        # Trata eventos
-        for event in pygame.event.get():
-            # Verifica consequências
-            if event.type == pygame.QUIT:
-                game = False
-
+        if song1variable==0:
+            pygame.mixer.music.play(-1)
+        song1variable+=1
 
         # Gera imagem
         BGSSimage=pygame.image.load('images/BGtelainicial.png')
@@ -112,18 +104,13 @@ while game:
             Soundimage=Muteimage
         else:
             Soundimage=Volumeimage
-        # if CLICARBOTAODIREITO:
-        #     if sound==False:
-        #         sound=True
-        #     else:
-        #         sound=False
         
         # Cria botão do play e musica:
 
         Soundimagewidth = 100
         Soundimageheight = 100
         Soundimage = pygame.transform.scale(Soundimage, (Soundimagewidth, Soundimageheight))
-        Soundimage_rect=Soundimage.get_rect( )
+        Soundimage_rect=Soundimage.get_rect()
         Soundimage_rect.bottom = window.get_height()
         Soundimage_rect.left = 0
         window.blit(Soundimage, Soundimage_rect)
@@ -136,9 +123,36 @@ while game:
         Playimage_rect.center=((width/2),(height/2))
         window.blit(Playimage, Playimage_rect)
 
-        # confere se botão do volume foi apertado 
-     # Inicia a música apenas quando a tela de carregamento for concluída
-    # Atualiza estado do jogo
+        # Trata eventos
+        for event in pygame.event.get():
+            # Verifica consequências
+            if event.type == pygame.QUIT:
+                game = False
+            volume_area=pygame.Rect(0, height-100, 100, 100)
+            play_area=pygame.Rect(450,150,300,300)
+
+            if event.type==pygame.MOUSEBUTTONDOWN:
+                if event.button==1:
+                    mouse_pos=event.pos
+                    if volume_area.collidepoint(mouse_pos):
+                        if sound==True:
+                            sound=False
+                            pygame.mixer.music.set_volume(0)  # Define o volume da música (0.0 a 1.0) 
+                        else:
+                            sound=True
+                            pygame.mixer.music.set_volume(0.1)  # Define o volume da música (0.0 a 1.0) 
+
+                    if play_area.collidepoint(mouse_pos):
+                        current_screen='escolha personagem'
+        
+    if current_screen=='escolha personagem':
+        window.fill((0, 0, 0))  # Preenche o fundo com a cor preta
+        
+        for event in pygame.event.get():
+            # Verifica consequências
+            if event.type == pygame.QUIT:
+                game = False
+
     pygame.display.update()  # Mostra o novo frame para o jogador
  
 # Finalização
