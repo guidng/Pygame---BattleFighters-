@@ -1,5 +1,6 @@
 # Importa e inicia pacotes
 import pygame
+import random
 pygame.init()
 
 # Gera tela principal
@@ -33,6 +34,21 @@ for characters in range(20):
     Namelist.append(list_characters[characters])
     Facelist.append(Characimage)
     Fullbody_list.append(Fullbody)
+
+# Importa imagens de mapas
+maps_list=['Deserto','Vulcão','Montanhas','Estádio','Floresta','Favela']
+dic_maps={}
+dic_mapsrect={}
+for counter in range(len(maps_list)):
+    map=maps_list[counter]
+    BGSSimage=pygame.image.load(f'images/Mapa{counter}.jpg')
+    BGSSwidth=1200
+    BGSSheight=600
+    BGSSimage = pygame.transform.scale(BGSSimage, (BGSSwidth, BGSSheight))
+    BGSSimage_rect=BGSSimage.get_rect()
+    BGSSimage_rect.center=((width/2),(height/2))
+    dic_maps[map]=BGSSimage
+    dic_mapsrect[map]=BGSSimage_rect
 
 # Carregar a música de fundo
 pygame.mixer.music.load("trilhas_sonoras/trilha_sonora_tela_inicial.mp3")  # Substitua pelo caminho do seu arquivo de música
@@ -256,7 +272,7 @@ while game:
                 current_area=((-Facewidth/2)+200+60+85+(Gridcount*130), ((-Faceheight/2)+50+37.5+100+(heightcount*75)), Facewidth, Faceheight)
                 area_list.append(current_area)
 
-                fontname = pygame.font.SysFont(None, 48)
+                font = pygame.font.SysFont(None, 24)
                 Name = font.render(f'{Name.upper()}', True, (255, 255, 255))
                 Name_rect=Name.get_rect()
                 Name_rect.center=((200+85+60+(Gridcount*130)),(-7.5+50+75+100+(heightcount*75)))
@@ -310,8 +326,10 @@ while game:
         if imagepers2==True:
             window.blit(first2, second2)
 
-        Confirmb1_area=pygame.Rect(250,425,300,200)
-        Confirmb2_area=pygame.Rect(650,425,300,200)
+        Confirmb1_area=pygame.Rect(250,450,300,200)
+        Confirmb2_area=pygame.Rect(650,450,300,200)
+
+        number=random.randint(0,5)
 
         for event in pygame.event.get():
             # Verifica consequências
@@ -356,9 +374,24 @@ while game:
     if current_screen=='tela mapas':
         j1=False
         j2=False
-        window.fill((0, 0, 0))  # Preenche o fundo com a cor preta
+        counter=0
+        for map,image in dic_maps.items():
+            for map1,rect in dic_mapsrect.items():
+                if map==map1:
+                    if counter==number:
+                        window.blit(image, rect)
+                        font = pygame.font.SysFont(None, 128)
+                        text1 = font.render('Mapa selecionado:', True, (255,255,255))
+                        text2= font.render(f'{map}', True, (255,255,255))
+                        text1rect=text1.get_rect()
+                        text2rect=text2.get_rect()
+                        text1rect.center=(width/2,400)
+                        text2rect.center=(width/2,500)
+                        window.blit(text1, text1rect)
+                        window.blit(text2, text2rect)
+                    counter+=1
+
         window.blit(Arrowimage, Arrowimage_rect)
-        arrow_area=pygame.Rect(0,0,75,50)
         for event in pygame.event.get():
             # Verifica consequências
             if event.type == pygame.QUIT:
@@ -369,7 +402,6 @@ while game:
                     if arrow_area.collidepoint(mouse_pos):
                         current_screen='personagens'
     
-
     pygame.display.update()  # Mostra o novo frame para o jogador
  
 # Finalização
