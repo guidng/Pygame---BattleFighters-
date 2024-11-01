@@ -39,6 +39,7 @@ pygame.mixer.music.load("trilhas_sonoras/trilha_sonora_tela_inicial.mp3")  # Sub
 pygame.mixer.music.set_volume(0.1)  # Define o volume da música (0.0 a 1.0) 
 song1variable=0
 
+test=0
 # Loop principal
 while game:
 
@@ -331,6 +332,7 @@ while game:
                                         imagepers1=True
                                         first1=firs
                                         second1=secon
+                                diccount+=1
                             diccount=0
                             for firs,secon in Full_list2.items():
                                 if diccount==countarea:
