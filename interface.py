@@ -26,7 +26,7 @@ area_list=[]
 Fullbody_list=[]
 Full_list1={}
 Full_list2={}
-list_characters=['Fred Tio','Alekinho','Baiano','Alekinho','Fred Tio','Alekinho','Fred Tio','Alekinho','Fred Tio','Alekinho','Fred Tio','Alekinho','Fred Tio','Alekinho','Fred Tio','Alekinho','Fred Tio','Alekinho','Fred Tio','Alekinho']
+list_characters=['Fred Tio','Alekinho','Baiano','Alekinho','Fred Tio','Alekinho','Fred Tio','Alekinho','Fred Tio','Alekinho','Fred Tio','Alekinho','Fred Tio','Alekinho','Fred Tio','Alekinho','Fred Tio','Alekinho','GAGUI','JUBA']
 for characters in range(20):
     Characimage = pygame.image.load(f'images/Personagem{characters}.png')
     Fullbody = pygame.image.load(f'images/FullPerson{characters}.png')
