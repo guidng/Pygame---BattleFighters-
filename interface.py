@@ -242,6 +242,8 @@ while game:
     # Troca tela
     if current_screen=='personagens':
 
+        frames=0
+
         # Plota Bg
         window.blit(BGSSimage, BGSSimage_rect)
 
@@ -376,7 +378,9 @@ while game:
             current_screen='tela mapas'
     
     if current_screen=='tela mapas':
-        print(j1_pers,j2_pers)
+        frames+=1
+        if frames>300:
+            current_screen='partida'
         j1=False
         j2=False
         counter=0
@@ -385,6 +389,8 @@ while game:
                 if map==map1:
                     if counter==number:
                         current_map=map
+                        current_map_image=image
+                        current_map_rect=rect
                         window.blit(image, rect)
                         font = pygame.font.SysFont(None, 128)
                         text1 = font.render('Mapa selecionado:', True, (255,255,255))
@@ -410,5 +416,13 @@ while game:
     
     pygame.display.update()  # Mostra o novo frame para o jogador
  
+    if current_screen=='partida':
+        window.blit(current_map_image,current_map_rect)
+        for event in pygame.event.get():
+            # Verifica consequências
+            if event.type == pygame.QUIT:
+                game = False
+
+
 # Finalização
 pygame.quit()  # Função do PyGame que  finaliza os recursos utilizados
