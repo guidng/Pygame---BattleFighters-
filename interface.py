@@ -270,7 +270,8 @@ while game:
                 Face_rect.center=((200+60+85+(Gridcount*130)),(50+37.5+100+(heightcount*75)))
                 window.blit(Face, Face_rect)
                 current_area=((-Facewidth/2)+200+60+85+(Gridcount*130), ((-Faceheight/2)+50+37.5+100+(heightcount*75)), Facewidth, Faceheight)
-                area_list.append(current_area)
+                if len(area_list)<20:
+                    area_list.append(current_area)
 
                 font = pygame.font.SysFont(None, 24)
                 Name = font.render(f'{Name.upper()}', True, (255, 255, 255))
@@ -278,14 +279,14 @@ while game:
                 Name_rect.center=((200+85+60+(Gridcount*130)),(-7.5+50+75+100+(heightcount*75)))
                 window.blit(Name, Name_rect)
 
-                Fullwidth=200
+                Fullwidth=300
                 Fullheight=500
                 Full = pygame.transform.scale(Full, (Fullwidth, Fullheight))
                 Full_rect1=Full.get_rect()
                 Full_rect2=Full.get_rect()
-                Full_rect1.center=(150,300)
+                Full_rect1.center=(125,300)
                 Full_list1[Full]=Full_rect1
-                Full_rect2.center=(1050,300)
+                Full_rect2.center=(1075,300)
                 Full_list2[Full]=Full_rect2
 
         # Botão de confirmar
@@ -323,6 +324,7 @@ while game:
 
         if imagepers1==True:
             window.blit(first1, second1)
+
         if imagepers2==True:
             window.blit(first2, second2)
 
@@ -350,6 +352,7 @@ while game:
                                         imagepers1=True
                                         first1=firs
                                         second1=secon
+                                        j1_pers=list_characters[diccount]
                                 diccount+=1
                             diccount=0
                             for firs,secon in Full_list2.items():
@@ -358,6 +361,7 @@ while game:
                                         imagepers2=True
                                         first2=firs
                                         second2=secon
+                                        j2_pers=list_characters[diccount]
                                 diccount+=1
 
                     if Confirmb1_area.collidepoint(mouse_pos):
@@ -372,6 +376,7 @@ while game:
             current_screen='tela mapas'
     
     if current_screen=='tela mapas':
+        print(j1_pers,j2_pers)
         j1=False
         j2=False
         counter=0
@@ -379,6 +384,7 @@ while game:
             for map1,rect in dic_mapsrect.items():
                 if map==map1:
                     if counter==number:
+                        current_map=map
                         window.blit(image, rect)
                         font = pygame.font.SysFont(None, 128)
                         text1 = font.render('Mapa selecionado:', True, (255,255,255))
