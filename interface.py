@@ -354,6 +354,8 @@ while game:
             current_screen='tela mapas'
     
     if current_screen=='tela mapas':
+        j1=False
+        j2=False
         window.fill((0, 0, 0))  # Preenche o fundo com a cor preta
         window.blit(Arrowimage, Arrowimage_rect)
         arrow_area=pygame.Rect(0,0,75,50)
@@ -361,11 +363,11 @@ while game:
             # Verifica consequências
             if event.type == pygame.QUIT:
                 game = False
-        if event.type==pygame.MOUSEBUTTONDOWN:
-            if event.button==1:
-                mouse_pos=event.pos
-                if arrow_area.collidepoint(mouse_pos):
-                    current_screen='personagens'
+            if event.type==pygame.MOUSEBUTTONDOWN:
+                if event.button==1:
+                    mouse_pos=event.pos
+                    if arrow_area.collidepoint(mouse_pos):
+                        current_screen='personagens'
     
 
     pygame.display.update()  # Mostra o novo frame para o jogador
