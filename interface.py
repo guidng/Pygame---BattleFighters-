@@ -67,7 +67,8 @@ for counter in range(len(maps_list)):
     BGSSimage = pygame.transform.scale(BGSSimage, (BGSSwidth, BGSSheight))
     BGSSimage_rect=BGSSimage.get_rect()
     BGSSimage_rect.center=((width/2),(height/2))
-    dic_maps[map]=BGSSimage
+    trilha_sonora_mapas = pygame.mixer.Sound(f"trilhas_sonoras/trilhasonoramapa{counter}.mp3")
+    dic_maps[map]=(BGSSimage, trilha_sonora_mapas)
     dic_mapsrect[map]=BGSSimage_rect
 
 # Carregar a música de fundo
@@ -261,7 +262,7 @@ while game:
 
     # Troca tela
     if current_screen=='personagens':
-
+        gagui=0
         if SecScreen>0:
             second1.center=(150,300)
             second2.center=(1050,300)
@@ -356,8 +357,8 @@ while game:
         Confirmb1_area=pygame.Rect(250,450,300,200)
         Confirmb2_area=pygame.Rect(650,450,300,200)
 
-        # number=random.randint(0,5)
-        number=3
+        number=random.randint(0,5)
+        #number=3
 
         for event in pygame.event.get():
             # Verifica consequências
@@ -413,7 +414,7 @@ while game:
         j1=False
         j2=False
         counter=0
-        for map,image in dic_maps.items():
+        for map,(image, trilha_sonora_mapas) in dic_maps.items():
             for map1,rect in dic_mapsrect.items():
                 if map==map1:
                     if counter==number:
@@ -430,6 +431,13 @@ while game:
                         text2rect.center=(width/2,500)
                         window.blit(text1, text1rect)
                         window.blit(text2, text2rect)
+                        pygame.mixer.music.stop()  # Para a música anterior
+                        trilha_sonora_mapas.set_volume(0.1) # Aumentar volume da música de batalha
+                        pygame.mixer.init(frequency=22050, size=-16, channels=2, buffer=512)  # Ajuste conforme necessário
+                        if gagui==0:
+                            trilha_sonora_mapas.play(-1)  # Toca a música da batalha em loop
+                        gagui += 1 
+
                     counter+=1
 
         window.blit(Arrowimage, Arrowimage_rect)
@@ -447,6 +455,7 @@ while game:
     pygame.display.update()  # Mostra o novo frame para o jogador
  
     if current_screen=='prepartida':
+        gagui=0
         SecScreen=1
         counting=0
         hp1=100
