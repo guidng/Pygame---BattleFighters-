@@ -19,6 +19,9 @@ current_screen='tela carregamento'
 clock = pygame.time.Clock()
 FPS=60
 countloadbar=0
+j1_wins=0
+j2_wins=0
+SecScreen=0
 
 # Importa imagens de personagens
 Namelist=[]
@@ -242,6 +245,9 @@ while game:
     # Troca tela
     if current_screen=='personagens':
 
+        if SecScreen>0:
+            second1.center=(150,300)
+            second2.center=(1050,300)
         frames=0
 
         # Plota Bg
@@ -404,6 +410,7 @@ while game:
                     counter+=1
 
         window.blit(Arrowimage, Arrowimage_rect)
+
         for event in pygame.event.get():
             # Verifica consequências
             if event.type == pygame.QUIT:
@@ -417,9 +424,11 @@ while game:
     pygame.display.update()  # Mostra o novo frame para o jogador
  
     if current_screen=='prepartida':
+        SecScreen=1
         hp1=100
         hp2=100
         frames+=1
+        seconds=0
         window.blit(current_map_image,current_map_rect)
         second1.center=(300,300)
         second2.center=(900,300)
@@ -461,10 +470,15 @@ while game:
 
     if current_screen=='partida':
         frames=0
+        limit=0
         window.blit(current_map_image,current_map_rect)
         hp1=0
         if hp1==0 or hp2==0:
             current_screen='Fim de jogo'
+        if seconds>120:
+            current_screen='Fim de jogo'
+        seconds+=1/60
+        
         for event in pygame.event.get():
             # Verifica consequências
             if event.type == pygame.QUIT:
@@ -474,15 +488,45 @@ while game:
         frames+=1
         window.blit(current_map_image,current_map_rect)
         hp1=0
-        if hp1==0:
-            res = font.render(f'{j2_pers} wins!', True, (255,255,255))
-            resrect=res.get_rect()
-            resrect.center=(width/2,height/2)
-        elif hp2==0:
-            res = font.render(f'{j1_pers} wins!', True, (255,255,255))
-            resrect=res.get_rect()
-            resrect.center=(width/2,height/2)
+        if limit==0:
+            if hp2>hp1:
+                res = font.render(f'{j2_pers} wins!', True, (255,255,255))
+                resrect=res.get_rect()
+                resrect.center=(width/2,height/2)
+                jw=first2
+                jwin=j2_pers
+                j2_wins+=1
+
+            elif hp1>hp2:
+                res = font.render(f'{j1_pers} wins!', True, (255,255,255))
+                resrect=res.get_rect()
+                resrect.center=(width/2,height/2)
+                jw=first1
+                jwin=j1_pers
+                j1_wins+=1
+            
+            elif hp1==hp2:
+                camp=random.randint(1,2)
+                if camp==1:
+                    res = font.render(f'{j1_pers} wins!', True, (255,255,255))
+                    resrect=res.get_rect()
+                    resrect.center=(width/2,height/2)
+                    jw=first1
+                    jwin=j1_pers
+                    j1_wins+=1
+                else:
+                    res = font.render(f'{j2_pers} wins!', True, (255,255,255))
+                    resrect=res.get_rect()
+                    resrect.center=(width/2,height/2)
+                    jw=first2
+                    jwin=j2_pers
+                    j2_wins+=1
+
+
+        limit+=1
+
         window.blit(res,resrect)
+        
         if frames>240:
             current_screen='Opções pós jogo'
 
@@ -490,14 +534,80 @@ while game:
             # Verifica consequências
             if event.type == pygame.QUIT:
                 game = False
-    if current_screen=='Opções pós jogo':
-        window.fill((0,0,0))
 
+    if current_screen=='Opções pós jogo':
+        imagepers1=False
+        imagepers2=False
+
+        window.fill((0,0,0))
+        if frames>300:
+            frames=0
+            current_screen='personagens'
+        jw=pygame.transform.scale(jw,(400,666))
+        jwrect=jw.get_rect()
+        jwrect.center=(200,300)
+        window.blit(jw,jwrect)
+        current_map_image=pygame.transform.scale(current_map_image,(300,200))
+        current_map_rect=current_map_image.get_rect()
+        current_map_rect.center=(1000,150)
+        window.blit(current_map_image,current_map_rect)
+        font = pygame.font.SysFont(None, 48)
+        maptext = font.render(f'{current_map}', True, (255,255,255))
+        maptextrect=maptext.get_rect()
+        maptextrect.center=(1000,250)
+        window.blit(maptext, maptextrect)
+
+        Jogardenovo=pygame.image.load(f'images/Jogardenovo.png')
+        Jogardenovowidth=300
+        Jogardenovoheight=150
+        Jogardenovo = pygame.transform.scale(Jogardenovo, (Jogardenovowidth, Jogardenovoheight))
+        Jogardenovo_rect=Jogardenovo.get_rect()
+        Jogardenovo_rect.center=((width/2),(105))
+        Jogardenovoarea=pygame.Rect(450,30,300,150)
+        window.blit(Jogardenovo,Jogardenovo_rect)
+    
+        Trocarpers=pygame.image.load(f'images/Trocarpers.png')
+        Trocarperswidth=300
+        Trocarpersheight=150
+        Trocarpers = pygame.transform.scale(Trocarpers, (Trocarperswidth, Trocarpersheight))
+        Trocarpers_rect=Trocarpers.get_rect()
+        Trocarpers_rect.center=((width/2),(285))
+        Trocarpersarea=pygame.Rect(450,210,300,150)
+        window.blit(Trocarpers,Trocarpers_rect)
+
+        Retmenu=pygame.image.load(f'images/Retmenu.png')
+        Retmenuwidth=300
+        Retmenuheight=150
+        Retmenu = pygame.transform.scale(Retmenu, (Retmenuwidth, Retmenuheight))
+        Retmenu_rect=Retmenu.get_rect()
+        Retmenu_rect.center=((width/2),(465))
+        Retmenuarea=pygame.Rect(450,390,300,150)
+        window.blit(Retmenu,Retmenu_rect)
+
+        font = pygame.font.SysFont(None, 60)
+        P1wins = font.render(f'Player 1: {j1_wins} W', True, (255,255,255))
+        P1winsrect=P1wins.get_rect()
+        P1winsrect.center=(1000,375)
+        window.blit(P1wins, P1winsrect)
+
+        P2wins = font.render(f'Player 2: {j2_wins} W', True, (255,255,255))
+        P2winsrect=P1wins.get_rect()
+        P2winsrect.center=(1000,475)
+        window.blit(P2wins, P2winsrect)
+        
         for event in pygame.event.get():
             # Verifica consequências
             if event.type == pygame.QUIT:
                 game = False
-
+            if event.type==pygame.MOUSEBUTTONDOWN:
+                if event.button==1:
+                    mouse_pos=event.pos
+                    if Retmenuarea.collidepoint(mouse_pos):
+                        current_screen='tela inicio'
+                    if Trocarpersarea.collidepoint(mouse_pos):
+                        current_screen='personagens'
+                    if Jogardenovoarea.collidepoint(mouse_pos):
+                        current_screen='tela mapas'
 
 
 # Finalização
