@@ -511,6 +511,7 @@ while game:
     if current_screen=='partida':
         frames=0
         limit=0
+        hp2=0
         window.blit(current_map_image,current_map_rect)
         if hp1==0 or hp2==0:
             current_screen='Fim de jogo'
@@ -518,17 +519,17 @@ while game:
             current_screen='Fim de jogo'
         seconds+=1/60
 
-        mov1=list_p1pos[atual_pos]
-        mov2=list_p2pos[atual_pos]
+        # mov1=list_p1pos[atual_pos]
+        # mov2=list_p2pos[atual_pos]
 
-        rect1=mov1.get_rect()
-        rect2=mov2.get_rect()
+        # rect1=mov1.get_rect()
+        # rect2=mov2.get_rect()
 
-        rect1.center=(Px1_pos,Py1_pos)
-        rect2.center=(Px2_pos,Py2_pos)
+        # rect1.center=(Px1_pos,Py1_pos)
+        # rect2.center=(Px2_pos,Py2_pos)
 
-        window.blit(mov1,rect1)
-        window.blit(mov2,rect2)
+        # window.blit(mov1,rect1)
+        # window.blit(mov2,rect2)
 
         for event in pygame.event.get():
             # Verifica consequências
@@ -594,8 +595,14 @@ while game:
     if current_screen=='Opções pós jogo':
         imagepers1=False
         imagepers2=False
+        plano_de_fundo_vitoria = pygame.image.load("images/plano_de_fundo_vitoria.jpeg")
+        plano_de_fundo_vitoria_width=1200
+        plano_de_fundo_vitoria_height=600
+        plano_de_fundo_vitoria_image = pygame.transform.scale(plano_de_fundo_vitoria, (plano_de_fundo_vitoria_width, plano_de_fundo_vitoria_height))
+        plano_de_fundo_vitoria_rect=plano_de_fundo_vitoria_image.get_rect()
+        plano_de_fundo_vitoria_rect.center=((width/2),(height/2))
+        window.blit(plano_de_fundo_vitoria_image, plano_de_fundo_vitoria_rect )
 
-        window.fill((0,0,0))
         if frames>300:
             frames=0
             current_screen='personagens'
