@@ -27,7 +27,7 @@ area_list=[]
 Fullbody_list=[]
 Full_list1={}
 Full_list2={}
-list_characters=['Fred Tio','Alekinho','Baiano','Alekinho','Fred Tio','Alekinho','Fred Tio','Alekinho','Fred Tio','Alekinho','Fred Tio','Alekinho','Fred Tio','Alekinho','Fred Tio','Alekinho','Fred Tio','Alekinho','GAGUI','JUBA']
+list_characters=['Fred Tio','Alekinho','Baiano','NiGOATlas','Leo messi','J Viddy','Old Serra','Mr Fein','Fogaca','Marcio desoft','Pelicano','Dani Livros','Gabigol','Cauezada','Irmaozin','Ninja 1','Ninja 2','Ninja 3','Gagui','Juba']
 for characters in range(20):
     Characimage = pygame.image.load(f'images/Personagem{characters}.png')
     Fullbody = pygame.image.load(f'images/FullPerson{characters}.png')
@@ -417,6 +417,8 @@ while game:
     pygame.display.update()  # Mostra o novo frame para o jogador
  
     if current_screen=='prepartida':
+        hp1=100
+        hp2=100
         frames+=1
         window.blit(current_map_image,current_map_rect)
         second1.center=(300,300)
@@ -458,12 +460,45 @@ while game:
                 game = False
 
     if current_screen=='partida':
+        frames=0
         window.blit(current_map_image,current_map_rect)
+        hp1=0
+        if hp1==0 or hp2==0:
+            current_screen='Fim de jogo'
+        for event in pygame.event.get():
+            # Verifica consequências
+            if event.type == pygame.QUIT:
+                game = False
+
+    if current_screen=='Fim de jogo':
+        frames+=1
+        window.blit(current_map_image,current_map_rect)
+        hp1=0
+        if hp1==0:
+            res = font.render(f'{j2_pers} wins!', True, (255,255,255))
+            resrect=res.get_rect()
+            resrect.center=(width/2,height/2)
+        elif hp2==0:
+            res = font.render(f'{j1_pers} wins!', True, (255,255,255))
+            resrect=res.get_rect()
+            resrect.center=(width/2,height/2)
+        window.blit(res,resrect)
+        if frames>240:
+            current_screen='Opções pós jogo'
 
         for event in pygame.event.get():
             # Verifica consequências
             if event.type == pygame.QUIT:
                 game = False
+    if current_screen=='Opções pós jogo':
+        window.fill((0,0,0))
+
+        for event in pygame.event.get():
+            # Verifica consequências
+            if event.type == pygame.QUIT:
+                game = False
+
+
 
 # Finalização
 pygame.quit()  # Função do PyGame que  finaliza os recursos utilizados
