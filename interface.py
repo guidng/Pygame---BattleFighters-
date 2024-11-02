@@ -444,13 +444,26 @@ while game:
             n1rect=n1.get_rect()
             n1rect.center=(width/2,100)
             window.blit(n1, n1rect)
-
+        if frames>=480 and frames<540:
+            nstart = font.render('Start!', True, (255,31,45))
+            nstartrect=nstart.get_rect()
+            nstartrect.center=(width/2,100)
+            window.blit(nstart, nstartrect)
+        if frames>=540:
+            current_screen='partida'
 
         for event in pygame.event.get():
             # Verifica consequências
             if event.type == pygame.QUIT:
                 game = False
 
+    if current_screen=='partida':
+        window.blit(current_map_image,current_map_rect)
+
+        for event in pygame.event.get():
+            # Verifica consequências
+            if event.type == pygame.QUIT:
+                game = False
 
 # Finalização
 pygame.quit()  # Função do PyGame que  finaliza os recursos utilizados
