@@ -23,6 +23,23 @@ j1_wins=0
 j2_wins=0
 SecScreen=0
 
+# Importa imagens do jogo:
+dic_pos={}
+for i in range(20):
+    DGwidth=50
+    DGheight=75
+    side = pygame.image.load(f'images/Personagenspartida/Perslado{i}.png')
+    side = pygame.transform.scale(side, (DGwidth, DGheight))
+    
+    punch = pygame.image.load(f'images/Personagenspartida/Perssoco{i}.png')
+    punch = pygame.transform.scale(side, (DGwidth, DGheight))
+    
+    kick = pygame.image.load(f'images/Personagenspartida/Perschute{i}.png')
+    kick = pygame.transform.scale(side, (DGwidth, DGheight))
+    
+    dic_pos[i]=[side,punch,kick]
+
+
 # Importa imagens de personagens
 Namelist=[]
 Facelist=[]
@@ -339,7 +356,8 @@ while game:
         Confirmb1_area=pygame.Rect(250,450,300,200)
         Confirmb2_area=pygame.Rect(650,450,300,200)
 
-        number=random.randint(0,5)
+        # number=random.randint(0,5)
+        number=3
 
         for event in pygame.event.get():
             # Verifica consequências
@@ -353,24 +371,29 @@ while game:
                     for countarea in range(len(area_list)):
                         current_area=pygame.Rect(area_list[countarea])
                         if current_area.collidepoint(mouse_pos):
-                            diccount=0
-                            for firs,secon in Full_list1.items():
-                                if diccount==countarea:
-                                    if j1==False:
-                                        imagepers1=True
-                                        first1=firs
-                                        second1=secon
-                                        j1_pers=list_characters[diccount]
-                                diccount+=1
-                            diccount=0
-                            for firs,secon in Full_list2.items():
-                                if diccount==countarea:
-                                    if j1==True and j2==False:
-                                        imagepers2=True
-                                        first2=firs
-                                        second2=secon
-                                        j2_pers=list_characters[diccount]
-                                diccount+=1
+                            for num,list in dic_pos.items():
+                                diccount=0
+                                for firs,secon in Full_list1.items():
+                                    if num==countarea:
+                                        if diccount==countarea:
+                                            if j1==False:
+                                                imagepers1=True
+                                                first1=firs
+                                                second1=secon
+                                                j1_pers=list_characters[diccount]
+                                                list_p1pos=list
+                                        diccount+=1
+                                diccount=0
+                                for firs,secon in Full_list2.items():
+                                    if num==countarea:
+                                        if diccount==countarea:
+                                            if j1==True and j2==False:
+                                                imagepers2=True
+                                                first2=firs
+                                                second2=secon
+                                                j2_pers=list_characters[diccount]
+                                                list_p2pos=list
+                                        diccount+=1
 
                     if Confirmb1_area.collidepoint(mouse_pos):
                         if j1==False:
@@ -425,8 +448,16 @@ while game:
  
     if current_screen=='prepartida':
         SecScreen=1
+        counting=0
         hp1=100
         hp2=100
+        Px1_pos=100
+        Px2_pos=1100
+
+        if number==3:
+            Py1_pos=470
+            Py2_pos=470
+        
         frames+=1
         seconds=0
         window.blit(current_map_image,current_map_rect)
@@ -462,7 +493,7 @@ while game:
             window.blit(nstart, nstartrect)
         if frames>=540:
             current_screen='partida'
-
+            atual_pos=0
         for event in pygame.event.get():
             # Verifica consequências
             if event.type == pygame.QUIT:
@@ -472,17 +503,33 @@ while game:
         frames=0
         limit=0
         window.blit(current_map_image,current_map_rect)
-        hp1=0
         if hp1==0 or hp2==0:
             current_screen='Fim de jogo'
         if seconds>120:
             current_screen='Fim de jogo'
         seconds+=1/60
-        
+
+        mov1=list_p1pos[atual_pos]
+        mov2=list_p2pos[atual_pos]
+
+        rect1=mov1.get_rect()
+        rect2=mov2.get_rect()
+
+        rect1.center=(Px1_pos,Py1_pos)
+        rect2.center=(Px2_pos,Py2_pos)
+
+        window.blit(mov1,rect1)
+        window.blit(mov2,rect2)
+
         for event in pygame.event.get():
             # Verifica consequências
             if event.type == pygame.QUIT:
                 game = False
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_w:
+                    Px1_pos-=1
+                if event.key == pygame.K_d:
+                    Px1_pos+=1
 
     if current_screen=='Fim de jogo':
         frames+=1
