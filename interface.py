@@ -380,7 +380,7 @@ while game:
     if current_screen=='tela mapas':
         frames+=1
         if frames>300:
-            current_screen='partida'
+            current_screen='prepartida'
         j1=False
         j2=False
         counter=0
@@ -416,8 +416,36 @@ while game:
     
     pygame.display.update()  # Mostra o novo frame para o jogador
  
-    if current_screen=='partida':
+    if current_screen=='prepartida':
+        frames+=1
         window.blit(current_map_image,current_map_rect)
+        second1.center=(300,300)
+        second2.center=(900,300)
+        window.blit(first1, second1)
+        window.blit(first2, second2)
+        Versus=pygame.image.load('images/Versus.png')
+        Versuswidth=300
+        Versusheight=200
+        Versusrect=Versus.get_rect()
+        Versusrect.center=(width/2,height/2)
+        window.blit(Versus,Versusrect)
+        if frames>300 and frames<360:
+            n3 = font.render('3', True, (255,31,45))
+            n3rect=n3.get_rect()
+            n3rect.center=(width/2,100)
+            window.blit(n3, n3rect)
+        if frames>=360 and frames<420:
+            n2 = font.render('2', True, (255,31,45))
+            n2rect=n2.get_rect()
+            n2rect.center=(width/2,100)
+            window.blit(n2, n2rect)
+        if frames>=420 and frames<480:
+            n1 = font.render('1', True, (255,31,45))
+            n1rect=n1.get_rect()
+            n1rect.center=(width/2,100)
+            window.blit(n1, n1rect)
+
+
         for event in pygame.event.get():
             # Verifica consequências
             if event.type == pygame.QUIT:
