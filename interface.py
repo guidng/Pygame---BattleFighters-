@@ -440,17 +440,10 @@ while game:
 
                     counter+=1
 
-        window.blit(Arrowimage, Arrowimage_rect)
-
         for event in pygame.event.get():
             # Verifica consequências
             if event.type == pygame.QUIT:
                 game = False
-            if event.type==pygame.MOUSEBUTTONDOWN:
-                if event.button==1:
-                    mouse_pos=event.pos
-                    if arrow_area.collidepoint(mouse_pos):
-                        current_screen='personagens'
     
     pygame.display.update()  # Mostra o novo frame para o jogador
  
@@ -501,6 +494,9 @@ while game:
         if frames>=540:
             current_screen='partida'
             atual_pos=0
+        
+        time=121
+
         for event in pygame.event.get():
             # Verifica consequências
             if event.type == pygame.QUIT:
@@ -509,13 +505,20 @@ while game:
     if current_screen=='partida':
         frames=0
         limit=0
-        hp2=0
         window.blit(current_map_image,current_map_rect)
         if hp1==0 or hp2==0:
             current_screen='Fim de jogo'
-        if seconds>120:
+        if seconds>=121:
             current_screen='Fim de jogo'
-        seconds+=1/60
+
+        Pauseb=pygame.image.load('images/Botaopausa.png')
+        Pausebwidth=100
+        Pausebheight=100
+        Pauseb = pygame.transform.scale(Pauseb, (Pausebwidth, Pausebheight))
+        Pauseb_rect=Pauseb.get_rect()
+        Pauseb_rect.top=0
+        Pauseb_rect.left=1100
+        window.blit(Pauseb, Pauseb_rect)
 
         mov1=list_p1pos[atual_pos]
         mov2=list_p2pos[atual_pos]
@@ -529,20 +532,37 @@ while game:
         window.blit(mov1,rect1)
         window.blit(mov2,rect2)
 
+        if seconds==int(seconds):
+            time-=1
+            minutes=time//60
+            sec=time%60
+
+        seconds*=60
+        seconds+=1
+        seconds/=60
+
+        font = pygame.font.SysFont(None, 64)
+        if sec<10:
+            timetext = font.render(f'{minutes}:0{sec}', True, (255,255,255))
+        else:
+            timetext = font.render(f'{minutes}:{sec}', True, (255,255,255))          
+        timerect=timetext.get_rect()
+        timerect.center=(width/2,100)
+        window.blit(timetext,timerect)
+
         for event in pygame.event.get():
             # Verifica consequências
             if event.type == pygame.QUIT:
                 game = False
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_w:
-                    Px1_pos-=1
+                if event.key == pygame.K_a:
+                    Px1_pos-=5
                 if event.key == pygame.K_d:
-                    Px1_pos+=1
+                    Px1_pos+=5
 
     if current_screen=='Fim de jogo':
         frames+=1
         window.blit(current_map_image,current_map_rect)
-        hp1=0
         if limit==0:
             if hp2<hp1:
                 res = font.render(f'{j2_pers} wins!', True, (255,255,255))
