@@ -26,8 +26,8 @@ SecScreen=0
 # Importa imagens do jogo:
 dic_pos={}
 for i in range(20):
-    DGwidth=50
-    DGheight=75
+    DGwidth=75
+    DGheight=150
     side = pygame.image.load(f'images/Personagenspartida/Perslado{i}.png')
     side = pygame.transform.scale(side, (DGwidth, DGheight))
     
@@ -358,7 +358,6 @@ while game:
         Confirmb2_area=pygame.Rect(650,450,300,200)
 
         number=random.randint(0,5)
-        #number=3
 
         for event in pygame.event.get():
             # Verifica consequências
@@ -431,11 +430,12 @@ while game:
                         text2rect.center=(width/2,500)
                         window.blit(text1, text1rect)
                         window.blit(text2, text2rect)
-                        pygame.mixer.music.stop()  # Para a música anterior
+                        pygame.mixer.music.set_volume(0)
                         trilha_sonora_mapas.set_volume(0.1) # Aumentar volume da música de batalha
                         pygame.mixer.init(frequency=22050, size=-16, channels=2, buffer=512)  # Ajuste conforme necessário
                         if gagui==0:
                             trilha_sonora_mapas.play(-1)  # Toca a música da batalha em loop
+                            atual_TS=trilha_sonora_mapas
                         gagui += 1 
 
                     counter+=1
@@ -462,11 +462,9 @@ while game:
         hp2=100
         Px1_pos=100
         Px2_pos=1100
+        Py1_pos=470
+        Py2_pos=470
 
-        if number==3:
-            Py1_pos=470
-            Py2_pos=470
-        
         frames+=1
         seconds=0
         window.blit(current_map_image,current_map_rect)
@@ -519,17 +517,17 @@ while game:
             current_screen='Fim de jogo'
         seconds+=1/60
 
-        # mov1=list_p1pos[atual_pos]
-        # mov2=list_p2pos[atual_pos]
+        mov1=list_p1pos[atual_pos]
+        mov2=list_p2pos[atual_pos]
 
-        # rect1=mov1.get_rect()
-        # rect2=mov2.get_rect()
+        rect1=mov1.get_rect()
+        rect2=mov2.get_rect()
 
-        # rect1.center=(Px1_pos,Py1_pos)
-        # rect2.center=(Px2_pos,Py2_pos)
+        rect1.center=(Px1_pos,Py1_pos)
+        rect2.center=(Px2_pos,Py2_pos)
 
-        # window.blit(mov1,rect1)
-        # window.blit(mov2,rect2)
+        window.blit(mov1,rect1)
+        window.blit(mov2,rect2)
 
         for event in pygame.event.get():
             # Verifica consequências
@@ -546,7 +544,7 @@ while game:
         window.blit(current_map_image,current_map_rect)
         hp1=0
         if limit==0:
-            if hp2>hp1:
+            if hp2<hp1:
                 res = font.render(f'{j2_pers} wins!', True, (255,255,255))
                 resrect=res.get_rect()
                 resrect.center=(width/2,height/2)
@@ -554,7 +552,7 @@ while game:
                 jwin=j2_pers
                 j2_wins+=1
 
-            elif hp1>hp2:
+            elif hp1<hp2:
                 res = font.render(f'{j1_pers} wins!', True, (255,255,255))
                 resrect=res.get_rect()
                 resrect.center=(width/2,height/2)
@@ -667,11 +665,15 @@ while game:
                     mouse_pos=event.pos
                     if Retmenuarea.collidepoint(mouse_pos):
                         current_screen='tela inicio'
+                        pygame.mixer.music.set_volume(0.1)
+                        atual_TS.stop() 
                     if Trocarpersarea.collidepoint(mouse_pos):
                         current_screen='personagens'
+                        pygame.mixer.music.set_volume(0.1)
+                        atual_TS.stop() 
                     if Jogardenovoarea.collidepoint(mouse_pos):
                         current_screen='tela mapas'
-
+                        atual_TS.stop() 
 
 # Finalização
 pygame.quit()  # Função do PyGame que  finaliza os recursos utilizados
