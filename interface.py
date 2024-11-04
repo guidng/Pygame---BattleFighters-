@@ -266,8 +266,8 @@ while game:
     if current_screen=='personagens':
         song2variable=0
         if SecScreen>0:
-            second1.center=(150,300)
-            second2.center=(1050,300)
+            Fullpicrect1.center=(150,300)
+            Fullpicrect2.center=(1050,300)
         frames=0
 
         # Plota Bg
@@ -351,10 +351,10 @@ while game:
             window.blit(Confirmedb2, Confirmedb2_rect)
 
         if imagepers1==True:
-            window.blit(first1, second1)
+            window.blit(Fullpic1, Fullpicrect1)
 
         if imagepers2==True:
-            window.blit(first2, second2)
+            window.blit(Fullpic2, Fullpicrect2)
 
         Confirmb1_area=pygame.Rect(250,450,300,200)
         Confirmb2_area=pygame.Rect(650,450,300,200)
@@ -375,24 +375,24 @@ while game:
                         if current_area.collidepoint(mouse_pos):
                             for num,list in dic_pos.items():
                                 diccount=0
-                                for firs,secon in Full_list1.items():
+                                for Fullpic,Fullpicrect in Full_list1.items():
                                     if num==countarea:
                                         if diccount==countarea:
                                             if j1==False:
                                                 imagepers1=True
-                                                first1=firs
-                                                second1=secon
+                                                Fullpic1=Fullpic
+                                                Fullpicrect1=Fullpicrect
                                                 j1_pers=list_characters[diccount]
                                                 list_p1pos=list
                                         diccount+=1
                                 diccount=0
-                                for firs,secon in Full_list2.items():
+                                for Fullpic,Fullpicrect in Full_list2.items():
                                     if num==countarea:
                                         if diccount==countarea:
                                             if j1==True and j2==False:
                                                 imagepers2=True
-                                                first2=firs
-                                                second2=secon
+                                                Fullpic2=Fullpic
+                                                Fullpicrect2=Fullpicrect
                                                 j2_pers=list_characters[diccount]
                                                 list_p2pos=list
                                         diccount+=1
@@ -462,10 +462,10 @@ while game:
 
         frames+=1
         window.blit(current_map_image,current_map_rect)
-        second1.center=(300,300)
-        second2.center=(900,300)
-        window.blit(first1, second1)
-        window.blit(first2, second2)
+        Fullpicrect1.center=(300,300)
+        Fullpicrect2.center=(900,300)
+        window.blit(Fullpic1, Fullpicrect1)
+        window.blit(Fullpic2, Fullpicrect2)
         Versus=pygame.image.load('images/Versus.png')
         Versuswidth=300
         Versusheight=200
@@ -496,7 +496,7 @@ while game:
             current_screen='partida'
             atual_pos=0
         
-        time=5*60
+        time=120*60
 
         for event in pygame.event.get():
             # Verifica consequências
@@ -516,12 +516,13 @@ while game:
             current_screen='Morte súbita'
 
         Pauseb=pygame.image.load('images/Botaopausa.png')
-        Pausebwidth=100
-        Pausebheight=100
+        Pausebwidth=width/12
+        Pausebheight=height/6
         Pauseb = pygame.transform.scale(Pauseb, (Pausebwidth, Pausebheight))
         Pauseb_rect=Pauseb.get_rect()
         Pauseb_rect.top=0
-        Pauseb_rect.left=1100
+        Pauseb_rect.left=11*(width/12)
+        Pause_area=pygame.Rect(Pauseb_rect.left,Pauseb_rect.top,Pausebwidth,Pausebheight)
         window.blit(Pauseb, Pauseb_rect)
 
         mov1=list_p1pos[atual_pos]
@@ -587,6 +588,12 @@ while game:
             # Verifica consequências
             if event.type == pygame.QUIT:
                 game = False
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    mouse_pos=event.pos
+                    if Pause_area.collidepoint(mouse_pos):
+                        current_screen='Jogo pausado'
+                        Last_screen='partida'
 
         keys = pygame.key.get_pressed()
         if keys[pygame.K_a]:
@@ -597,6 +604,21 @@ while game:
             Px2_pos -= 5
         if keys[pygame.K_RIGHT]:
             Px2_pos += 5
+    
+    if current_screen=='Jogo pausado':
+        window.fill((0,0,0))
+        window.blit(Arrowimage,Arrowimage_rect)
+
+        for event in pygame.event.get():
+            # Verifica consequências
+            if event.type == pygame.QUIT:
+                game = False
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    mouse_pos=event.pos
+                    if arrow_area.collidepoint(mouse_pos):
+                        current_screen=Last_screen
+
 
     if current_screen=='Morte súbita':
         
@@ -653,6 +675,13 @@ while game:
             # Verifica consequências
             if event.type == pygame.QUIT:
                 game = False
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    mouse_pos=event.pos
+                    if Pause_area.collidepoint(mouse_pos):
+                        current_screen='Jogo pausado'
+                        Last_screen='Morte súbita'
+
         keys = pygame.key.get_pressed()
         if keys[pygame.K_a]:
             Px1_pos -= 5
@@ -671,7 +700,7 @@ while game:
                 res = font.render(f'{j2_pers} wins!', True, (255,255,255))
                 resrect=res.get_rect()
                 resrect.center=(width/2,height/2)
-                jw=first2
+                jw=Fullpic2
                 jwin=j2_pers
                 j2_wins+=1
 
@@ -679,7 +708,7 @@ while game:
                 res = font.render(f'{j1_pers} wins!', True, (255,255,255))
                 resrect=res.get_rect()
                 resrect.center=(width/2,height/2)
-                jw=first1
+                jw=Fullpic1
                 jwin=j1_pers
                 j1_wins+=1
             
@@ -689,14 +718,14 @@ while game:
                     res = font.render(f'{j1_pers} wins!', True, (255,255,255))
                     resrect=res.get_rect()
                     resrect.center=(width/2,height/2)
-                    jw=first1
+                    jw=Fullpic1
                     jwin=j1_pers
                     j1_wins+=1
                 else:
                     res = font.render(f'{j2_pers} wins!', True, (255,255,255))
                     resrect=res.get_rect()
                     resrect.center=(width/2,height/2)
-                    jw=first2
+                    jw=Fullpic2
                     jwin=j2_pers
                     j2_wins+=1
 
