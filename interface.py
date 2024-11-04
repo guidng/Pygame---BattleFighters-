@@ -23,6 +23,8 @@ j1_wins=0
 j2_wins=0
 SecScreen=0
 
+
+
 # Importa imagens do jogo:
 dic_pos={}
 for i in range(20):
@@ -550,15 +552,29 @@ while game:
         timerect.center=(width/2,100)
         window.blit(timetext,timerect)
 
+        if Px1_pos<0:
+            Px1_pos=1200
+        if Px1_pos>1200:
+            Px1_pos=0
+
+        if Px2_pos<0:
+            Px2_pos=1200
+        if Px2_pos>1200:
+            Px2_pos=0
+
         for event in pygame.event.get():
             # Verifica consequências
             if event.type == pygame.QUIT:
                 game = False
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_a:
-                    Px1_pos-=5
-                if event.key == pygame.K_d:
-                    Px1_pos+=5
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_a]:
+            Px1_pos -= 5
+        if keys[pygame.K_d]:
+            Px1_pos += 5
+        if keys[pygame.K_LEFT]:
+            Px2_pos -= 5
+        if keys[pygame.K_RIGHT]:
+            Px2_pos += 5
 
     if current_screen=='Fim de jogo':
         frames+=1
