@@ -461,7 +461,6 @@ while game:
         Py2_pos=470
 
         frames+=1
-        seconds=0
         window.blit(current_map_image,current_map_rect)
         second1.center=(300,300)
         second2.center=(900,300)
@@ -497,7 +496,7 @@ while game:
             current_screen='partida'
             atual_pos=0
         
-        time=121
+        time=120*60
 
         for event in pygame.event.get():
             # Verifica consequências
@@ -510,7 +509,7 @@ while game:
         window.blit(current_map_image,current_map_rect)
         if hp1==0 or hp2==0:
             current_screen='Fim de jogo'
-        if seconds>=121:
+        if time<=1:
             current_screen='Fim de jogo'
 
         Pauseb=pygame.image.load('images/Botaopausa.png')
@@ -534,14 +533,11 @@ while game:
         window.blit(mov1,rect1)
         window.blit(mov2,rect2)
 
-        if seconds==int(seconds):
-            time-=1
-            minutes=time//60
-            sec=time%60
-
-        seconds*=60
-        seconds+=1
-        seconds/=60
+        time-=1
+        time/=60
+        minutes=int(time//60)
+        sec=int(time%60)
+        time*=60
 
         font = pygame.font.SysFont(None, 64)
         if sec<10:
