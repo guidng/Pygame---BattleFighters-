@@ -28,8 +28,8 @@ SecScreen=0
 # Importa imagens do jogo:
 dic_pos={}
 for i in range(20):
-    DGwidth=75
-    DGheight=150
+    DGwidth=width/16
+    DGheight=height/4
     side = pygame.image.load(f'images/Personagenspartida/Perslado{i}.png')
     side = pygame.transform.scale(side, (DGwidth, DGheight))
     
@@ -64,8 +64,8 @@ dic_mapsrect={}
 for counter in range(len(maps_list)):
     map=maps_list[counter]
     BGSSimage=pygame.image.load(f'images/Mapa{counter}.jpg')
-    BGSSwidth=1200
-    BGSSheight=600
+    BGSSwidth=width
+    BGSSheight=height
     BGSSimage = pygame.transform.scale(BGSSimage, (BGSSwidth, BGSSheight))
     BGSSimage_rect=BGSSimage.get_rect()
     BGSSimage_rect.center=((width/2),(height/2))
@@ -99,35 +99,35 @@ while game:
 
         # Importa imagem de carregamento
         Loadingimage = pygame.image.load('images/LogoTelaCarregamento.png').convert()
-        Loadingimagewidth=600
-        Loadingimageheight=400
+        Loadingimagewidth=width/2
+        Loadingimageheight=height*(2/3)
         Loadingimage = pygame.transform.scale(Loadingimage, (Loadingimagewidth, Loadingimageheight))
         Loadingimage_rect=Loadingimage.get_rect()
         Loadingimage_rect.center=(width/2,height/2)
         window.blit(Loadingimage, Loadingimage_rect)
 
         # Cria barra de carregamento
-        verticesloadbar1=[(300,510),(300,525),(900,525),(900,510)]
+        verticesloadbar1=[(width/4,510*(height/600)),(width/4,525*(height/600)),(3*(width/4),525*(height/600)),(3*(width/4),510*(height/600))]
         colorload1=(255,255,255)
         pygame.draw.polygon(window, colorload1, verticesloadbar1)
-        verticesloadbar2=[(300,510),(300,525),(300+countloadbar,525),(300+countloadbar,510)]
+        verticesloadbar2=[(width/4,510*(height/600)),(width/4,525*(height/600)),((width/4)+countloadbar,525*(height/600)),((width/4)+countloadbar,510*(height/600))]
         colorload2=(15,255,3)
 
         # Verifica se ultrapassa limite
-        if countloadbar+300<900:
+        if countloadbar+(width/4)<3*(width/4):
             pygame.draw.polygon(window, colorload2, verticesloadbar2)
         else:
-            verticesloadbar2=[(300,510),(300,525),(900,525),(900,510)]
+            verticesloadbar2=[((width/4),510*(height/600)),((width/4),525*(height/600)),(3*(width/4),525*(height/600)),(3*(width/4),510*(height/600))]
             colorload2=(15,255,3)
             pygame.draw.polygon(window, colorload2, verticesloadbar2)
         countloadbar+=3
 
         # Verifica se atinge limite
-        if countloadbar>=600:
+        if countloadbar>=width/2:
             font = pygame.font.SysFont(None, 24)
             text = font.render('Concluído!', True, (255,255,255))
             textrect=text.get_rect()
-            window.blit(text, (600-textrect[2]/2, 530))
+            window.blit(text, ((width/2)-textrect[2]/2, 530*(height/600)))
 
 
     # Troca tela
@@ -140,8 +140,8 @@ while game:
 
         # Gera imagem
         BGSSimage=pygame.image.load('images/BGtelainicial.png')
-        BGSSwidth=1200
-        BGSSheight=600
+        BGSSwidth=width
+        BGSSheight=height
         BGSSimage = pygame.transform.scale(BGSSimage, (BGSSwidth, BGSSheight))
         BGSSimage_rect=BGSSimage.get_rect()
         BGSSimage_rect.center=((width/2),(height/2))
@@ -149,11 +149,11 @@ while game:
 
         # Importa imagem de carregamento
         Arcimage = pygame.image.load('images/BattlefightersArco.png')
-        Arcimagewidth=600
-        Arcimageheight=200
+        Arcimagewidth=width/2
+        Arcimageheight=height/3
         Arcimage = pygame.transform.scale(Arcimage, (Arcimagewidth, Arcimageheight))
         Arcimage_rect=Arcimage.get_rect()
-        Arcimage_rect.center=(width/2,(height/2)-150)
+        Arcimage_rect.center=(width/2,(height/2)-(height/4))
         window.blit(Arcimage, Arcimage_rect)
 
         
@@ -168,8 +168,8 @@ while game:
         
         # Cria botão do play e musica:
 
-        Soundimagewidth = 100
-        Soundimageheight = 100
+        Soundimagewidth = width/12
+        Soundimageheight = height/6
         Soundimage = pygame.transform.scale(Soundimage, (Soundimagewidth, Soundimageheight))
         Soundimage_rect=Soundimage.get_rect()
         Soundimage_rect.bottom = window.get_height()
@@ -177,8 +177,8 @@ while game:
         window.blit(Soundimage, Soundimage_rect)
 
         Playimage = pygame.image.load('images/botao_play.png')
-        Playimagewidth = 300
-        Playimageheight = 300
+        Playimagewidth = width/4
+        Playimageheight = height/2
         Playimage = pygame.transform.scale(Playimage, (Playimagewidth, Playimageheight))
         Playimage_rect=Playimage.get_rect()
         Playimage_rect.center=((width/2),(height/2))
@@ -189,8 +189,8 @@ while game:
             # Verifica consequências
             if event.type == pygame.QUIT:
                 game = False
-            volume_area=pygame.Rect(0, height-100, 100, 100)
-            play_area=pygame.Rect(450,150,300,300)
+            volume_area=pygame.Rect(0, 5*(height/6), width/12, height/6)
+            play_area=pygame.Rect(3*(width/8),(width/8),width/4,height/2)
 
             if event.type==pygame.MOUSEBUTTONDOWN:
                 if event.button==1:
@@ -213,8 +213,8 @@ while game:
         
         # Importa imagens
         Arrowimage=pygame.image.load('images/Setavoltar.png')
-        Arrowimagewidth=75
-        Arrowimageheight=50
+        Arrowimagewidth=width/16
+        Arrowimageheight=height/12
         Arrowimage = pygame.transform.scale(Arrowimage, (Arrowimagewidth, Arrowimageheight))
         Arrowimage_rect=Arrowimage.get_rect()
         Arrowimage_rect.top = 0
@@ -222,25 +222,25 @@ while game:
         window.blit(Arrowimage, Arrowimage_rect)
 
         x1image=pygame.image.load('images/1v1.png')
-        x1imagewidth=250
-        x1imageheight=250
+        x1imagewidth=width/(4.8)
+        x1imageheight=width/(4.8)
         x1image = pygame.transform.scale(x1image, (x1imagewidth, x1imageheight))
         x1image_rect=x1image.get_rect()
-        x1image_rect.center=((width/2)-150,(height/2))
+        x1image_rect.center=((width/2)-(width/8),(height/2))
         window.blit(x1image, x1image_rect)
 
         Arcadeimage=pygame.image.load('images/Arcade.png')
-        Arcadeimagewidth=250
-        Arcadeimageheight=250
+        Arcadeimagewidth=width/(4.8)
+        Arcadeimageheight=width/(4.8)
         Arcadeimage = pygame.transform.scale(Arcadeimage, (Arcadeimagewidth, Arcadeimageheight))
         Arcadeimage_rect=Arcadeimage.get_rect()
-        Arcadeimage_rect.center=((width/2)+150,(height/2))
+        Arcadeimage_rect.center=((width/2)+(width/8),(height/2))
         window.blit(Arcadeimage, Arcadeimage_rect)
     
         # Define areas
-        x1_area=pygame.Rect(((width/2))-(x1imagewidth/2)-150,(height/2)-(x1imageheight/2),200,200)
-        Arcade_area=pygame.Rect(((width/2))-(Arcadeimagewidth/2)+150,(height/2)-(Arcadeimageheight/2),200,200)
-        arrow_area=pygame.Rect(0,0,75,50)
+        x1_area=pygame.Rect(((width/2))-(x1imagewidth/2)-(width/8),(height/2)-(x1imageheight/2),width/6,height/3)
+        Arcade_area=pygame.Rect(((width/2))-(Arcadeimagewidth/2)+(width/8),(height/2)-(Arcadeimageheight/2),width/6,height/3)
+        arrow_area=pygame.Rect(0,0,(width/16),(height/12))
 
         for event in pygame.event.get():
             # Verifica consequências
@@ -264,7 +264,7 @@ while game:
 
     # Troca tela
     if current_screen=='personagens':
-        gagui=0
+        song2variable=0
         if SecScreen>0:
             second1.center=(150,300)
             second2.center=(1050,300)
@@ -275,8 +275,8 @@ while game:
 
         # Importa imagens
         Gradeimage=pygame.image.load('images/Gradepersonagens.png')
-        Gradeimagewidth=800
-        Gradeimageheight=500
+        Gradeimagewidth=width*(2/3)
+        Gradeimageheight=height*(5/6)
         Gradeimage = pygame.transform.scale(Gradeimage, (Gradeimagewidth, Gradeimageheight))
         Gradeimage_rect=Gradeimage.get_rect()
         Gradeimage_rect.center=((width/2),(height/2))
@@ -291,20 +291,20 @@ while game:
                 Face=Facelist[counter]
                 Full=Fullbody_list[counter]
                 counter+=1
-                Facewidth=120
-                Faceheight=75
+                Facewidth=width/10
+                Faceheight=height/8
                 Face = pygame.transform.scale(Face, (Facewidth, Faceheight))
                 Face_rect=Face.get_rect()
-                Face_rect.center=((200+60+85+(Gridcount*130)),(50+37.5+100+(heightcount*75)))
+                Face_rect.center=(((345*(width/1200))+(Gridcount*130)),((187.5*(width/1200))+(heightcount*75)))
                 window.blit(Face, Face_rect)
-                current_area=((-Facewidth/2)+200+60+85+(Gridcount*130), ((-Faceheight/2)+50+37.5+100+(heightcount*75)), Facewidth, Faceheight)
+                current_area=((-Facewidth/2)+((345*(width/1200)))+(Gridcount*130), ((-Faceheight/2)+(187.5*(width/1200))+(heightcount*75)), Facewidth, Faceheight)
                 if len(area_list)<20:
                     area_list.append(current_area)
 
                 font = pygame.font.SysFont(None, 24)
                 Name = font.render(f'{Name.upper()}', True, (255, 255, 255))
                 Name_rect=Name.get_rect()
-                Name_rect.center=((200+85+60+(Gridcount*130)),(-7.5+50+75+100+(heightcount*75)))
+                Name_rect.center=(((345*(width/1200))+(Gridcount*130)),(-7.5+50+75+100+(heightcount*75)))
                 window.blit(Name, Name_rect)
 
                 Fullwidth=300
@@ -435,10 +435,10 @@ while game:
                         pygame.mixer.music.set_volume(0)
                         trilha_sonora_mapas.set_volume(0.1) # Aumentar volume da música de batalha
                         pygame.mixer.init(frequency=22050, size=-16, channels=2, buffer=512)  # Ajuste conforme necessário
-                        if gagui==0:
+                        if song2variable==0:
                             trilha_sonora_mapas.play(-1)  # Toca a música da batalha em loop
                             atual_TS=trilha_sonora_mapas
-                        gagui += 1 
+                        song2variable += 1 
 
                     counter+=1
 
@@ -450,7 +450,7 @@ while game:
     pygame.display.update()  # Mostra o novo frame para o jogador
  
     if current_screen=='prepartida':
-        gagui=0
+        song2variable=0
         SecScreen=1
         counting=0
         hp1=100
@@ -496,7 +496,7 @@ while game:
             current_screen='partida'
             atual_pos=0
         
-        time=120*60
+        time=5*60
 
         for event in pygame.event.get():
             # Verifica consequências
@@ -504,13 +504,16 @@ while game:
                 game = False
 
     if current_screen=='partida':
+        timeMS=31*60
         frames=0
         limit=0
         window.blit(current_map_image,current_map_rect)
         if hp1==0 or hp2==0:
             current_screen='Fim de jogo'
-        if time<=1:
+        if time<=1 and hp1!=hp2:
             current_screen='Fim de jogo'
+        if time<=1 and hp1==hp2:
+            current_screen='Morte súbita'
 
         Pauseb=pygame.image.load('images/Botaopausa.png')
         Pausebwidth=100
@@ -546,18 +549,106 @@ while game:
             timetext = font.render(f'{minutes}:{sec}', True, (255,255,255))          
         timerect=timetext.get_rect()
         timerect.center=(width/2,100)
-        window.blit(timetext,timerect)
 
         if Px1_pos<0:
-            Px1_pos=1200
-        if Px1_pos>1200:
+            Px1_pos=width
+        if Px1_pos>width:
             Px1_pos=0
 
         if Px2_pos<0:
-            Px2_pos=1200
-        if Px2_pos>1200:
+            Px2_pos=width
+        if Px2_pos>width:
             Px2_pos=0
 
+        seconds=time/60
+
+        if seconds>=3 and seconds<4:
+            font = pygame.font.SysFont(None, 100)
+            n3 = font.render('3', True, (255,31,45))
+            n3rect=n3.get_rect()
+            n3rect.center=(width/2,100)
+            window.blit(n3, n3rect)
+        elif seconds>=2 and seconds<=3:
+            font = pygame.font.SysFont(None, 100)
+            n2 = font.render('2', True, (255,31,45))
+            n2rect=n2.get_rect()
+            n2rect.center=(width/2,100)
+            window.blit(n2, n2rect)
+        elif seconds>0 and seconds<2:
+            font = pygame.font.SysFont(None, 100)
+            n1 = font.render('1', True, (255,31,45))
+            n1rect=n1.get_rect()
+            n1rect.center=(width/2,100)
+            window.blit(n1, n1rect)
+        else:
+            window.blit(timetext,timerect)
+
+        for event in pygame.event.get():
+            # Verifica consequências
+            if event.type == pygame.QUIT:
+                game = False
+
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_a]:
+            Px1_pos -= 5
+        if keys[pygame.K_d]:
+            Px1_pos += 5
+        if keys[pygame.K_LEFT]:
+            Px2_pos -= 5
+        if keys[pygame.K_RIGHT]:
+            Px2_pos += 5
+
+    if current_screen=='Morte súbita':
+        
+        Px1_pos=100
+        Px2_pos=1100
+        Py1_pos=470
+        Py2_pos=470
+
+        window.blit(current_map_image,current_map_rect)
+        window.blit(Pauseb, Pauseb_rect)
+        
+        font = pygame.font.SysFont(None, 100)
+        timetext = font.render(f'{(timeMS//60)}', True, (255,31,31))          
+        timerect=timetext.get_rect()
+        timerect.center=(width/2,height/4)
+        window.blit(timetext,timerect)
+        
+        mov1=list_p1pos[atual_pos]
+        mov2=list_p2pos[atual_pos]
+
+        rect1=mov1.get_rect()
+        rect2=mov2.get_rect()
+
+        rect1.center=(Px1_pos,Py1_pos)
+        rect2.center=(Px2_pos,Py2_pos)
+
+        window.blit(mov1,rect1)
+        window.blit(mov2,rect2)
+
+        if Px1_pos<0:
+            Px1_pos=width
+        if Px1_pos>width:
+            Px1_pos=0
+
+        if Px2_pos<0:
+            Px2_pos=width
+        if Px2_pos>width:
+            Px2_pos=0
+
+        timeMS-=1
+
+        if timeMS>(29*60):
+            timetext = font.render('Morte Súbita!', True, (255,31,31))          
+            timerect=timetext.get_rect()
+            timerect.center=(width/2,height/2)
+            window.blit(timetext,timerect)
+
+        if hp1==0 or hp2==0:
+            current_screen='Fim de jogo'
+        if timeMS<=1:
+            current_screen='Fim de jogo'
+        
         for event in pygame.event.get():
             # Verifica consequências
             if event.type == pygame.QUIT:
@@ -626,8 +717,8 @@ while game:
         imagepers1=False
         imagepers2=False
         plano_de_fundo_vitoria = pygame.image.load("images/plano_de_fundo_vitoria.jpeg")
-        plano_de_fundo_vitoria_width=1200
-        plano_de_fundo_vitoria_height=600
+        plano_de_fundo_vitoria_width=width
+        plano_de_fundo_vitoria_height=height
         plano_de_fundo_vitoria_image = pygame.transform.scale(plano_de_fundo_vitoria, (plano_de_fundo_vitoria_width, plano_de_fundo_vitoria_height))
         plano_de_fundo_vitoria_rect=plano_de_fundo_vitoria_image.get_rect()
         plano_de_fundo_vitoria_rect.center=((width/2),(height/2))
