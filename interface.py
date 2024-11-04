@@ -24,8 +24,7 @@ j2_wins=0
 SecScreen=0
 
 
-
-# Importa imagens do jogo:
+# Importa imagens dos personagens durante o jogo:
 dic_pos={}
 for i in range(20):
     DGwidth=width/16
@@ -42,10 +41,130 @@ for i in range(20):
     dic_pos[i]=[side,punch,kick]
 
 
+
+# Importa imagem de carregamento
+Loadingimage = pygame.image.load('images/LogoTelaCarregamento.png').convert()
+Loadingimagewidth=width/2
+Loadingimageheight=height*(2/3)
+Loadingimage = pygame.transform.scale(Loadingimage, (Loadingimagewidth, Loadingimageheight))
+Loadingimage_rect=Loadingimage.get_rect()
+Loadingimage_rect.center=(width/2,height/2)
+
+
+
+# Cria barra de carregamento
+verticesloadbar1=[(width/4,510*(height/600)),(width/4,525*(height/600)),(3*(width/4),525*(height/600)),(3*(width/4),510*(height/600))]
+colorload1=(255,255,255)
+colorload2=(15,255,3)
+
+
+
+# Fonte "concluído"
+concfont = pygame.font.SysFont(None, 24)
+conctext = concfont.render('Concluído!', True, (255,255,255))
+conctextrect=conctext.get_rect()
+
+
+
+# Gera imagem background
+BGSSimage=pygame.image.load('images/BGtelainicial.png')
+BGSSwidth=width
+BGSSheight=height
+BGSSimage = pygame.transform.scale(BGSSimage, (BGSSwidth, BGSSheight))
+BGSSimage_rect=BGSSimage.get_rect()
+BGSSimage_rect.center=((width/2),(height/2))
+
+
+
+# Importa imagem de carregamento
+Titleimage = pygame.image.load('images/BattlefightersArco.png')
+Titleimagewidth=width/2
+Titleimageheight=height/3
+Titleimage = pygame.transform.scale(Titleimage, (Titleimagewidth, Titleimageheight))
+Titleimage_rect=Titleimage.get_rect()
+Titleimage_rect.center=(width/2,(height/2)-(height/4))
+
+
+
+# Importa Botões de mute e volume
+Muteimage = pygame.image.load('images/mudo.png')
+Volumeimage = pygame.image.load('images/som_ligado.png')
+
+
+
+# Cria botão do play e musica:
+Soundimagewidth = width/12
+Soundimageheight = height/6
+Volumeimage = pygame.transform.scale(Volumeimage, (Soundimagewidth, Soundimageheight))
+Muteimage = pygame.transform.scale(Muteimage, (Soundimagewidth, Soundimageheight))
+Soundimage_rect=Volumeimage.get_rect()
+Soundimage_rect.bottom = window.get_height()
+Soundimage_rect.left = 0
+
+volume_area=pygame.Rect(0, 5*(height/6), width/12, height/6)
+play_area=pygame.Rect(3*(width/8),(width/8),width/4,height/2)
+
+Playimage = pygame.image.load('images/botao_play.png')
+Playimagewidth = width/4
+Playimageheight = height/2
+Playimage = pygame.transform.scale(Playimage, (Playimagewidth, Playimageheight))
+Playimage_rect=Playimage.get_rect()
+Playimage_rect.center=((width/2),(height/2))
+
+
+
+# Importa imagem seta
+Arrowimage=pygame.image.load('images/Setavoltar.png')
+Arrowimagewidth=width/16
+Arrowimageheight=height/12
+Arrowimage = pygame.transform.scale(Arrowimage, (Arrowimagewidth, Arrowimageheight))
+Arrowimage_rect=Arrowimage.get_rect()
+Arrowimage_rect.top = 0
+Arrowimage_rect.left = 0
+
+
+
+# Importa imagem 1v1
+x1image=pygame.image.load('images/1v1.png')
+x1imagewidth=width/(4.8)
+x1imageheight=width/(4.8)
+x1image = pygame.transform.scale(x1image, (x1imagewidth, x1imageheight))
+x1image_rect=x1image.get_rect()
+x1image_rect.center=((width/2)-(width/8),(height/2))
+
+
+
+# Importa imagem Arcade
+Arcadeimage=pygame.image.load('images/Arcade.png')
+Arcadeimagewidth=width/(4.8)
+Arcadeimageheight=width/(4.8)
+Arcadeimage = pygame.transform.scale(Arcadeimage, (Arcadeimagewidth, Arcadeimageheight))
+Arcadeimage_rect=Arcadeimage.get_rect()
+Arcadeimage_rect.center=((width/2)+(width/8),(height/2))
+
+
+
+# Define areas 1v1, arcade, seta
+x1_area=pygame.Rect(((width/2))-(x1imagewidth/2)-(width/8),(height/2)-(x1imageheight/2),width/6,height/3)
+Arcade_area=pygame.Rect(((width/2))-(Arcadeimagewidth/2)+(width/8),(height/2)-(Arcadeimageheight/2),width/6,height/3)
+arrow_area=pygame.Rect(0,0,(width/16),(height/12))
+
+
+
+# Importa imagem de grade de personagens
+Gradeimage=pygame.image.load('images/Gradepersonagens.png')
+Gradeimagewidth=width*(2/3)
+Gradeimageheight=height*(5/6)
+Gradeimage = pygame.transform.scale(Gradeimage, (Gradeimagewidth, Gradeimageheight))
+Gradeimage_rect=Gradeimage.get_rect()
+Gradeimage_rect.center=((width/2),(height/2))
+
+
+
 # Importa imagens de personagens
 Namelist=[]
 Facelist=[]
-area_list=[]
+face_area_list=[]
 Fullbody_list=[]
 Full_list1={}
 Full_list2={}
@@ -57,28 +176,181 @@ for characters in range(20):
     Facelist.append(Characimage)
     Fullbody_list.append(Fullbody)
 
+
+
 # Importa imagens de mapas
 maps_list=['Deserto','Vulcão','Montanhas','Estádio','Floresta','Favela']
 dic_maps={}
 dic_mapsrect={}
 for counter in range(len(maps_list)):
     map=maps_list[counter]
-    BGSSimage=pygame.image.load(f'images/Mapa{counter}.jpg')
-    BGSSwidth=width
-    BGSSheight=height
-    BGSSimage = pygame.transform.scale(BGSSimage, (BGSSwidth, BGSSheight))
-    BGSSimage_rect=BGSSimage.get_rect()
-    BGSSimage_rect.center=((width/2),(height/2))
+    Mapimage=pygame.image.load(f'images/Mapa{counter}.jpg')
+    Mapimagewidth=width
+    Mapimageheight=height
+    Mapimage = pygame.transform.scale(Mapimage, (Mapimagewidth, Mapimageheight))
+    Mapimage_rect=Mapimage.get_rect()
+    Mapimage_rect.center=((width/2),(height/2))
     trilha_sonora_mapas = pygame.mixer.Sound(f"trilhas_sonoras/trilhasonoramapa{counter}.mp3")
-    dic_maps[map]=(BGSSimage, trilha_sonora_mapas)
-    dic_mapsrect[map]=BGSSimage_rect
+    dic_maps[map]=(Mapimage, trilha_sonora_mapas)
+    dic_mapsrect[map]=Mapimage_rect
+
+
+
+# Tamanho das faces
+Facewidth=width/10
+Faceheight=height/8
+
+
+
+# Nomes, faces e fotos do corpo todo
+list_facenrect=[]
+list_namenrect=[]
+counter=0
+for heightcount in range(4):
+    for Gridcount in range(5):
+        Name=Namelist[counter]
+        Face=Facelist[counter]
+        Full=Fullbody_list[counter]
+        counter+=1
+        Face = pygame.transform.scale(Face, (Facewidth, Faceheight))
+        Face_rect=Face.get_rect()
+        Face_rect.center=(((345*(width/1200))+(Gridcount*130)),((187.5*(width/1200))+(heightcount*75)))
+        list_facenrect.append([Face,Face_rect])
+        face_area=((-Facewidth/2)+((345*(width/1200)))+(Gridcount*130), ((-Faceheight/2)+(187.5*(width/1200))+(heightcount*75)), Facewidth, Faceheight)
+        face_area_list.append(face_area)
+
+        persnamefont = pygame.font.SysFont(None, 24)
+        Name = persnamefont.render(f'{Name.upper()}', True, (255, 255, 255))
+        Name_rect=Name.get_rect()
+        Name_rect.center=(((345*(width/1200))+(Gridcount*130)),(-7.5+50+75+100+(heightcount*75)))
+        list_namenrect.append([Name,Name_rect])
+
+        Fullwidth=300
+        Fullheight=500
+        Full = pygame.transform.scale(Full, (Fullwidth, Fullheight))
+        Full_rect1=Full.get_rect()
+        Full_rect2=Full.get_rect()
+        Full_rect1.center=(125,300)
+        Full_list1[Full]=Full_rect1
+        Full_rect2.center=(1075,300)
+        Full_list2[Full]=Full_rect2
+
+
+
 
 # Carregar a música de fundo
 pygame.mixer.music.load("trilhas_sonoras/trilha_sonora_tela_inicial.mp3")  # Substitua pelo caminho do seu arquivo de música
 pygame.mixer.music.set_volume(0.1)  # Define o volume da música (0.0 a 1.0) 
 song1variable=0
-
 test=0
+
+
+
+# Botão de confirmar
+Confirmb=pygame.image.load('images/Confirmb.png')
+Confirmedb=pygame.image.load('images/Confirmedb.png')
+Confirmbwidth=300
+Confirmbheight=200
+Confirmb1 = pygame.transform.scale(Confirmb, (Confirmbwidth, Confirmbheight))
+Confirmb2 = pygame.transform.scale(Confirmb, (Confirmbwidth, Confirmbheight))
+Confirmedb1 = pygame.transform.scale(Confirmedb, (Confirmbwidth, Confirmbheight))
+Confirmedb2 = pygame.transform.scale(Confirmedb, (Confirmbwidth, Confirmbheight))
+Confirmb1_rect=Confirmb1.get_rect()
+Confirmb2_rect=Confirmb2.get_rect()
+Confirmedb1_rect=Confirmedb1.get_rect()
+Confirmedb2_rect=Confirmedb2.get_rect()
+
+Confirmb1_rect.left=250
+Confirmb1_rect.top=425
+Confirmedb1_rect.left=250
+Confirmedb1_rect.top=425
+
+Confirmb2_rect.left=650
+Confirmb2_rect.top=425
+Confirmedb2_rect.left=650
+Confirmedb2_rect.top=425
+
+Confirmb1_area=pygame.Rect(250,450,300,200)
+Confirmb2_area=pygame.Rect(650,450,300,200)
+
+
+
+mapfont = pygame.font.SysFont(None, 128)
+maptext1 = mapfont.render('Mapa selecionado:', True, (255,255,255))
+text1rect=maptext1.get_rect()
+text1rect.center=(width/2,400)
+
+
+
+# Imagem Versus
+Versus=pygame.image.load('images/Versus.png')
+Versuswidth=300
+Versusheight=200
+Versusrect=Versus.get_rect()
+Versusrect.center=(width/2,height/2)
+
+
+
+
+# Criar contagem regressiva
+n3 = mapfont.render('3', True, (255,31,45))
+n2 = mapfont.render('2', True, (255,31,45))
+n1 = mapfont.render('1', True, (255,31,45))
+nstart = mapfont.render('Start!', True, (255,31,45))
+
+nrect=n1.get_rect()
+nsrect=nstart.get_rect()
+nrect.center=(width/2,100) 
+nsrect.center=(width/2,100)
+
+
+# Cria botão de pausa
+Pauseb=pygame.image.load('images/Botaopausa.png')
+Pausebwidth=width/12
+Pausebheight=height/6
+Pauseb = pygame.transform.scale(Pauseb, (Pausebwidth, Pausebheight))
+Pauseb_rect=Pauseb.get_rect()
+Pauseb_rect.top=0
+Pauseb_rect.left=11*(width/12)
+Pause_area=pygame.Rect(Pauseb_rect.left,Pauseb_rect.top,Pausebwidth,Pausebheight)
+
+
+# Tela final informações
+resfont=pygame.font.SysFont(None, 128)
+
+plano_de_fundo_vitoria = pygame.image.load("images/plano_de_fundo_vitoria.jpeg")
+plano_de_fundo_vitoria_width=width
+plano_de_fundo_vitoria_height=height
+plano_de_fundo_vitoria_image = pygame.transform.scale(plano_de_fundo_vitoria, (plano_de_fundo_vitoria_width, plano_de_fundo_vitoria_height))
+plano_de_fundo_vitoria_rect=plano_de_fundo_vitoria_image.get_rect()
+plano_de_fundo_vitoria_rect.center=((width/2),(height/2))
+
+
+Jogardenovo=pygame.image.load(f'images/Jogardenovo.png')
+Jogardenovowidth=300
+Jogardenovoheight=150
+Jogardenovo = pygame.transform.scale(Jogardenovo, (Jogardenovowidth, Jogardenovoheight))
+Jogardenovo_rect=Jogardenovo.get_rect()
+Jogardenovo_rect.center=((width/2),(105))
+Jogardenovoarea=pygame.Rect(450,30,300,150)
+
+Trocarpers=pygame.image.load(f'images/Trocarpers.png')
+Trocarperswidth=300
+Trocarpersheight=150
+Trocarpers = pygame.transform.scale(Trocarpers, (Trocarperswidth, Trocarpersheight))
+Trocarpers_rect=Trocarpers.get_rect()
+Trocarpers_rect.center=((width/2),(285))
+Trocarpersarea=pygame.Rect(450,210,300,150)
+
+
+Retmenu=pygame.image.load(f'images/Retmenu.png')
+Retmenuwidth=300
+Retmenuheight=150
+Retmenu = pygame.transform.scale(Retmenu, (Retmenuwidth, Retmenuheight))
+Retmenu_rect=Retmenu.get_rect()
+Retmenu_rect.center=((width/2),(465))
+Retmenuarea=pygame.Rect(450,390,300,150)
+
 # Loop principal
 while game:
 
@@ -96,38 +368,24 @@ while game:
 
         # Gera imagem
         window.fill((0, 0, 0))  # Preenche o fundo com a cor preta
-
-        # Importa imagem de carregamento
-        Loadingimage = pygame.image.load('images/LogoTelaCarregamento.png').convert()
-        Loadingimagewidth=width/2
-        Loadingimageheight=height*(2/3)
-        Loadingimage = pygame.transform.scale(Loadingimage, (Loadingimagewidth, Loadingimageheight))
-        Loadingimage_rect=Loadingimage.get_rect()
-        Loadingimage_rect.center=(width/2,height/2)
         window.blit(Loadingimage, Loadingimage_rect)
 
         # Cria barra de carregamento
-        verticesloadbar1=[(width/4,510*(height/600)),(width/4,525*(height/600)),(3*(width/4),525*(height/600)),(3*(width/4),510*(height/600))]
-        colorload1=(255,255,255)
         pygame.draw.polygon(window, colorload1, verticesloadbar1)
         verticesloadbar2=[(width/4,510*(height/600)),(width/4,525*(height/600)),((width/4)+countloadbar,525*(height/600)),((width/4)+countloadbar,510*(height/600))]
-        colorload2=(15,255,3)
 
         # Verifica se ultrapassa limite
         if countloadbar+(width/4)<3*(width/4):
             pygame.draw.polygon(window, colorload2, verticesloadbar2)
         else:
             verticesloadbar2=[((width/4),510*(height/600)),((width/4),525*(height/600)),(3*(width/4),525*(height/600)),(3*(width/4),510*(height/600))]
-            colorload2=(15,255,3)
             pygame.draw.polygon(window, colorload2, verticesloadbar2)
         countloadbar+=3
 
         # Verifica se atinge limite
         if countloadbar>=width/2:
-            font = pygame.font.SysFont(None, 24)
-            text = font.render('Concluído!', True, (255,255,255))
-            textrect=text.get_rect()
-            window.blit(text, ((width/2)-textrect[2]/2, 530*(height/600)))
+            window.blit(conctext, ((width/2)-conctextrect[2]/2, 530*(height/600)))
+
 
 
     # Troca tela
@@ -138,50 +396,18 @@ while game:
             pygame.mixer.music.play(-1,2)
         song1variable+=1
 
-        # Gera imagem
-        BGSSimage=pygame.image.load('images/BGtelainicial.png')
-        BGSSwidth=width
-        BGSSheight=height
-        BGSSimage = pygame.transform.scale(BGSSimage, (BGSSwidth, BGSSheight))
-        BGSSimage_rect=BGSSimage.get_rect()
-        BGSSimage_rect.center=((width/2),(height/2))
+        # Gera imagem background e titulo
         window.blit(BGSSimage, BGSSimage_rect)
+        window.blit(Titleimage, Titleimage_rect)
 
-        # Importa imagem de carregamento
-        Arcimage = pygame.image.load('images/BattlefightersArco.png')
-        Arcimagewidth=width/2
-        Arcimageheight=height/3
-        Arcimage = pygame.transform.scale(Arcimage, (Arcimagewidth, Arcimageheight))
-        Arcimage_rect=Arcimage.get_rect()
-        Arcimage_rect.center=(width/2,(height/2)-(height/4))
-        window.blit(Arcimage, Arcimage_rect)
-
-        
-        
-        # Importa Botões:
-        Muteimage = pygame.image.load('images/mudo.png')
-        Volumeimage = pygame.image.load('images/som_ligado.png')
+        # Verifica o estado atual do botão de mute
         if sound==False:
             Soundimage=Muteimage
         else:
             Soundimage=Volumeimage
         
         # Cria botão do play e musica:
-
-        Soundimagewidth = width/12
-        Soundimageheight = height/6
-        Soundimage = pygame.transform.scale(Soundimage, (Soundimagewidth, Soundimageheight))
-        Soundimage_rect=Soundimage.get_rect()
-        Soundimage_rect.bottom = window.get_height()
-        Soundimage_rect.left = 0
         window.blit(Soundimage, Soundimage_rect)
-
-        Playimage = pygame.image.load('images/botao_play.png')
-        Playimagewidth = width/4
-        Playimageheight = height/2
-        Playimage = pygame.transform.scale(Playimage, (Playimagewidth, Playimageheight))
-        Playimage_rect=Playimage.get_rect()
-        Playimage_rect.center=((width/2),(height/2))
         window.blit(Playimage, Playimage_rect)
 
         # Trata eventos
@@ -189,9 +415,6 @@ while game:
             # Verifica consequências
             if event.type == pygame.QUIT:
                 game = False
-            volume_area=pygame.Rect(0, 5*(height/6), width/12, height/6)
-            play_area=pygame.Rect(3*(width/8),(width/8),width/4,height/2)
-
             if event.type==pygame.MOUSEBUTTONDOWN:
                 if event.button==1:
                     mouse_pos=event.pos
@@ -207,41 +430,15 @@ while game:
                         current_screen='modo de jogo'
 
 
+
     # Troca tela 
     if current_screen=='modo de jogo':
         window.blit(BGSSimage, BGSSimage_rect)
-        
-        # Importa imagens
-        Arrowimage=pygame.image.load('images/Setavoltar.png')
-        Arrowimagewidth=width/16
-        Arrowimageheight=height/12
-        Arrowimage = pygame.transform.scale(Arrowimage, (Arrowimagewidth, Arrowimageheight))
-        Arrowimage_rect=Arrowimage.get_rect()
-        Arrowimage_rect.top = 0
-        Arrowimage_rect.left = 0
         window.blit(Arrowimage, Arrowimage_rect)
-
-        x1image=pygame.image.load('images/1v1.png')
-        x1imagewidth=width/(4.8)
-        x1imageheight=width/(4.8)
-        x1image = pygame.transform.scale(x1image, (x1imagewidth, x1imageheight))
-        x1image_rect=x1image.get_rect()
-        x1image_rect.center=((width/2)-(width/8),(height/2))
         window.blit(x1image, x1image_rect)
-
-        Arcadeimage=pygame.image.load('images/Arcade.png')
-        Arcadeimagewidth=width/(4.8)
-        Arcadeimageheight=width/(4.8)
-        Arcadeimage = pygame.transform.scale(Arcadeimage, (Arcadeimagewidth, Arcadeimageheight))
-        Arcadeimage_rect=Arcadeimage.get_rect()
-        Arcadeimage_rect.center=((width/2)+(width/8),(height/2))
         window.blit(Arcadeimage, Arcadeimage_rect)
-    
-        # Define areas
-        x1_area=pygame.Rect(((width/2))-(x1imagewidth/2)-(width/8),(height/2)-(x1imageheight/2),width/6,height/3)
-        Arcade_area=pygame.Rect(((width/2))-(Arcadeimagewidth/2)+(width/8),(height/2)-(Arcadeimageheight/2),width/6,height/3)
-        arrow_area=pygame.Rect(0,0,(width/16),(height/12))
 
+        # Trata eventos
         for event in pygame.event.get():
             # Verifica consequências
             if event.type == pygame.QUIT:
@@ -270,77 +467,24 @@ while game:
             Fullpicrect2.center=(1050,300)
         frames=0
 
-        # Plota Bg
-        window.blit(BGSSimage, BGSSimage_rect)
 
-        # Importa imagens
-        Gradeimage=pygame.image.load('images/Gradepersonagens.png')
-        Gradeimagewidth=width*(2/3)
-        Gradeimageheight=height*(5/6)
-        Gradeimage = pygame.transform.scale(Gradeimage, (Gradeimagewidth, Gradeimageheight))
-        Gradeimage_rect=Gradeimage.get_rect()
-        Gradeimage_rect.center=((width/2),(height/2))
+
+        # Plota background, grade, personagens, confirmar e seta
+        window.blit(BGSSimage, BGSSimage_rect)
         window.blit(Gradeimage, Gradeimage_rect)
         window.blit(Arrowimage, Arrowimage_rect)
-
-        # Nomes, faces e fotos do corpo todo
-        counter=0
-        for heightcount in range(4):
-            for Gridcount in range(5):
-                Name=Namelist[counter]
-                Face=Facelist[counter]
-                Full=Fullbody_list[counter]
-                counter+=1
-                Facewidth=width/10
-                Faceheight=height/8
-                Face = pygame.transform.scale(Face, (Facewidth, Faceheight))
-                Face_rect=Face.get_rect()
-                Face_rect.center=(((345*(width/1200))+(Gridcount*130)),((187.5*(width/1200))+(heightcount*75)))
-                window.blit(Face, Face_rect)
-                current_area=((-Facewidth/2)+((345*(width/1200)))+(Gridcount*130), ((-Faceheight/2)+(187.5*(width/1200))+(heightcount*75)), Facewidth, Faceheight)
-                if len(area_list)<20:
-                    area_list.append(current_area)
-
-                font = pygame.font.SysFont(None, 24)
-                Name = font.render(f'{Name.upper()}', True, (255, 255, 255))
-                Name_rect=Name.get_rect()
-                Name_rect.center=(((345*(width/1200))+(Gridcount*130)),(-7.5+50+75+100+(heightcount*75)))
-                window.blit(Name, Name_rect)
-
-                Fullwidth=300
-                Fullheight=500
-                Full = pygame.transform.scale(Full, (Fullwidth, Fullheight))
-                Full_rect1=Full.get_rect()
-                Full_rect2=Full.get_rect()
-                Full_rect1.center=(125,300)
-                Full_list1[Full]=Full_rect1
-                Full_rect2.center=(1075,300)
-                Full_list2[Full]=Full_rect2
-
-        # Botão de confirmar
-        Confirmb=pygame.image.load('images/Confirmb.png')
-        Confirmedb=pygame.image.load('images/Confirmedb.png')
-        Confirmbwidth=300
-        Confirmbheight=200
-        Confirmb1 = pygame.transform.scale(Confirmb, (Confirmbwidth, Confirmbheight))
-        Confirmb2 = pygame.transform.scale(Confirmb, (Confirmbwidth, Confirmbheight))
-        Confirmedb1 = pygame.transform.scale(Confirmedb, (Confirmbwidth, Confirmbheight))
-        Confirmedb2 = pygame.transform.scale(Confirmedb, (Confirmbwidth, Confirmbheight))
-        Confirmb1_rect=Confirmb1.get_rect()
-        Confirmb2_rect=Confirmb2.get_rect()
-        Confirmedb1_rect=Confirmedb1.get_rect()
-        Confirmedb2_rect=Confirmedb2.get_rect()
-
-        Confirmb1_rect.left=250
-        Confirmb1_rect.top=425
-        Confirmedb1_rect.left=250
-        Confirmedb1_rect.top=425
-
-        Confirmb2_rect.left=650
-        Confirmb2_rect.top=425
-        Confirmedb2_rect.left=650
-        Confirmedb2_rect.top=425
         
+        for counter in range(20):
+            Face=list_facenrect[counter][0]
+            Face_rect=list_facenrect[counter][1]
+            Name=list_namenrect[counter][0]
+            Name_rect=list_namenrect[counter][1]
+
+            window.blit(Face, Face_rect)
+            window.blit(Name, Name_rect)
+
+
+        # Verifica se jogadores estão prontos
         if j1==False:
             window.blit(Confirmb1, Confirmb1_rect)
         else:
@@ -356,11 +500,12 @@ while game:
         if imagepers2==True:
             window.blit(Fullpic2, Fullpicrect2)
 
-        Confirmb1_area=pygame.Rect(250,450,300,200)
-        Confirmb2_area=pygame.Rect(650,450,300,200)
 
-        number=random.randint(0,5)
 
+        # Sorteia mapa
+        mapnumber=random.randint(0,5)
+
+        # Trata eventos
         for event in pygame.event.get():
             # Verifica consequências
             if event.type == pygame.QUIT:
@@ -370,9 +515,9 @@ while game:
                     mouse_pos=event.pos
                     if arrow_area.collidepoint(mouse_pos):
                         current_screen='modo de jogo'
-                    for countarea in range(len(area_list)):
-                        current_area=pygame.Rect(area_list[countarea])
-                        if current_area.collidepoint(mouse_pos):
+                    for countarea in range(len(face_area_list)):
+                        face_area=pygame.Rect(face_area_list[countarea])
+                        if face_area.collidepoint(mouse_pos):
                             for num,list in dic_pos.items():
                                 diccount=0
                                 for Fullpic,Fullpicrect in Full_list1.items():
@@ -405,9 +550,13 @@ while game:
                     if Confirmb2_area.collidepoint(mouse_pos):
                         if j2==False and j1==True:
                             j2=True
+
+
         if j1 and j2:
             current_screen='tela mapas'
     
+
+    # Troca tela
     if current_screen=='tela mapas':
         frames+=1
         if frames>300:
@@ -415,41 +564,40 @@ while game:
         j1=False
         j2=False
         counter=0
+
+        # Conferindo mapa do sorteio
         for map,(image, trilha_sonora_mapas) in dic_maps.items():
             for map1,rect in dic_mapsrect.items():
                 if map==map1:
-                    if counter==number:
+                    if counter==mapnumber:
                         current_map=map
                         current_map_image=image
                         current_map_rect=rect
                         window.blit(image, rect)
-                        font = pygame.font.SysFont(None, 128)
-                        text1 = font.render('Mapa selecionado:', True, (255,255,255))
-                        text2= font.render(f'{map}', True, (255,255,255))
-                        text1rect=text1.get_rect()
-                        text2rect=text2.get_rect()
-                        text1rect.center=(width/2,400)
+                        maptext2= mapfont.render(f'{map}', True, (255,255,255))
+                        text2rect=maptext2.get_rect()
                         text2rect.center=(width/2,500)
-                        window.blit(text1, text1rect)
-                        window.blit(text2, text2rect)
-                        pygame.mixer.music.set_volume(0)
+                        window.blit(maptext1, text1rect)
+                        window.blit(maptext2, text2rect)
+                        pygame.mixer.music.set_volume(0) # Zerar volume da música de intro
                         trilha_sonora_mapas.set_volume(0.1) # Aumentar volume da música de batalha
-                        pygame.mixer.init(frequency=22050, size=-16, channels=2, buffer=512)  # Ajuste conforme necessário
                         if song2variable==0:
                             trilha_sonora_mapas.play(-1)  # Toca a música da batalha em loop
                             atual_TS=trilha_sonora_mapas
                         song2variable += 1 
-
                     counter+=1
 
+        # Trata eventos
         for event in pygame.event.get():
             # Verifica consequências
             if event.type == pygame.QUIT:
                 game = False
     
-    pygame.display.update()  # Mostra o novo frame para o jogador
- 
+
+    # Troca tela
     if current_screen=='prepartida':
+
+        # Cria variáveis
         song2variable=0
         SecScreen=1
         counting=0
@@ -461,53 +609,52 @@ while game:
         Py2_pos=470
 
         frames+=1
+
+        # Plota imagens
         window.blit(current_map_image,current_map_rect)
         Fullpicrect1.center=(300,300)
         Fullpicrect2.center=(900,300)
         window.blit(Fullpic1, Fullpicrect1)
         window.blit(Fullpic2, Fullpicrect2)
-        Versus=pygame.image.load('images/Versus.png')
-        Versuswidth=300
-        Versusheight=200
-        Versusrect=Versus.get_rect()
-        Versusrect.center=(width/2,height/2)
         window.blit(Versus,Versusrect)
+
+        # Contagem regressiva
         if frames>300 and frames<360:
-            n3 = font.render('3', True, (255,31,45))
-            n3rect=n3.get_rect()
-            n3rect.center=(width/2,100)
-            window.blit(n3, n3rect)
+            window.blit(n3, nrect)
+
         if frames>=360 and frames<420:
-            n2 = font.render('2', True, (255,31,45))
-            n2rect=n2.get_rect()
-            n2rect.center=(width/2,100)
-            window.blit(n2, n2rect)
+            window.blit(n2, nrect)
+
         if frames>=420 and frames<480:
-            n1 = font.render('1', True, (255,31,45))
-            n1rect=n1.get_rect()
-            n1rect.center=(width/2,100)
-            window.blit(n1, n1rect)
+            window.blit(n1, nrect)
+
         if frames>=480 and frames<540:
-            nstart = font.render('Start!', True, (255,31,45))
-            nstartrect=nstart.get_rect()
-            nstartrect.center=(width/2,100)
-            window.blit(nstart, nstartrect)
+            window.blit(nstart, nsrect)
+
         if frames>=540:
             current_screen='partida'
             atual_pos=0
         
-        time=120*60
+        time=4*60
 
+        # Trata eventos
         for event in pygame.event.get():
             # Verifica consequências
             if event.type == pygame.QUIT:
                 game = False
 
+
+    # Troca tela
     if current_screen=='partida':
+
+        # Cria variáveis e plota fundo
         timeMS=31*60
         frames=0
         limit=0
         window.blit(current_map_image,current_map_rect)
+
+
+        # Confere se jogo acabou
         if hp1==0 or hp2==0:
             current_screen='Fim de jogo'
         if time<=1 and hp1!=hp2:
@@ -515,14 +662,8 @@ while game:
         if time<=1 and hp1==hp2:
             current_screen='Morte súbita'
 
-        Pauseb=pygame.image.load('images/Botaopausa.png')
-        Pausebwidth=width/12
-        Pausebheight=height/6
-        Pauseb = pygame.transform.scale(Pauseb, (Pausebwidth, Pausebheight))
-        Pauseb_rect=Pauseb.get_rect()
-        Pauseb_rect.top=0
-        Pauseb_rect.left=11*(width/12)
-        Pause_area=pygame.Rect(Pauseb_rect.left,Pauseb_rect.top,Pausebwidth,Pausebheight)
+
+        # Plota imagens
         window.blit(Pauseb, Pauseb_rect)
 
         mov1=list_p1pos[atual_pos]
@@ -537,20 +678,25 @@ while game:
         window.blit(mov1,rect1)
         window.blit(mov2,rect2)
 
+        # Atualiza tempo
         time-=1
         time/=60
         minutes=int(time//60)
         sec=int(time%60)
         time*=60
 
-        font = pygame.font.SysFont(None, 64)
+
+        # Cria cronometro
+        timetextfont = pygame.font.SysFont(None, 64)
         if sec<10:
-            timetext = font.render(f'{minutes}:0{sec}', True, (255,255,255))
+            timetext = timetextfont.render(f'{minutes}:0{sec}', True, (255,255,255))
         else:
-            timetext = font.render(f'{minutes}:{sec}', True, (255,255,255))          
+            timetext = timetextfont.render(f'{minutes}:{sec}', True, (255,255,255))          
         timerect=timetext.get_rect()
         timerect.center=(width/2,100)
 
+
+        # Impede personagem de sair do mapa
         if Px1_pos<0:
             Px1_pos=width
         if Px1_pos>width:
@@ -563,27 +709,21 @@ while game:
 
         seconds=time/60
 
+
+        # Contagem Regressiva
         if seconds>=3 and seconds<4:
-            font = pygame.font.SysFont(None, 100)
-            n3 = font.render('3', True, (255,31,45))
-            n3rect=n3.get_rect()
-            n3rect.center=(width/2,100)
-            window.blit(n3, n3rect)
+            window.blit(n3, nrect)
+
         elif seconds>=2 and seconds<=3:
-            font = pygame.font.SysFont(None, 100)
-            n2 = font.render('2', True, (255,31,45))
-            n2rect=n2.get_rect()
-            n2rect.center=(width/2,100)
-            window.blit(n2, n2rect)
+            window.blit(n2, nrect)
+
         elif seconds>0 and seconds<2:
-            font = pygame.font.SysFont(None, 100)
-            n1 = font.render('1', True, (255,31,45))
-            n1rect=n1.get_rect()
-            n1rect.center=(width/2,100)
-            window.blit(n1, n1rect)
+            window.blit(n1, nrect)
+
         else:
             window.blit(timetext,timerect)
 
+        # Trata eventos
         for event in pygame.event.get():
             # Verifica consequências
             if event.type == pygame.QUIT:
@@ -595,6 +735,8 @@ while game:
                         current_screen='Jogo pausado'
                         Last_screen='partida'
 
+
+        # Movimentação personagens
         keys = pygame.key.get_pressed()
         if keys[pygame.K_a]:
             Px1_pos -= 5
@@ -605,10 +747,12 @@ while game:
         if keys[pygame.K_RIGHT]:
             Px2_pos += 5
     
+    # Troca tela
     if current_screen=='Jogo pausado':
         window.fill((0,0,0))
         window.blit(Arrowimage,Arrowimage_rect)
 
+        # Trata eventos
         for event in pygame.event.get():
             # Verifica consequências
             if event.type == pygame.QUIT:
@@ -620,22 +764,22 @@ while game:
                         current_screen=Last_screen
 
 
+    # Troca tela
     if current_screen=='Morte súbita':
-        
-        Px1_pos=100
-        Px2_pos=1100
-        Py1_pos=470
-        Py2_pos=470
 
+        # Plota imagens
         window.blit(current_map_image,current_map_rect)
         window.blit(Pauseb, Pauseb_rect)
         
-        font = pygame.font.SysFont(None, 100)
-        timetext = font.render(f'{(timeMS//60)}', True, (255,31,31))          
-        timerect=timetext.get_rect()
-        timerect.center=(width/2,height/4)
-        window.blit(timetext,timerect)
+
+        # Nova contagem
+        newtimetext = resfont.render(f'{(timeMS//60)}', True, (255,31,31))          
+        newtimerect=newtimetext.get_rect()
+        newtimerect.center=(width/2,height/4)
+        window.blit(newtimetext,newtimerect)
         
+
+        # Replota imagens
         mov1=list_p1pos[atual_pos]
         mov2=list_p2pos[atual_pos]
 
@@ -648,6 +792,8 @@ while game:
         window.blit(mov1,rect1)
         window.blit(mov2,rect2)
 
+
+        # Garante que não ultrapassa
         if Px1_pos<0:
             Px1_pos=width
         if Px1_pos>width:
@@ -660,8 +806,10 @@ while game:
 
         timeMS-=1
 
+
+        # Detecta momento do jogo
         if timeMS>(29*60):
-            timetext = font.render('Morte Súbita!', True, (255,31,31))          
+            timetext = resfont.render('Morte Súbita!', True, (255,31,31))          
             timerect=timetext.get_rect()
             timerect.center=(width/2,height/2)
             window.blit(timetext,timerect)
@@ -671,6 +819,8 @@ while game:
         if timeMS<=1:
             current_screen='Fim de jogo'
         
+
+        # Trata eventos
         for event in pygame.event.get():
             # Verifica consequências
             if event.type == pygame.QUIT:
@@ -682,6 +832,8 @@ while game:
                         current_screen='Jogo pausado'
                         Last_screen='Morte súbita'
 
+
+        # Movimentação personagens
         keys = pygame.key.get_pressed()
         if keys[pygame.K_a]:
             Px1_pos -= 5
@@ -692,12 +844,14 @@ while game:
         if keys[pygame.K_RIGHT]:
             Px2_pos += 5
 
+
+    # Troca tela
     if current_screen=='Fim de jogo':
         frames+=1
         window.blit(current_map_image,current_map_rect)
         if limit==0:
             if hp2<hp1:
-                res = font.render(f'{j2_pers} wins!', True, (255,255,255))
+                res = resfont.render(f'{j2_pers} wins!', True, (255,255,255))
                 resrect=res.get_rect()
                 resrect.center=(width/2,height/2)
                 jw=Fullpic2
@@ -705,7 +859,7 @@ while game:
                 j2_wins+=1
 
             elif hp1<hp2:
-                res = font.render(f'{j1_pers} wins!', True, (255,255,255))
+                res = resfont.render(f'{j1_pers} wins!', True, (255,255,255))
                 resrect=res.get_rect()
                 resrect.center=(width/2,height/2)
                 jw=Fullpic1
@@ -715,14 +869,14 @@ while game:
             elif hp1==hp2:
                 camp=random.randint(1,2)
                 if camp==1:
-                    res = font.render(f'{j1_pers} wins!', True, (255,255,255))
+                    res = resfont.render(f'{j1_pers} wins!', True, (255,255,255))
                     resrect=res.get_rect()
                     resrect.center=(width/2,height/2)
                     jw=Fullpic1
                     jwin=j1_pers
                     j1_wins+=1
                 else:
-                    res = font.render(f'{j2_pers} wins!', True, (255,255,255))
+                    res = resfont.render(f'{j2_pers} wins!', True, (255,255,255))
                     resrect=res.get_rect()
                     resrect.center=(width/2,height/2)
                     jw=Fullpic2
@@ -737,20 +891,16 @@ while game:
         if frames>240:
             current_screen='Opções pós jogo'
 
+        # Trata eventos
         for event in pygame.event.get():
             # Verifica consequências
             if event.type == pygame.QUIT:
                 game = False
 
+    # Troca tela
     if current_screen=='Opções pós jogo':
         imagepers1=False
         imagepers2=False
-        plano_de_fundo_vitoria = pygame.image.load("images/plano_de_fundo_vitoria.jpeg")
-        plano_de_fundo_vitoria_width=width
-        plano_de_fundo_vitoria_height=height
-        plano_de_fundo_vitoria_image = pygame.transform.scale(plano_de_fundo_vitoria, (plano_de_fundo_vitoria_width, plano_de_fundo_vitoria_height))
-        plano_de_fundo_vitoria_rect=plano_de_fundo_vitoria_image.get_rect()
-        plano_de_fundo_vitoria_rect.center=((width/2),(height/2))
         window.blit(plano_de_fundo_vitoria_image, plano_de_fundo_vitoria_rect )
 
         if frames>300:
@@ -764,50 +914,28 @@ while game:
         current_map_rect=current_map_image.get_rect()
         current_map_rect.center=(1000,150)
         window.blit(current_map_image,current_map_rect)
-        font = pygame.font.SysFont(None, 48)
-        maptext = font.render(f'{current_map}', True, (255,255,255))
+        mapfont2 = pygame.font.SysFont(None, 48)
+        maptext = mapfont2.render(f'{current_map}', True, (255,255,255))
         maptextrect=maptext.get_rect()
         maptextrect.center=(1000,250)
         window.blit(maptext, maptextrect)
 
-        Jogardenovo=pygame.image.load(f'images/Jogardenovo.png')
-        Jogardenovowidth=300
-        Jogardenovoheight=150
-        Jogardenovo = pygame.transform.scale(Jogardenovo, (Jogardenovowidth, Jogardenovoheight))
-        Jogardenovo_rect=Jogardenovo.get_rect()
-        Jogardenovo_rect.center=((width/2),(105))
-        Jogardenovoarea=pygame.Rect(450,30,300,150)
         window.blit(Jogardenovo,Jogardenovo_rect)
-    
-        Trocarpers=pygame.image.load(f'images/Trocarpers.png')
-        Trocarperswidth=300
-        Trocarpersheight=150
-        Trocarpers = pygame.transform.scale(Trocarpers, (Trocarperswidth, Trocarpersheight))
-        Trocarpers_rect=Trocarpers.get_rect()
-        Trocarpers_rect.center=((width/2),(285))
-        Trocarpersarea=pygame.Rect(450,210,300,150)
         window.blit(Trocarpers,Trocarpers_rect)
-
-        Retmenu=pygame.image.load(f'images/Retmenu.png')
-        Retmenuwidth=300
-        Retmenuheight=150
-        Retmenu = pygame.transform.scale(Retmenu, (Retmenuwidth, Retmenuheight))
-        Retmenu_rect=Retmenu.get_rect()
-        Retmenu_rect.center=((width/2),(465))
-        Retmenuarea=pygame.Rect(450,390,300,150)
         window.blit(Retmenu,Retmenu_rect)
 
-        font = pygame.font.SysFont(None, 60)
-        P1wins = font.render(f'Player 1: {j1_wins} W', True, (255,255,255))
+        pwinfont = pygame.font.SysFont(None, 60)
+        P1wins = pwinfont.render(f'Player 1: {j1_wins} W', True, (255,255,255))
         P1winsrect=P1wins.get_rect()
         P1winsrect.center=(1000,375)
         window.blit(P1wins, P1winsrect)
 
-        P2wins = font.render(f'Player 2: {j2_wins} W', True, (255,255,255))
+        P2wins = pwinfont.render(f'Player 2: {j2_wins} W', True, (255,255,255))
         P2winsrect=P1wins.get_rect()
         P2winsrect.center=(1000,475)
         window.blit(P2wins, P2winsrect)
         
+        # Trata eventos
         for event in pygame.event.get():
             # Verifica consequências
             if event.type == pygame.QUIT:
@@ -826,6 +954,9 @@ while game:
                     if Jogardenovoarea.collidepoint(mouse_pos):
                         current_screen='tela mapas'
                         atual_TS.stop() 
+
+
+    pygame.display.update()  # Mostra o novo frame para o jogador
 
 # Finalização
 pygame.quit()  # Função do PyGame que  finaliza os recursos utilizados
