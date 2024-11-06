@@ -228,8 +228,8 @@ if x==1:
 
 
     # Importa imagens de mapas
-    maps_list=['Deserto','Vulcão','Montanhas','Estádio','Floresta','Favela']
-    listahmapa=[470,470,470,470,470,470]
+    maps_list=['Deserto','Vulcão','Montanhas','Floresta','Favela']
+    listahmapa=[470,470,470,470,470]
     dic_maps={}
     dic_mapsrect={}
     for counter in range(len(maps_list)):
@@ -587,13 +587,8 @@ while game:
         if imagepers2==True:
             window.blit(Fullpic2, Fullpicrect2)
 
-
-
-
-
-
         # Sorteia mapa
-        mapnumber=random.randint(0,5)
+        mapnumber=random.randint(0,len(maps_list)-1)
 
 
         # Trata eventos
@@ -635,13 +630,15 @@ while game:
 
 
                     if Confirmb1_area.collidepoint(mouse_pos):
-                        if j1==False:
-                            j1=True
-                        else:
-                            j1=False
+                        if imagepers1==True:
+                            if j1==False:
+                                j1=True
+                            else:
+                                j1=False
                     if Confirmb2_area.collidepoint(mouse_pos):
-                        if j2==False and j1==True:
-                            j2=True
+                        if imagepers2==True:
+                            if j2==False and j1==True:
+                                j2=True
 
 
 
@@ -748,10 +745,9 @@ while game:
             atual_pos1=0
             atual_pos2=0
        
-        time=120*60
+        time=3*60
         timeMS=30*60
         lim=0
-
 
         # Trata eventos
         for event in pygame.event.get():
@@ -792,10 +788,9 @@ while game:
 
 
         if MStest==1 and lim==0:
-            time=30*60
             Px1_pos=100
-            Py1_pos=1100
-            Px2_pos=hmapa
+            Px2_pos=1100
+            Py1_pos=hmapa
             Py2_pos=hmapa
             lim=1
 
@@ -904,14 +899,12 @@ while game:
                 timerect=timetext.get_rect()
                 timerect.center=(width/2,height/2)
                 window.blit(timetext,timerect)
-
+            
 
             timeMS-=1
 
-
-
-
-
+        if timeMS<=0:
+            current_screen='Fim de jogo'
 
         # Confere se jogo acabou
         if hp1==0 or hp2==0:
@@ -934,13 +927,17 @@ while game:
                         current_screen='Jogo pausado'
             if event.type ==pygame.KEYDOWN:
                 if event.key == pygame.K_v:
-                    Punchj1=30
+                    if Punchj1==0:
+                        Punchj1=30
                 if event.key == pygame.K_b:
-                    Kickj1=30
+                    if Kickj1==0:
+                        Kickj1=30
                 if event.key == pygame.K_k:
-                    Punchj2=30
+                    if Punchj2==0:
+                        Punchj2=30
                 if event.key == pygame.K_l:
-                    Kickj2=30
+                    if Kickj2==0:
+                        Kickj2=30
 
 
 
