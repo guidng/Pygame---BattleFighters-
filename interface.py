@@ -534,38 +534,9 @@ while game:
 
 
                     if play_area.collidepoint(mouse_pos):
-                        current_screen='modo de jogo'
-
-    # Troca tela
-    if current_screen=='modo de jogo':
-        window.blit(BGSSimage, BGSSimage_rect)
-        window.blit(Arrowimage, Arrowimage_rect)
-        window.blit(x1image, x1image_rect)
-        window.blit(Arcadeimage, Arcadeimage_rect)
-
-
-        # Trata eventos
-        for event in pygame.event.get():
-            # Verifica consequências
-            if event.type == pygame.QUIT:
-                game = False
-            if event.type==pygame.MOUSEBUTTONDOWN:
-                if event.button==1:
-                    mouse_pos=event.pos
-                    if arrow_area.collidepoint(mouse_pos):
-                        current_screen='tela inicio'
-                    if x1_area.collidepoint(mouse_pos):
+                        imagepers1=False
+                        imagepers2=False
                         current_screen='personagens'
-                        currentmode='1v1'
-                    if Arcade_area.collidepoint(mouse_pos):
-                        current_screen='personagens'
-                        currentmode='arcade'
-
-
-        # Cria variáveis de imagem
-        imagepers1=False
-        imagepers2=False
-
 
     # Troca tela
     if current_screen=='personagens':
@@ -634,7 +605,7 @@ while game:
                 if event.button==1:
                     mouse_pos=event.pos
                     if arrow_area.collidepoint(mouse_pos):
-                        current_screen='modo de jogo'
+                        current_screen='tela inicio'
                     for countarea in range(len(face_area_list)):
                         face_area=pygame.Rect(face_area_list[countarea])
                         if face_area.collidepoint(mouse_pos):
