@@ -1,5 +1,5 @@
-x=0
-if x==0:
+x=1
+if x==1:
     # Importa e inicia pacotes
     import pygame
     import random
@@ -14,6 +14,7 @@ if x==0:
     # Inicia estruturas de dados
     game = True
     sound = True
+    sound2 = True
     j1=False
     j2=False
     frames=0
@@ -24,7 +25,6 @@ if x==0:
     j1_wins=0
     j2_wins=0
     SecScreen=0
-
 
     # Importa imagens dos personagens durante o jogo:
     dic_pos={}
@@ -182,6 +182,7 @@ if x==0:
 
     # Importa imagens de mapas
     maps_list=['Deserto','Vulcão','Montanhas','Estádio','Floresta','Favela']
+    listahmapa=[470,470,470,470,470,470]
     dic_maps={}
     dic_mapsrect={}
     for counter in range(len(maps_list)):
@@ -276,12 +277,10 @@ if x==0:
     Confirmb2_area=pygame.Rect(650,450,300,200)
 
 
-
     mapfont = pygame.font.SysFont(None, 128)
     maptext1 = mapfont.render('Mapa selecionado:', True, (255,255,255))
     text1rect=maptext1.get_rect()
     text1rect.center=(width/2,400)
-
 
 
     # Imagem Versus
@@ -290,8 +289,6 @@ if x==0:
     Versusheight=200
     Versusrect=Versus.get_rect()
     Versusrect.center=(width/2,height/2)
-
-
 
 
     # Criar contagem regressiva
@@ -315,6 +312,23 @@ if x==0:
     Pauseb_rect.top=0
     Pauseb_rect.left=11*(width/12)
     Pause_area=pygame.Rect(Pauseb_rect.left,Pauseb_rect.top,Pausebwidth,Pausebheight)
+
+    # Cria botões da tela de pausa
+    vjogo=pygame.image.load('images/Voltjogo.png')
+    vjogowidth=width/4
+    vjogoheight=height/4
+    vjogo = pygame.transform.scale(vjogo, (vjogowidth, vjogoheight))
+    vjogo_rect=vjogo.get_rect()
+    vjogo_rect.center=(width/2,105)
+    vjogo_area=pygame.Rect((width/2)-(vjogowidth/2),105-(vjogoheight/2),vjogowidth,vjogoheight)
+
+    controles=pygame.image.load('images/Controlesb.png')
+    controleswidth=width/4
+    controlesheight=height/4
+    controles = pygame.transform.scale(controles, (controleswidth, controlesheight))
+    controles_rect=controles.get_rect()
+    controles_rect.center=(width/2,285)
+    controles_area=pygame.Rect((width/2)-(controleswidth/2),285-(controlesheight/2),controleswidth,controlesheight)
 
 
     # Tela final informações
@@ -351,13 +365,14 @@ if x==0:
     Retmenu = pygame.transform.scale(Retmenu, (Retmenuwidth, Retmenuheight))
     Retmenu_rect=Retmenu.get_rect()
     Retmenu_rect.center=((width/2),(465))
-    Retmenuarea=pygame.Rect(450,390,300,150)
+    Retmenu_area=pygame.Rect(450,390,300,150)
 
 # Loop principal
 while game:
 
     clock.tick(FPS)
     
+    # Troca tela
     if current_screen == 'tela carregamento':
         frames+=1
         # Trata eventos
@@ -387,8 +402,6 @@ while game:
         # Verifica se atinge limite
         if countloadbar>=width/2:
             window.blit(conctext, ((width/2)-conctextrect[2]/2, 530*(height/600)))
-
-
 
     # Troca tela
     if current_screen == 'tela inicio':
@@ -430,8 +443,6 @@ while game:
 
                     if play_area.collidepoint(mouse_pos):
                         current_screen='modo de jogo'
-
-
 
     # Troca tela 
     if current_screen=='modo de jogo':
@@ -557,7 +568,6 @@ while game:
         if j1 and j2:
             current_screen='tela mapas'
     
-
     # Troca tela
     if current_screen=='tela mapas':
         frames+=1
@@ -595,20 +605,28 @@ while game:
             if event.type == pygame.QUIT:
                 game = False
     
-
     # Troca tela
     if current_screen=='prepartida':
+
+        # Verifica altura:
+        hmapa=listahmapa[mapnumber]
 
         # Cria variáveis
         song2variable=0
         SecScreen=1
+        MStest=0
         counting=0
         hp1=100
         hp2=100
         Px1_pos=100
         Px2_pos=1100
-        Py1_pos=470
-        Py2_pos=470
+        Py1_pos=hmapa
+        Py2_pos=hmapa
+    
+        Kickj1=0
+        Kickj2=0
+        Punchj1=0
+        Punchj2=0
 
         frames+=1
 
@@ -635,9 +653,12 @@ while game:
 
         if frames>=540:
             current_screen='partida'
-            atual_pos=0
+            atual_pos1=0
+            atual_pos2=0
         
-        time=4*60
+        time=120*60
+        timeMS=30*60
+        lim=0
 
         # Trata eventos
         for event in pygame.event.get():
@@ -645,31 +666,46 @@ while game:
             if event.type == pygame.QUIT:
                 game = False
 
-
     # Troca tela
     if current_screen=='partida':
 
+        # Vê posição atual
+        if Punchj2>0:
+            Punchj2-=1
+            atual_pos2=1
+        elif Kickj2>0:
+            Kickj2-=1
+            atual_pos2=2
+        else:
+            atual_pos2=0
+
+        if Punchj1>0:
+            Punchj1-=1
+            atual_pos1=1
+        elif Kickj1>0:;
+            Kickj1-=1
+            atual_pos1=2
+        else:
+            atual_pos1=0
+
         # Cria variáveis e plota fundo
-        timeMS=31*60
         frames=0
         limit=0
         window.blit(current_map_image,current_map_rect)
 
-
-        # Confere se jogo acabou
-        if hp1==0 or hp2==0:
-            current_screen='Fim de jogo'
-        if time<=1 and hp1!=hp2:
-            current_screen='Fim de jogo'
-        if time<=1 and hp1==hp2:
-            current_screen='Morte súbita'
-
+        if MStest==1 and lim==0:
+            time=30*60
+            Px1_pos=100
+            Py1_pos=1100
+            Px2_pos=hmapa
+            Py2_pos=hmapa
+            lim=1
 
         # Plota imagens
         window.blit(Pauseb, Pauseb_rect)
 
-        mov1=list_p1pos[atual_pos]
-        mov2=list_p2pos[atual_pos]
+        mov1=list_p1pos[atual_pos1]
+        mov2=list_p2pos[atual_pos2]
 
         rect1=mov1.get_rect()
         rect2=mov2.get_rect()
@@ -681,12 +717,12 @@ while game:
         window.blit(mov2,rect2)
 
         # Atualiza tempo
+
         time-=1
         time/=60
         minutes=int(time//60)
         sec=int(time%60)
         time*=60
-
 
         # Cria cronometro
         timetextfont = pygame.font.SysFont(None, 64)
@@ -696,7 +732,6 @@ while game:
             timetext = timetextfont.render(f'{minutes}:{sec}', True, (255,255,255))          
         timerect=timetext.get_rect()
         timerect.center=(width/2,100)
-
 
         # Impede personagem de sair do mapa
         if Px1_pos<0:
@@ -711,19 +746,44 @@ while game:
 
         seconds=time/60
 
-
         # Contagem Regressiva
-        if seconds>=3 and seconds<4:
-            window.blit(n3, nrect)
+        if MStest==0:
+            if seconds>=3 and seconds<4:
+                window.blit(n3, nrect)
 
-        elif seconds>=2 and seconds<=3:
-            window.blit(n2, nrect)
+            elif seconds>=2 and seconds<=3:
+                window.blit(n2, nrect)
 
-        elif seconds>0 and seconds<2:
-            window.blit(n1, nrect)
+            elif seconds>0 and seconds<2:
+                window.blit(n1, nrect)
 
+            else:
+                window.blit(timetext,timerect)
         else:
-            window.blit(timetext,timerect)
+            # Nova contagem
+            newtimetext = resfont.render(f'{(timeMS//60)}', True, (255,31,31))          
+            newtimerect=newtimetext.get_rect()
+            newtimerect.center=(width/2,height/4)
+            window.blit(newtimetext,newtimerect)
+
+            # Detecta momento do jogo
+            if timeMS>(29*60):
+                timetext = resfont.render('Morte Súbita!', True, (255,31,31))          
+                timerect=timetext.get_rect()
+                timerect.center=(width/2,height/2)
+                window.blit(timetext,timerect)
+
+            timeMS-=1
+
+
+
+        # Confere se jogo acabou
+        if hp1==0 or hp2==0:
+            current_screen='Fim de jogo'
+        if time<=1 and hp1!=hp2:
+            current_screen='Fim de jogo'
+        if time<=1 and hp1==hp2:
+            MStest=1
 
         # Trata eventos
         for event in pygame.event.get():
@@ -735,7 +795,15 @@ while game:
                     mouse_pos=event.pos
                     if Pause_area.collidepoint(mouse_pos):
                         current_screen='Jogo pausado'
-                        Last_screen='partida'
+            if event.type ==pygame.KEYDOWN:
+                if event.key == pygame.K_v:
+                    Punchj1=60
+                if event.key == pygame.K_b:
+                    Kickj1=60
+                if event.key == pygame.K_k:
+                    Punchj2=60
+                if event.key == pygame.K_l:
+                    Kickj2=60
 
 
         # Movimentação personagens
@@ -751,8 +819,16 @@ while game:
     
     # Troca tela
     if current_screen=='Jogo pausado':
-        window.fill((0,0,0))
-        window.blit(Arrowimage,Arrowimage_rect)
+        if sound2 == True:
+            Sound2image=Volumeimage
+        else:
+            Sound2image=Muteimage
+
+        window.blit(current_map_image,current_map_rect)
+        window.blit(vjogo,vjogo_rect)
+        window.blit(Retmenu,Retmenu_rect)
+        window.blit(controles,controles_rect)
+        window.blit(Sound2image,Soundimage_rect)
 
         # Trata eventos
         for event in pygame.event.get():
@@ -761,91 +837,55 @@ while game:
                 game = False
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
+                    mouse_pos=event.pos
+                    if controles_area.collidepoint(mouse_pos):
+                        current_screen='controles'
+                    if vjogo_area.collidepoint(mouse_pos):
+                        current_screen='partida'
+                    if Retmenu_area.collidepoint(mouse_pos):
+                        current_screen='tela inicio'
+                        pygame.mixer.music.set_volume(0.1)
+                        atual_TS.stop() 
+                    if volume_area.collidepoint(mouse_pos):
+                        if sound2==True:
+                            sound2=False
+                        else:
+                            sound2=True
+        if sound2==True:
+            trilha_sonora_mapas.set_volume(0.1)
+        else:
+            trilha_sonora_mapas.set_volume(0)
+    
+    # Troca tela
+    if current_screen=='controles':
+        if sound2 == True:
+            Sound2image=Volumeimage
+        else:
+            Sound2image=Muteimage
+
+        window.blit(current_map_image,current_map_rect)
+        window.blit(Arrowimage, Arrowimage_rect)
+        window.blit(Sound2image,Soundimage_rect)
+
+        for event in pygame.event.get():
+            # Verifica consequências
+            if event.type == pygame.QUIT:
+                game = False
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button==1:
                     mouse_pos=event.pos
                     if arrow_area.collidepoint(mouse_pos):
-                        current_screen=Last_screen
-
-
-    # Troca tela
-    if current_screen=='Morte súbita':
-
-        # Plota imagens
-        window.blit(current_map_image,current_map_rect)
-        window.blit(Pauseb, Pauseb_rect)
-        
-
-        # Nova contagem
-        newtimetext = resfont.render(f'{(timeMS//60)}', True, (255,31,31))          
-        newtimerect=newtimetext.get_rect()
-        newtimerect.center=(width/2,height/4)
-        window.blit(newtimetext,newtimerect)
-        
-
-        # Replota imagens
-        mov1=list_p1pos[atual_pos]
-        mov2=list_p2pos[atual_pos]
-
-        rect1=mov1.get_rect()
-        rect2=mov2.get_rect()
-
-        rect1.center=(Px1_pos,Py1_pos)
-        rect2.center=(Px2_pos,Py2_pos)
-
-        window.blit(mov1,rect1)
-        window.blit(mov2,rect2)
-
-
-        # Garante que não ultrapassa
-        if Px1_pos<0:
-            Px1_pos=width
-        if Px1_pos>width:
-            Px1_pos=0
-
-        if Px2_pos<0:
-            Px2_pos=width
-        if Px2_pos>width:
-            Px2_pos=0
-
-        timeMS-=1
-
-
-        # Detecta momento do jogo
-        if timeMS>(29*60):
-            timetext = resfont.render('Morte Súbita!', True, (255,31,31))          
-            timerect=timetext.get_rect()
-            timerect.center=(width/2,height/2)
-            window.blit(timetext,timerect)
-
-        if hp1==0 or hp2==0:
-            current_screen='Fim de jogo'
-        if timeMS<=1:
-            current_screen='Fim de jogo'
-        
-
-        # Trata eventos
-        for event in pygame.event.get():
-            # Verifica consequências
-            if event.type == pygame.QUIT:
-                game = False
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                if event.button == 1:
-                    mouse_pos=event.pos
-                    if Pause_area.collidepoint(mouse_pos):
                         current_screen='Jogo pausado'
-                        Last_screen='Morte súbita'
+                    if volume_area.collidepoint(mouse_pos):
+                        if sound2==True:
+                            sound2=False
+                        else:
+                            sound2=True
 
-
-        # Movimentação personagens
-        keys = pygame.key.get_pressed()
-        if keys[pygame.K_a]:
-            Px1_pos -= 5
-        if keys[pygame.K_d]:
-            Px1_pos += 5
-        if keys[pygame.K_LEFT]:
-            Px2_pos -= 5
-        if keys[pygame.K_RIGHT]:
-            Px2_pos += 5
-
+        if sound2==True:
+            trilha_sonora_mapas.set_volume(0.1)
+        else:
+            trilha_sonora_mapas.set_volume(0)
 
     # Troca tela
     if current_screen=='Fim de jogo':
@@ -945,7 +985,7 @@ while game:
             if event.type==pygame.MOUSEBUTTONDOWN:
                 if event.button==1:
                     mouse_pos=event.pos
-                    if Retmenuarea.collidepoint(mouse_pos):
+                    if Retmenu_area.collidepoint(mouse_pos):
                         current_screen='tela inicio'
                         pygame.mixer.music.set_volume(0.1)
                         atual_TS.stop() 
