@@ -648,7 +648,7 @@ while game:
                                                 Fullpic1=Fullpic
                                                 Fullpicrect1=Fullpicrect
                                                 j1_pers=list_characters[diccount]
-                                                list_p1pos=list
+                                                np1=num
                                         diccount+=1
                                 diccount=0
                                 for Fullpic,Fullpicrect in Full_list2.items():
@@ -659,7 +659,7 @@ while game:
                                                 Fullpic2=Fullpic
                                                 Fullpicrect2=Fullpicrect
                                                 j2_pers=list_characters[diccount]
-                                                list_p2pos=list
+                                                np2=num
                                         diccount+=1
 
 
@@ -833,8 +833,26 @@ while game:
         window.blit(Pauseb, Pauseb_rect)
 
 
-        mov1=list_p1pos[atual_pos1]
-        mov2=list_p2pos[atual_pos2]
+        if atual_pos1==0:    
+            mov1 = pygame.image.load(f'images/Personagenspartida/Perslado{np1}.png')
+            mov1 = pygame.transform.scale(mov1, (DGwidth, DGheight))
+        elif atual_pos1==1:
+            mov1 = pygame.image.load(f'images/Personagenspartida/Perssoco{np1}.png')
+            mov1 = pygame.transform.scale(mov1, (DGwidth, DGheight))
+        else:
+            mov1 = pygame.image.load(f'images/Personagenspartida/Perschute{np1}.png')
+            mov1 = pygame.transform.scale(mov1, (DGwidth, DGheight))
+
+
+        if atual_pos2==0:    
+            mov2 = pygame.image.load(f'images/Personagenspartida/Perslado{np2}.png')
+            mov2 = pygame.transform.scale(mov2, (DGwidth, DGheight))
+        elif atual_pos2==1:
+            mov2 = pygame.image.load(f'images/Personagenspartida/Perssoco{np2}.png')
+            mov2 = pygame.transform.scale(mov2, (DGwidth, DGheight))
+        else:
+            mov2 = pygame.image.load(f'images/Personagenspartida/Perschute{np2}.png')
+            mov2 = pygame.transform.scale(mov2, (DGwidth, DGheight))
 
 
         rect1=mov1.get_rect()
@@ -945,13 +963,13 @@ while game:
                         current_screen='Jogo pausado'
             if event.type ==pygame.KEYDOWN:
                 if event.key == pygame.K_v:
-                    Punchj1=60
+                    Punchj1=30
                 if event.key == pygame.K_b:
-                    Kickj1=60
+                    Kickj1=30
                 if event.key == pygame.K_k:
-                    Punchj2=60
+                    Punchj2=30
                 if event.key == pygame.K_l:
-                    Kickj2=60
+                    Kickj2=30
 
 
 
