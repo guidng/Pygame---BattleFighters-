@@ -682,7 +682,7 @@ while game:
         if Punchj1>0:
             Punchj1-=1
             atual_pos1=1
-        elif Kickj1>0:;
+        elif Kickj1>0:
             Kickj1-=1
             atual_pos1=2
         else:
