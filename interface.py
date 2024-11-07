@@ -993,7 +993,7 @@ while game:
                 res = resfont.render(f'{j1_pers} wins!', True, (255,255,255))
                 resrect=res.get_rect()
                 resrect.center=(width/2,height/2)
-                jw=Fullpic2
+                jw=Fullpic1
                 jwin=j1_pers
                 j1_wins+=1
 
@@ -1002,7 +1002,7 @@ while game:
                 res = resfont.render(f'{j2_pers} wins!', True, (255,255,255))
                 resrect=res.get_rect()
                 resrect.center=(width/2,height/2)
-                jw=Fullpic1
+                jw=Fullpic2
                 jwin=j2_pers
                 j2_wins+=1
            
