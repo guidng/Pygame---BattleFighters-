@@ -263,8 +263,8 @@ if x==1:
 
     nrect=n1.get_rect()
     nsrect=nstart.get_rect()
-    nrect.center=(width/2,100)
-    nsrect.center=(width/2,100)
+    nrect.center=(width/2,125)
+    nsrect.center=(width/2,125)
 
 
     # Cria botão de pausa
@@ -273,9 +273,8 @@ if x==1:
     Pausebheight=height/6
     Pauseb = pygame.transform.scale(Pauseb, (Pausebwidth, Pausebheight))
     Pauseb_rect=Pauseb.get_rect()
-    Pauseb_rect.top=0
-    Pauseb_rect.left=11*(width/12)
-    Pause_area=pygame.Rect(Pauseb_rect.left,Pauseb_rect.top,Pausebwidth,Pausebheight)
+    Pauseb_rect.center=(width/2,Pausebheight/2)
+    Pause_area=pygame.Rect(550,0,Pausebwidth,Pausebheight)
 
 
     # Cria botões da tela de pausa
@@ -626,7 +625,7 @@ while game:
             atual_pos1=0
             atual_pos2=0
        
-        time=3*60
+        time=120*60
         timeMS=30*60
         lim=0
         pulo1=False
@@ -648,7 +647,6 @@ while game:
     # Troca tela
     if current_screen=='partida':
 
-
         # Vê posição atual
         if Punchj2>0:
             Punchj2-=1
@@ -659,7 +657,6 @@ while game:
         else:
             atual_pos2=0
 
-
         if Punchj1>0:
             Punchj1-=1
             atual_pos1=1
@@ -669,12 +666,10 @@ while game:
         else:
             atual_pos1=0
 
-
         # Cria variáveis e plota fundo
         frames=0
         limit=0
         window.blit(current_map_image,current_map_rect)
-
 
         if MStest==1 and lim==0:
             Px1_pos=100
@@ -683,10 +678,8 @@ while game:
             Py2_pos=hmapa
             lim=1
 
-
         # Plota imagens
         window.blit(Pauseb, Pauseb_rect)
-
 
         if atual_pos1==0:    
             mov1 = pygame.image.load(f'images/Personagenspartida/Perslado{np1}.png')
@@ -717,14 +710,32 @@ while game:
         rect1.center=(Px1_pos,Py1_pos)
         rect2.center=(Px2_pos,Py2_pos)
 
+        p1_area=pygame.Rect(Px1_pos-(DGwidth/2),Py1_pos+(DGheight/2),DGwidth,DGheight)
+        p2_area=pygame.Rect(Px2_pos-(DGwidth/2),Py2_pos+(DGheight/2),DGwidth,DGheight)
 
         window.blit(mov1,rect1)
         window.blit(mov2,rect2)
 
 
+        # Cria barras de hp
+        verticesp1=[(25,25),(25,50),((25+(hp1*3)),50),((40+(hp1*3)),25)]
+        pygame.draw.polygon(window, colorload2, verticesp1)
+        verticesp2=[(1175,25),(11755,50),((1175-(hp2*3)),50),((1160-(hp2*3)),25)]
+        pygame.draw.polygon(window, colorload2, verticesp2)
+
+        hpfont=pygame.font.SysFont(None,32)
+        texthp1=hpfont.render(f'{hp1}',True,(255,255,255))
+        texthp2=hpfont.render(f'{hp2}',True,(255,255,255))
+        texthp1_rect=texthp1.get_rect()
+        texthp2_rect=texthp2.get_rect()
+        texthp1_rect.left=26
+        texthp1_rect.bottom=49
+        texthp2_rect.right=width-26
+        texthp2_rect.bottom=49
+        window.blit(texthp1,texthp1_rect)
+        window.blit(texthp2,texthp2_rect)
+
         # Atualiza tempo
-
-
         time-=1
         time/=60
         minutes=int(time//60)
@@ -739,7 +750,7 @@ while game:
         else:
             timetext = timetextfont.render(f'{minutes}:{sec}', True, (255,255,255))          
         timerect=timetext.get_rect()
-        timerect.center=(width/2,100)
+        timerect.center=(width/2,125)
 
 
         # Impede personagem de sair do mapa
@@ -759,34 +770,34 @@ while game:
 
         # Verifica pulo
         if pulo1==True:
-            Py1_pos-=6
-        if Py1_pos<=hmapa-120:
+            Py1_pos-=8
+        if Py1_pos<=hmapa-100:
             estab1=True
             pulo1=False
         if estab1==True:
             counterj1+=1
-        if counterj1>=10:
+        if counterj1>=5:
             counterj1=0
             estab1=False
             desce1=True
         if desce1==True:
-            Py1_pos+=6
+            Py1_pos+=12
         if Py1_pos>=hmapa:
             desce1=False
 
         if pulo2==True:
-            Py2_pos-=6
-        if Py2_pos<=hmapa-120:
+            Py2_pos-=8
+        if Py2_pos<=hmapa-100:
             estab2=True
             pulo2=False
         if estab2==True:
             counterj2+=1
-        if counterj2>=10:
+        if counterj2>=5:
             counterj2=0
             estab2=False
             desce2=True
         if desce2==True:
-            Py2_pos+=6
+            Py2_pos+=12
         if Py2_pos>=hmapa:
             desce2=False
 
@@ -811,7 +822,7 @@ while game:
             # Nova contagem
             newtimetext = resfont.render(f'{(timeMS//60)}', True, (255,31,31))          
             newtimerect=newtimetext.get_rect()
-            newtimerect.center=(width/2,height/4)
+            newtimerect.center=(width/2,(height/4)+15)
             window.blit(newtimetext,newtimerect)
 
 
@@ -851,15 +862,23 @@ while game:
                 if event.key == pygame.K_v:
                     if Punchj1==0:
                         Punchj1=30
+                        if p1_area.collidepoint(p2_area):
+                            hp2-=5
                 if event.key == pygame.K_b:
                     if Kickj1==0:
                         Kickj1=30
+                        if p1_area.collidepoint(p2_area):
+                            hp2-=5
                 if event.key == pygame.K_k:
                     if Punchj2==0:
                         Punchj2=30
+                        if p2_area.collidepoint(p1_area):
+                            hp1-=5
                 if event.key == pygame.K_l:
                     if Kickj2==0:
                         Kickj2=30
+                        if p2_area.collidepoint(p1_area):
+                            hp1-=5
                 if event.key == pygame.K_w:
                     pulo1=True
                 if event.key == pygame.K_UP:
@@ -871,13 +890,13 @@ while game:
         # Movimentação personagens
         keys = pygame.key.get_pressed()
         if keys[pygame.K_a]:
-            Px1_pos -= 5
+            Px1_pos -= 6
         if keys[pygame.K_d]:
-            Px1_pos += 5
+            Px1_pos += 6
         if keys[pygame.K_LEFT]:
-            Px2_pos -= 5
+            Px2_pos -= 6
         if keys[pygame.K_RIGHT]:
-            Px2_pos += 5
+            Px2_pos += 6
    
     # Troca tela
     if current_screen=='Jogo pausado':
