@@ -567,7 +567,10 @@ while game:
    
     # Troca tela
     if current_screen=='prepartida':
-
+        
+        # Parâmetros para inversão de imagem funcionar
+        last_keyj1='d'
+        last_keyj2='LEFT'
 
         # Verifica altura:
         hmapa=listahmapa[mapnumber]
@@ -676,6 +679,8 @@ while game:
             Py1_pos=hmapa
             Py2_pos=hmapa
             lim=1
+            last_keyj1='d'
+            last_keyj2='LEFT'
 
         # Plota imagens
         window.blit(Pauseb, Pauseb_rect)
@@ -701,6 +706,11 @@ while game:
             mov2 = pygame.image.load(f'images/Personagenspartida/Perschute{np2}.png')
             mov2 = pygame.transform.scale(mov2, (DGwidth, DGheight))
 
+        # Inverte imagem se preciso
+        if last_keyj1=='a':
+            mov1=pygame.transform.flip(mov1, True, False)
+        if last_keyj2=='LEFT':
+            mov2 = pygame.transform.flip(mov2, True, False)
 
         rect1=mov1.get_rect()
         rect2=mov2.get_rect()
@@ -722,7 +732,7 @@ while game:
         verticesp2=[(1175,25),(11755,50),((1175-(hp2*3)),50),((1160-(hp2*3)),25)]
         pygame.draw.polygon(window, colorload2, verticesp2)
 
-        hpfont=pygame.font.SysFont(None,32)
+        hpfont=pygame.font.SysFont(None,36)
         texthp1=hpfont.render(f'{hp1}',True,(255,255,255))
         texthp2=hpfont.render(f'{hp2}',True,(255,255,255))
         texthp1_rect=texthp1.get_rect()
@@ -888,12 +898,16 @@ while game:
         keys = pygame.key.get_pressed()
         if keys[pygame.K_a]:
             Px1_pos -= 6
+            last_keyj1='a'
         if keys[pygame.K_d]:
             Px1_pos += 6
+            last_keyj1='d'
         if keys[pygame.K_LEFT]:
             Px2_pos -= 6
+            last_keyj2='LEFT'
         if keys[pygame.K_RIGHT]:
             Px2_pos += 6
+            last_keyj2='RIGHT'
    
     # Troca tela
     if current_screen=='Jogo pausado':
