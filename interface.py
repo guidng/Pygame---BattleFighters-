@@ -29,7 +29,7 @@ if x==1:
     SecScreen=0
 
 
-    # Importa imagens dos personagens durante o jogo:
+    # Importa imagens das ações dos personagens durante o jogo:
     dic_pos={}
     for i in range(20):
         DGwidth=width/16
