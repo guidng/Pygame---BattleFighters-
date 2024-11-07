@@ -643,7 +643,6 @@ while game:
             if event.type == pygame.QUIT:
                 game = False
 
-
     # Troca tela
     if current_screen=='partida':
 
@@ -840,11 +839,9 @@ while game:
             current_screen='Fim de jogo'
 
         # Confere se jogo acabou
-        if hp1==0 or hp2==0:
+        if hp1<=0 or hp2<=0:
             current_screen='Fim de jogo'
-        if time<=1 and hp1!=hp2:
-            current_screen='Fim de jogo'
-        if time<=1 and hp1==hp2:
+        if time<=1:
             MStest=1
 
 
@@ -862,23 +859,23 @@ while game:
                 if event.key == pygame.K_v:
                     if Punchj1==0:
                         Punchj1=30
-                        if p1_area.collidepoint(p2_area):
-                            hp2-=5
+                        if p1_area.colliderect(p2_area):
+                            hp2-=2
                 if event.key == pygame.K_b:
                     if Kickj1==0:
                         Kickj1=30
-                        if p1_area.collidepoint(p2_area):
-                            hp2-=5
+                        if p1_area.colliderect(p2_area):
+                            hp2-=2
                 if event.key == pygame.K_k:
                     if Punchj2==0:
                         Punchj2=30
-                        if p2_area.collidepoint(p1_area):
-                            hp1-=5
+                        if p2_area.colliderect(p1_area):
+                            hp1-=2
                 if event.key == pygame.K_l:
                     if Kickj2==0:
                         Kickj2=30
-                        if p2_area.collidepoint(p1_area):
-                            hp1-=5
+                        if p2_area.colliderect(p1_area):
+                            hp1-=2
                 if event.key == pygame.K_w:
                     pulo1=True
                 if event.key == pygame.K_UP:
@@ -979,21 +976,21 @@ while game:
         window.blit(current_map_image,current_map_rect)
         if limit==0:
             if hp2<hp1:
-                res = resfont.render(f'{j2_pers} wins!', True, (255,255,255))
-                resrect=res.get_rect()
-                resrect.center=(width/2,height/2)
-                jw=Fullpic2
-                jwin=j2_pers
-                j2_wins+=1
-
-
-            elif hp1<hp2:
                 res = resfont.render(f'{j1_pers} wins!', True, (255,255,255))
                 resrect=res.get_rect()
                 resrect.center=(width/2,height/2)
-                jw=Fullpic1
+                jw=Fullpic2
                 jwin=j1_pers
                 j1_wins+=1
+
+
+            elif hp1<hp2:
+                res = resfont.render(f'{j2_pers} wins!', True, (255,255,255))
+                resrect=res.get_rect()
+                resrect.center=(width/2,height/2)
+                jw=Fullpic1
+                jwin=j2_pers
+                j2_wins+=1
            
             elif hp1==hp2:
                 camp=random.randint(1,2)
