@@ -149,8 +149,8 @@ if x==1:
 
 
     # Importa imagens de mapas
-    maps_list=['Deserto','Vulcão','Montanhas','Floresta','Favela','Aeroporto']
-    listahmapa=[470,470,470,470,470,470]
+    maps_list=['Deserto','Vulcão','Montanhas','Floresta','Favela','Aeroporto','Bahia Pirata']
+    listahmapa=[470,470,470,470,470,470,470]
     dic_maps={}
     dic_mapsrect={}
     for counter in range(len(maps_list)):
