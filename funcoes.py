@@ -125,7 +125,7 @@ def personagens():
     # Iniciando Loop
     while current_screen=='personagens':
 
-
+        # Teste pra ver qual rect usar
         if SecScreen>0:
             Fullpicrect1.center=(150,300)
             Fullpicrect2.center=(1050,300)
@@ -135,6 +135,7 @@ def personagens():
         window.blit(Gradeimage, Gradeimage_rect)
         window.blit(Arrowimage, Arrowimage_rect)
        
+        # Mostra imagens das caras e nomes dos personagens 
         for counter in range(20):
             Face=list_facenrect[counter][0]
             Face_rect=list_facenrect[counter][1]
@@ -214,3 +215,57 @@ def personagens():
 
         pygame.display.update()  # Mostra o novo frame para o jogador
     return current_screen,game,Fullpic1,Fullpic2,Fullpicrect1,Fullpicrect2,np1,np2,j1_pers,j2_pers
+
+def tela_mapas():
+    
+    # Definindo variáveis
+    frames=0
+    counter=0
+    song2variable=0
+    current_screen='tela mapas'
+    game=True
+
+    # Criando loop
+    while current_screen=='tela mapas' and game==True:            
+        
+        # Sorteia mapa
+        mapnumber=random.randint(0,len(maps_list)-1)
+
+        # Conta tempo
+        if frames>300:
+            current_screen='prepartida'
+
+        # Conferindo mapa do sorteio
+        for map,(image, trilha_sonora_mapas) in dic_maps.items():
+            for map1,rect in dic_mapsrect.items():
+                if map==map1:
+                    if counter==mapnumber:
+                        current_map=map
+                        current_map_image=image
+                        current_map_rect=rect
+                        window.blit(image, rect)
+                        maptext2= mapfont.render(f'{map}', True, (255,255,255))
+                        text2rect=maptext2.get_rect()
+                        text2rect.center=(width/2,500)
+                        window.blit(maptext1, text1rect)
+                        window.blit(maptext2, text2rect)
+                        pygame.mixer.music.set_volume(0) # Zerar volume da música de intro
+                        trilha_sonora_mapas.set_volume(0.1) # Aumentar volume da música de batalha
+                        if song2variable==0:
+                            trilha_sonora_mapas.play(-1)  # Toca a música da batalha em loop
+                            atual_TS=trilha_sonora_mapas
+                        song2variable += 1
+                    counter+=1
+
+        # Atualiza variáveis
+        frames+=1
+
+        # Trata eventos
+        for event in pygame.event.get():
+            # Verifica consequências
+            if event.type == pygame.QUIT:
+                game = False
+
+        pygame.display.update()  # Mostra o novo frame para o jogador
+
+    return frames,current_screen,game,current_map,current_map_image,current_map_rect,atual_TS,mapnumber

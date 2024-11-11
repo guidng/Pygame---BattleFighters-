@@ -27,50 +27,10 @@ while game:
    
     # Troca tela
     if current_screen=='tela mapas':
-        frames+=1
-        
-        # Sorteia mapa
-        mapnumber=random.randint(0,len(maps_list)-1)
+        frames,current_screen,game,current_map,current_map_image,current_map_rect,atual_TS,mapnumber=tela_mapas()
 
-        if frames>300:
-            current_screen='prepartida'
-        j1=False
-        j2=False
-        counter=0
-
-
-        # Conferindo mapa do sorteio
-        for map,(image, trilha_sonora_mapas) in dic_maps.items():
-            for map1,rect in dic_mapsrect.items():
-                if map==map1:
-                    if counter==mapnumber:
-                        current_map=map
-                        current_map_image=image
-                        current_map_rect=rect
-                        window.blit(image, rect)
-                        maptext2= mapfont.render(f'{map}', True, (255,255,255))
-                        text2rect=maptext2.get_rect()
-                        text2rect.center=(width/2,500)
-                        window.blit(maptext1, text1rect)
-                        window.blit(maptext2, text2rect)
-                        pygame.mixer.music.set_volume(0) # Zerar volume da música de intro
-                        trilha_sonora_mapas.set_volume(0.1) # Aumentar volume da música de batalha
-                        if song2variable==0:
-                            trilha_sonora_mapas.play(-1)  # Toca a música da batalha em loop
-                            atual_TS=trilha_sonora_mapas
-                        song2variable += 1
-                    counter+=1
-
-
-        # Trata eventos
-        for event in pygame.event.get():
-            # Verifica consequências
-            if event.type == pygame.QUIT:
-                game = False
-   
     # Troca tela
     if current_screen=='prepartida':
-        
         # Parâmetros para inversão de imagem funcionar
         last_keyj1='d'
         last_keyj2='LEFT'
@@ -95,10 +55,6 @@ while game:
         Kickj2=0
         Punchj1=0
         Punchj2=0
-
-
-        frames+=1
-
 
         # Plota imagens
         window.blit(current_map_image,current_map_rect)
