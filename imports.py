@@ -6,11 +6,9 @@ width=1200
 height=600
 
 # Inicia estruturas de dados
-sound = True
 sound2 = True
 j1=False
 j2=False
-current_screen='tela carregamento'
 FPS=60
 j1_wins=0
 j2_wins=0
