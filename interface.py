@@ -5,12 +5,7 @@ pygame.init()
 
 # Importando outras janelas
 from imports import *
-
-# Iniciando estruturas de dados
-window = pygame.display.set_mode((width, height))
-pygame.display.set_caption('Battlefighters ⚔️')
-clock = pygame.time.Clock()
-game = True
+from funcoes import *
 
 # Loop principal
 while game:
@@ -19,42 +14,11 @@ while game:
    
     # Troca tela
     if current_screen == 'tela carregamento':
-        frames+=1
-        # Trata eventos
-        for event in pygame.event.get():
-            # Verifica consequências
-            if event.type == pygame.QUIT:
-                game = False  
-        if frames>300:
-            current_screen = 'tela inicio'
-
-
-        # Gera imagem
-        window.fill((0, 0, 0))  # Preenche o fundo com a cor preta
-        window.blit(Loadingimage, Loadingimage_rect)
-
-
-        # Cria barra de carregamento
-        pygame.draw.polygon(window, colorload1, verticesloadbar1)
-        verticesloadbar2=[(width/4,510*(height/600)),(width/4,525*(height/600)),((width/4)+countloadbar,525*(height/600)),((width/4)+countloadbar,510*(height/600))]
-
-
-        # Verifica se ultrapassa limite
-        if countloadbar+(width/4)<3*(width/4):
-            pygame.draw.polygon(window, colorload2, verticesloadbar2)
-        else:
-            verticesloadbar2=[((width/4),510*(height/600)),((width/4),525*(height/600)),(3*(width/4),525*(height/600)),(3*(width/4),510*(height/600))]
-            pygame.draw.polygon(window, colorload2, verticesloadbar2)
-        countloadbar+=3
-
-
-        # Verifica se atinge limite
-        if countloadbar>=width/2:
-            window.blit(conctext, ((width/2)-conctextrect[2]/2, 530*(height/600)))
+        current_screen,game=tela_carregamento() 
 
     # Troca tela
     if current_screen == 'tela inicio':
-       
+
         # Da play na musica em loop
         if song1variable==0:
             pygame.mixer.music.play(-1,2)
@@ -71,11 +35,10 @@ while game:
             Soundimage=Muteimage
         else:
             Soundimage=Volumeimage
-       
+
         # Cria botão do play e musica:
         window.blit(Soundimage, Soundimage_rect)
         window.blit(Playimage, Playimage_rect)
-
 
         # Trata eventos
         for event in pygame.event.get():
@@ -92,7 +55,6 @@ while game:
                         else:
                             sound=True
                             pygame.mixer.music.set_volume(0.1)  # Define o volume da música (0.0 a 1.0)
-
 
                     if play_area.collidepoint(mouse_pos):
                         imagepers1=False
