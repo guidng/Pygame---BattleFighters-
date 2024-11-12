@@ -4,6 +4,10 @@ import random
 # Iniciando estruturas de dados
 width=1200
 height=600
+sound=True
+sound2=True
+j1_wins=0
+j2_wins=0
 FPS=60
 window = pygame.display.set_mode((width, height))
 pygame.display.set_caption('Battlefighters ⚔️')
@@ -62,12 +66,11 @@ def tela_carregamento():
 
 
 # Tela de início
-def tela_inicio():
+def tela_inicio(sound):
     
     # Definindo variáveis
     current_screen='tela inicio'
     game=True
-    sound=True
     song1variable=0
 
     # Inicia Loop
@@ -114,7 +117,7 @@ def tela_inicio():
                         
         pygame.display.update()  # Mostra o novo frame para o jogador
 
-    return current_screen,game
+    return current_screen,game,Soundimage,sound
 
 
 # Grade de Personagens
@@ -372,7 +375,7 @@ def partida(mapnumber,current_map_image,current_map_rect,np1,np2):
     atual_pos1=0
     atual_pos2=0       
     time=90*60
-    timeMS=30*60
+    timeMS=31*60
     lim=0
     pulo1=False
     pulo2=False
@@ -582,7 +585,7 @@ def partida(mapnumber,current_map_image,current_map_rect,np1,np2):
 
             timeMS-=1
 
-        if timeMS<=0:
+        if timeMS<1:
             current_screen='Fim de jogo'
 
         # Confere se jogo acabou
@@ -652,7 +655,7 @@ def partida(mapnumber,current_map_image,current_map_rect,np1,np2):
 
 
 # Menu de pausa
-def jogo_pausado(current_map_image,current_map_rect,atual_TS):
+def jogo_pausado(current_map_image,current_map_rect,atual_TS,sound2):
     current_screen='Jogo pausado'
     game=True
     while current_screen=='Jogo pausado' and game==True:
@@ -691,17 +694,17 @@ def jogo_pausado(current_map_image,current_map_rect,atual_TS):
                         else:
                             sound2=True
         if sound2==True:
-            trilha_sonora_mapas.set_volume(0.1)
+            atual_TS.set_volume(0.1)
         else:
-            trilha_sonora_mapas.set_volume(0)
+            atual_TS.set_volume(0)
 
         pygame.display.update()  # Mostra o novo frame para o jogador
 
-    return current_screen,game
+    return current_screen,game,sound2
 
 
 # Menu de controles
-def controles(current_map_image,current_map_rect):
+def fcontroles(current_map_image,current_map_rect,sound2):
     
     current_screen='controles'
     game=True
@@ -740,16 +743,17 @@ def controles(current_map_image,current_map_rect):
 
         pygame.display.update()  # Mostra o novo frame para o jogador
 
-    return current_screen,game
+    return current_screen,game,sound2
 
 
-def fimdejogo(current_map_image,current_map_rect,hp1,hp2,j1_pers,j2_pers,Fullpic1,Fullpic2):
+def fimdejogo(current_map_image,current_map_rect,hp1,hp2,j1_pers,j2_pers,Fullpic1,Fullpic2,j1_wins,j2_wins):
     current_screen='Fim de jogo'
     game=True
     frames=0
     clock.tick(FPS)
     limit=0
     while current_screen=='Fim de jogo' and game==True:
+        clock.tick(FPS)
         frames+=1
         window.blit(current_map_image,current_map_rect)
         if limit==0:
@@ -805,14 +809,14 @@ def fimdejogo(current_map_image,current_map_rect,hp1,hp2,j1_pers,j2_pers,Fullpic
     return current_screen,game,jw,jwin,j1_wins,j2_wins
 
 
-def opcoespj(current_map,current_map_rect,atual_TS):
+def opcoespj(current_map,current_map_image,atual_TS,jw,j1_wins,j2_wins):
     current_screen='Opções pós jogo'
     game=True
     while current_screen=='Opções pós jogo' and game==True:
 
         window.blit(plano_de_fundo_vitoria_image, plano_de_fundo_vitoria_rect )
 
-        jw=pygame.transform.scale(jw,(400,666))
+        jw=pygame.transform.scale(jw,(300,500))
         jwrect=jw.get_rect()
         jwrect.center=(200,300)
         window.blit(jw,jwrect)
