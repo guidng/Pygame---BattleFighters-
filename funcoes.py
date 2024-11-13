@@ -355,6 +355,18 @@ def partida(mapnumber,current_map_image,current_map_rect,np1,np2):
     # Verifica altura:
     hmapa=listahmapa[mapnumber]
 
+    # Variáveis de poder
+    escudo1=False
+    velocidade1=False
+    superpulo1=False
+    gigante1=False
+    pistola1=False
+    escudo2=False
+    velocidade2=False
+    superpulo2=False
+    gigante2=False
+    pistola2=False
+
     # Cria variáveis
     song2variable=0
     SecScreen=1
@@ -385,6 +397,7 @@ def partida(mapnumber,current_map_image,current_map_rect,np1,np2):
     counterj2=0
     estab1=False
     estab2=False
+    timepower=0
 
     current_screen='partida'
     game=True
@@ -610,22 +623,26 @@ def partida(mapnumber,current_map_image,current_map_rect,np1,np2):
                     if Punchj1==0:
                         Punchj1=30
                         if p1_area.colliderect(p2_area):
-                            hp2-=2
+                            if escudo2==False:
+                                hp2-=2
                 if event.key == pygame.K_b:
                     if Kickj1==0:
                         Kickj1=30
                         if p1_area.colliderect(p2_area):
-                            hp2-=2
+                            if escudo2==False:
+                                hp2-=2
                 if event.key == pygame.K_k:
                     if Punchj2==0:
                         Punchj2=30
                         if p2_area.colliderect(p1_area):
-                            hp1-=2
+                            if escudo1==False:
+                                hp1-=2
                 if event.key == pygame.K_l:
                     if Kickj2==0:
                         Kickj2=30
                         if p2_area.colliderect(p1_area):
-                            hp1-=2
+                            if escudo1==False:    
+                                hp1-=2
                 if event.key == pygame.K_w:
                     pulo1=True
                 if event.key == pygame.K_UP:
@@ -648,6 +665,68 @@ def partida(mapnumber,current_map_image,current_map_rect,np1,np2):
         if keys[pygame.K_RIGHT]:
             Px2_pos += 6
             last_keyj2='RIGHT'
+        
+        if (time+15)%30==0:
+            power=random.randint(0,len(power_list)-1)
+            atualpower=power_list[power]
+            atualpowerimage=dic_power[atualpower]
+            timepower=5*60
+        
+        if timepower>0:
+            atualpowerimage_rect=atualpowerimage.get_rect()
+            atualpowerwidth=random.randint(1,1200)
+            atualpowerheight=(height-hmapa)+(((timepower*2)/height)*hmapa)
+            atualpowerimage_rect.center=(atualpowerwidth,atualpowerheight)
+            atualpowerarea=(atualpowerwidth-(powerimagewidth/2),atualpowerheight-(powerimageheight/2),powerimagewidth,powerimageheight)
+            window.blit(atualpowerimage,atualpowerimage_rect)
+            
+            if p1_area.colliderect(atualpowerarea):
+                timepower=0
+                if atualpower=='Escudo':
+                    escudo1=True
+                if atualpower=='Supervelocidade':
+                    velocidade1=True
+                if atualpower=='Superpulo':
+                    superpulo1=True
+                if atualpower=='Gigante':
+                    gigante1=True
+                if atualpower=='Pistola':
+                    pistola1=True
+                timeusepower=15*60
+            
+            elif p2_area.colliderect(atualpowerarea):
+                timepower=0
+                if atualpower=='Escudo':
+                    escudo2=True
+                if atualpower=='Supervelocidade':
+                    velocidade2=True
+                if atualpower=='Superpulo':
+                    superpulo2=True
+                if atualpower=='Gigante':
+                    gigante2=True
+                if atualpower=='Pistola':
+                    pistola2=True
+                timeusepower=15*60
+            
+                
+            timepower-=1
+        else:
+            atualpowerarea=(0,0,0,0)
+        
+        if timeusepower>0:
+            timeusepower-=1
+
+        else:
+            escudo1=False
+            velocidade1=False
+            superpulo1=False
+            gigante1=False
+            pistola1=False
+            escudo2=False
+            velocidade2=False
+            superpulo2=False
+            gigante2=False
+            pistola2=False            
 
         pygame.display.update()  # Mostra o novo frame para o jogador
     

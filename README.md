@@ -1,2 +1,4 @@
 # Pygame---BattleFighters-
-Pygame, Caio, Guilherme, Fogaça
+Pygame, Caio Rosa, Guilherme Donega, Joao Pedro Fogaça
+
+Para iniciar o jogo, rodar o código "jogo.py"
