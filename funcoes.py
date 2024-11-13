@@ -448,8 +448,13 @@ def partida(mapnumber,current_map_image,current_map_rect,np1,np2):
         
         if gigante1==False:
             mov1 = pygame.transform.scale(mov1, (DGwidth, DGheight))
+            extra_height1=0
         else:
-            mov1 = pygame.transform.scale(mov1, (2*DGwidth, 3*DGheight))
+            mov1 = pygame.transform.scale(mov1, (1.5*DGwidth, 2*DGheight))
+            extra_height1=DGheight/2
+
+        mov1_rect=mov1.get_rect()
+        mov1_rect.center=(Px1_pos,Py1_pos-extra_height1)
 
         if atual_pos2==0:    
             mov2 = pygame.image.load(f'images/Personagenspartida/lado/Perslado{np2}.png')
@@ -460,8 +465,10 @@ def partida(mapnumber,current_map_image,current_map_rect,np1,np2):
 
         if gigante2==False:
             mov2 = pygame.transform.scale(mov2, (DGwidth, DGheight))
+            extra_height2=0
         else:
-            mov2 = pygame.transform.scale(mov2, (2*DGwidth, 3*DGheight))
+            mov2 = pygame.transform.scale(mov2, (1.5*DGwidth, 2*DGheight))
+            extra_height2=DGheight/2
 
         # Inverte imagem se preciso
         if last_keyj1=='a':
@@ -469,18 +476,18 @@ def partida(mapnumber,current_map_image,current_map_rect,np1,np2):
         if last_keyj2=='LEFT':
             mov2 = pygame.transform.flip(mov2, True, False)
 
-        rect1=mov1.get_rect()
-        rect2=mov2.get_rect()
+        mov1_rect=mov1.get_rect()
+        mov2_rect=mov2.get_rect()
 
 
-        rect1.center=(Px1_pos,Py1_pos)
-        rect2.center=(Px2_pos,Py2_pos)
+        mov1_rect.center=(Px1_pos,Py1_pos-extra_height1)
+        mov2_rect.center=(Px2_pos,Py2_pos-extra_height2)
 
         p1_area=pygame.Rect(Px1_pos-(DGwidth/2),Py1_pos+(DGheight/2),DGwidth,DGheight)
         p2_area=pygame.Rect(Px2_pos-(DGwidth/2),Py2_pos+(DGheight/2),DGwidth,DGheight)
 
-        window.blit(mov1,rect1)
-        window.blit(mov2,rect2)
+        window.blit(mov1,mov1_rect)
+        window.blit(mov2,mov2_rect)
 
 
         # Cria barras de hp
@@ -644,36 +651,36 @@ def partida(mapnumber,current_map_image,current_map_rect,np1,np2):
                         if p1_area.colliderect(p2_area):
                             if escudo2==False:
                                 if forca1==False:
-                                    hp2-=3
+                                    hp2-=2
                                 else:
-                                    hp2-=5
+                                    hp2-=4
                 if event.key == pygame.K_b:
                     if Kickj1==0:
                         Kickj1=30
                         if p1_area.colliderect(p2_area):
                             if escudo2==False:
                                 if forca1==False:
-                                    hp2-=3
+                                    hp2-=2
                                 else:
-                                    hp2-=5
+                                    hp2-=4
                 if event.key == pygame.K_k:
                     if Punchj2==0:
                         Punchj2=30
                         if p2_area.colliderect(p1_area):
                             if escudo1==False:
                                 if forca2==False:
-                                    hp1-=3
+                                    hp1-=2
                                 else:
-                                    hp1-=5
+                                    hp1-=4
                 if event.key == pygame.K_l:
                     if Kickj2==0:
                         Kickj2=30
                         if p2_area.colliderect(p1_area):
                             if escudo1==False:
                                 if forca2==False:
-                                    hp1-=3
+                                    hp1-=2
                                 else:
-                                    hp1-=5
+                                    hp1-=4
                 if event.key == pygame.K_w:
                     pulo1=True
                 if event.key == pygame.K_UP:
@@ -714,12 +721,14 @@ def partida(mapnumber,current_map_image,current_map_rect,np1,np2):
             atualpower=power_list[power]
             atualpowerimage=dic_power[atualpower]
             timepower=10*60
+            testpower=0
         
         if timepower>0:
             atualpowerimage_rect=atualpowerimage.get_rect()
-            atualpowerwidth=random.randint(1,1200)
-            atualpowerheight=0
-            atualpowerlimit=(height-hmapa)
+            if testpower==0:
+                atualpowerwidth=random.randint(1,1200)
+                atualpowerheight=0
+            testpower=1
             atualpowerimage_rect.center=(atualpowerwidth,atualpowerheight)
             atualpowerarea=(atualpowerwidth-(powerimagewidth/2),atualpowerheight+(powerimageheight/2),powerimagewidth,powerimageheight)
             window.blit(atualpowerimage,atualpowerimage_rect)
@@ -752,7 +761,7 @@ def partida(mapnumber,current_map_image,current_map_rect,np1,np2):
                     forca2=True
                 timeusepower=15*60
             
-            if atualpowerlimit>atualpowerheight:
+            if hmapa>atualpowerheight:
                 atualpowerheight+=1
 
             timepower-=1
