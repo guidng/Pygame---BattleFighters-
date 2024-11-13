@@ -696,16 +696,16 @@ def partida(mapnumber,current_map_image,current_map_rect,np1,np2):
                                     if Px1_pos<Px2_pos:
                                         if forca1==False:
                                             if gigante1==False:
-                                                hp2-=2
+                                                hp1-=2
                                         else:
-                                            hp2-=4
+                                            hp1-=4
                                 else:
                                     if Px1_pos>=Px2_pos:
                                         if forca1==False:
                                             if gigante1==False:
-                                                hp2-=2
+                                                hp1-=2
                                         else:
-                                            hp2-=4
+                                            hp1-=4
                 if event.key == pygame.K_l:
                     if Kickj2==0:
                         Kickj2=30
@@ -715,16 +715,16 @@ def partida(mapnumber,current_map_image,current_map_rect,np1,np2):
                                     if Px1_pos<Px2_pos:
                                         if forca1==False:
                                             if gigante1==False:
-                                                hp2-=2
+                                                hp1-=2
                                         else:
-                                            hp2-=4
+                                            hp1-=4
                                 else:
                                     if Px1_pos>=Px2_pos:
                                         if forca1==False:
                                             if gigante1==False:
-                                                hp2-=2
+                                                hp1-=2
                                         else:
-                                            hp2-=4
+                                            hp1-=4
                 if event.key == pygame.K_w:
                     pulo1=True
                 if event.key == pygame.K_UP:
