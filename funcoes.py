@@ -440,24 +440,27 @@ def partida(mapnumber,current_map_image,current_map_rect,np1,np2):
 
         if atual_pos1==0:    
             mov1 = pygame.image.load(f'images/Personagenspartida/lado/Perslado{np1}.png')
-            mov1 = pygame.transform.scale(mov1, (DGwidth, DGheight))
         elif atual_pos1==1:
             mov1 = pygame.image.load(f'images/Personagenspartida/soco/Perssoco{np1}.png')
-            mov1 = pygame.transform.scale(mov1, (DGwidth, DGheight))
         else:
             mov1 = pygame.image.load(f'images/Personagenspartida/chute/Perschute{np1}.png')
+        
+        if gigante1==False:
             mov1 = pygame.transform.scale(mov1, (DGwidth, DGheight))
-
+        else:
+            mov1 = pygame.transform.scale(mov1, (2*DGwidth, 3*DGheight))
 
         if atual_pos2==0:    
             mov2 = pygame.image.load(f'images/Personagenspartida/lado/Perslado{np2}.png')
-            mov2 = pygame.transform.scale(mov2, (DGwidth, DGheight))
         elif atual_pos2==1:
             mov2 = pygame.image.load(f'images/Personagenspartida/soco/Perssoco{np2}.png')
-            mov2 = pygame.transform.scale(mov2, (DGwidth, DGheight))
         else:
             mov2 = pygame.image.load(f'images/Personagenspartida/chute/Perschute{np2}.png')
+
+        if gigante2==False:
             mov2 = pygame.transform.scale(mov2, (DGwidth, DGheight))
+        else:
+            mov2 = pygame.transform.scale(mov2, (2*DGwidth, 3*DGheight))
 
         # Inverte imagem se preciso
         if last_keyj1=='a':
@@ -533,9 +536,16 @@ def partida(mapnumber,current_map_image,current_map_rect,np1,np2):
         # Verifica pulo
         if pulo1==True:
             Py1_pos-=8
-        if Py1_pos<=hmapa-100:
-            estab1=True
-            pulo1=False
+
+        if superpulo1==False:
+            if Py1_pos<=hmapa-100:
+                estab1=True
+                pulo1=False
+        else:
+            if Py1_pos<=hmapa-200:
+                estab1=True
+                pulo1=False
+
         if estab1==True:
             counterj1+=1
         if counterj1>=5:
@@ -547,11 +557,19 @@ def partida(mapnumber,current_map_image,current_map_rect,np1,np2):
         if Py1_pos>=hmapa:
             desce1=False
 
+
         if pulo2==True:
             Py2_pos-=8
-        if Py2_pos<=hmapa-100:
-            estab2=True
-            pulo2=False
+
+        if superpulo2==False:
+            if Py2_pos<=hmapa-100:
+                estab2=True
+                pulo2=False
+        else:
+            if Py2_pos<=hmapa-200:
+                estab2=True
+                pulo2=False
+
         if estab2==True:
             counterj2+=1
         if counterj2>=5:
@@ -654,16 +672,28 @@ def partida(mapnumber,current_map_image,current_map_rect,np1,np2):
         # Movimentação personagens
         keys = pygame.key.get_pressed()
         if keys[pygame.K_a]:
-            Px1_pos -= 6
+            if velocidade1==False:
+                Px1_pos -= 6
+            else:
+                Px1_pos -= 12
             last_keyj1='a'
         if keys[pygame.K_d]:
-            Px1_pos += 6
+            if velocidade1==False:
+                Px1_pos += 6
+            else:
+                Px1_pos += 12
             last_keyj1='d'
         if keys[pygame.K_LEFT]:
-            Px2_pos -= 6
+            if velocidade2==False:
+                Px2_pos -= 6
+            else:
+                Px2_pos -= 12 
             last_keyj2='LEFT'
         if keys[pygame.K_RIGHT]:
-            Px2_pos += 6
+            if velocidade2==False:
+                Px2_pos += 6
+            else:
+                Px2_pos += 12
             last_keyj2='RIGHT'
         
         if (time+15)%30==0:
