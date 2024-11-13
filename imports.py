@@ -3,6 +3,7 @@ from personagens import *
 from mapas import *
 from imagens import *
 from botoes import *
+from poderes import *
 
 # Inicia estruturas de dados
 sound2 = True

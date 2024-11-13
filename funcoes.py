@@ -360,12 +360,12 @@ def partida(mapnumber,current_map_image,current_map_rect,np1,np2):
     velocidade1=False
     superpulo1=False
     gigante1=False
-    pistola1=False
     escudo2=False
     velocidade2=False
     superpulo2=False
     gigante2=False
-    pistola2=False
+    forca1=False
+    forca2=False
 
     # Cria variáveis
     song2variable=0
@@ -398,6 +398,7 @@ def partida(mapnumber,current_map_image,current_map_rect,np1,np2):
     estab1=False
     estab2=False
     timepower=0
+    timeusepower=0
 
     current_screen='partida'
     game=True
@@ -642,25 +643,37 @@ def partida(mapnumber,current_map_image,current_map_rect,np1,np2):
                         Punchj1=30
                         if p1_area.colliderect(p2_area):
                             if escudo2==False:
-                                hp2-=2
+                                if forca1==False:
+                                    hp2-=3
+                                else:
+                                    hp2-=5
                 if event.key == pygame.K_b:
                     if Kickj1==0:
                         Kickj1=30
                         if p1_area.colliderect(p2_area):
                             if escudo2==False:
-                                hp2-=2
+                                if forca1==False:
+                                    hp2-=3
+                                else:
+                                    hp2-=5
                 if event.key == pygame.K_k:
                     if Punchj2==0:
                         Punchj2=30
                         if p2_area.colliderect(p1_area):
                             if escudo1==False:
-                                hp1-=2
+                                if forca2==False:
+                                    hp1-=3
+                                else:
+                                    hp1-=5
                 if event.key == pygame.K_l:
                     if Kickj2==0:
                         Kickj2=30
                         if p2_area.colliderect(p1_area):
-                            if escudo1==False:    
-                                hp1-=2
+                            if escudo1==False:
+                                if forca2==False:
+                                    hp1-=3
+                                else:
+                                    hp1-=5
                 if event.key == pygame.K_w:
                     pulo1=True
                 if event.key == pygame.K_UP:
@@ -696,18 +709,19 @@ def partida(mapnumber,current_map_image,current_map_rect,np1,np2):
                 Px2_pos += 12
             last_keyj2='RIGHT'
         
-        if (time+15)%30==0:
+        if (time+(15*60))%(30*60)==0:
             power=random.randint(0,len(power_list)-1)
             atualpower=power_list[power]
             atualpowerimage=dic_power[atualpower]
-            timepower=5*60
+            timepower=10*60
         
         if timepower>0:
             atualpowerimage_rect=atualpowerimage.get_rect()
             atualpowerwidth=random.randint(1,1200)
-            atualpowerheight=(height-hmapa)+(((timepower*2)/height)*hmapa)
+            atualpowerheight=0
+            atualpowerlimit=(height-hmapa)
             atualpowerimage_rect.center=(atualpowerwidth,atualpowerheight)
-            atualpowerarea=(atualpowerwidth-(powerimagewidth/2),atualpowerheight-(powerimageheight/2),powerimagewidth,powerimageheight)
+            atualpowerarea=(atualpowerwidth-(powerimagewidth/2),atualpowerheight+(powerimageheight/2),powerimagewidth,powerimageheight)
             window.blit(atualpowerimage,atualpowerimage_rect)
             
             if p1_area.colliderect(atualpowerarea):
@@ -720,8 +734,8 @@ def partida(mapnumber,current_map_image,current_map_rect,np1,np2):
                     superpulo1=True
                 if atualpower=='Gigante':
                     gigante1=True
-                if atualpower=='Pistola':
-                    pistola1=True
+                if atualpower=='Superforça':
+                    forca1=True
                 timeusepower=15*60
             
             elif p2_area.colliderect(atualpowerarea):
@@ -734,15 +748,20 @@ def partida(mapnumber,current_map_image,current_map_rect,np1,np2):
                     superpulo2=True
                 if atualpower=='Gigante':
                     gigante2=True
-                if atualpower=='Pistola':
-                    pistola2=True
+                if atualpower=='Superforça':
+                    forca2=True
                 timeusepower=15*60
             
-                
+            if atualpowerlimit>atualpowerheight:
+                atualpowerheight+=1
+
             timepower-=1
-        else:
-            atualpowerarea=(0,0,0,0)
         
+        if timepower<=0:
+            timepower=0
+            atualpowerarea=(0,0,0,0)
+
+
         if timeusepower>0:
             timeusepower-=1
 
@@ -751,12 +770,12 @@ def partida(mapnumber,current_map_image,current_map_rect,np1,np2):
             velocidade1=False
             superpulo1=False
             gigante1=False
-            pistola1=False
             escudo2=False
             velocidade2=False
             superpulo2=False
-            gigante2=False
-            pistola2=False            
+            gigante2=False            
+            forca1=False
+            forca2=False
 
         pygame.display.update()  # Mostra o novo frame para o jogador
     
