@@ -1,5 +1,6 @@
 from imports import *
 import random
+import numpy
 
 # Iniciando estruturas de dados
 width=1200
@@ -398,11 +399,14 @@ def partida(mapnumber,current_map_image,current_map_rect,np1,np2):
     estab1=False
     estab2=False
     timepower=0
-    timeusepower=0
+    timeusepower1=0
+    timeusepower2=0
+    time_init = time
 
     current_screen='partida'
     game=True
 
+    # Inicia loop
     while current_screen=='partida' and game==True:
         
         # Vê posição atual
@@ -439,6 +443,7 @@ def partida(mapnumber,current_map_image,current_map_rect,np1,np2):
         # Plota imagens
         window.blit(Pauseb, Pauseb_rect)
 
+        # Verifica base do j1
         if atual_pos1==0:    
             mov1 = pygame.image.load(f'images/Personagenspartida/lado/Perslado{np1}.png')
         elif atual_pos1==1:
@@ -446,6 +451,7 @@ def partida(mapnumber,current_map_image,current_map_rect,np1,np2):
         else:
             mov1 = pygame.image.load(f'images/Personagenspartida/chute/Perschute{np1}.png')
         
+        # Verifica se está gigante
         if gigante1==False:
             mov1 = pygame.transform.scale(mov1, (DGwidth, DGheight))
             extra_height1=0
@@ -456,6 +462,7 @@ def partida(mapnumber,current_map_image,current_map_rect,np1,np2):
         mov1_rect=mov1.get_rect()
         mov1_rect.center=(Px1_pos,Py1_pos-extra_height1)
 
+        # Verifica base do j2
         if atual_pos2==0:    
             mov2 = pygame.image.load(f'images/Personagenspartida/lado/Perslado{np2}.png')
         elif atual_pos2==1:
@@ -463,6 +470,7 @@ def partida(mapnumber,current_map_image,current_map_rect,np1,np2):
         else:
             mov2 = pygame.image.load(f'images/Personagenspartida/chute/Perschute{np2}.png')
 
+        # Verifica se está gigante
         if gigante2==False:
             mov2 = pygame.transform.scale(mov2, (DGwidth, DGheight))
             extra_height2=0
@@ -476,15 +484,15 @@ def partida(mapnumber,current_map_image,current_map_rect,np1,np2):
         if last_keyj2=='LEFT':
             mov2 = pygame.transform.flip(mov2, True, False)
 
+        # Plota personagens
         mov1_rect=mov1.get_rect()
         mov2_rect=mov2.get_rect()
-
 
         mov1_rect.center=(Px1_pos,Py1_pos-extra_height1)
         mov2_rect.center=(Px2_pos,Py2_pos-extra_height2)
 
-        p1_area=pygame.Rect(Px1_pos-(DGwidth/2),Py1_pos+(DGheight/2),DGwidth,DGheight)
-        p2_area=pygame.Rect(Px2_pos-(DGwidth/2),Py2_pos+(DGheight/2),DGwidth,DGheight)
+        p1_area=pygame.Rect(Px1_pos-(DGwidth/2),Py1_pos-(DGheight/2),DGwidth,DGheight)
+        p2_area=pygame.Rect(Px2_pos-(DGwidth/2),Py2_pos-(DGheight/2),DGwidth,DGheight)
 
         window.blit(mov1,mov1_rect)
         window.blit(mov2,mov2_rect)
@@ -545,6 +553,7 @@ def partida(mapnumber,current_map_image,current_map_rect,np1,np2):
         if pulo1==True:
             Py1_pos-=8
 
+        # Verifica superpulo
         if superpulo1==False:
             if Py1_pos<=hmapa-100:
                 estab1=True
@@ -554,6 +563,7 @@ def partida(mapnumber,current_map_image,current_map_rect,np1,np2):
                 estab1=True
                 pulo1=False
 
+        # Vê se atinge máximo de altura
         if estab1==True:
             counterj1+=1
         if counterj1>=5:
@@ -565,10 +575,11 @@ def partida(mapnumber,current_map_image,current_map_rect,np1,np2):
         if Py1_pos>=hmapa:
             desce1=False
 
-
+        # Verifica pulo
         if pulo2==True:
             Py2_pos-=8
 
+        # Verifica superpulo
         if superpulo2==False:
             if Py2_pos<=hmapa-100:
                 estab2=True
@@ -578,6 +589,7 @@ def partida(mapnumber,current_map_image,current_map_rect,np1,np2):
                 estab2=True
                 pulo2=False
 
+        # Vê se atinge máximo de altura
         if estab2==True:
             counterj2+=1
         if counterj2>=5:
@@ -594,16 +606,10 @@ def partida(mapnumber,current_map_image,current_map_rect,np1,np2):
         if MStest==0:
             if seconds>=3 and seconds<4:
                 window.blit(n3, nrect)
-
-
             elif seconds>=2 and seconds<=3:
                 window.blit(n2, nrect)
-
-
             elif seconds>0 and seconds<2:
                 window.blit(n1, nrect)
-
-
             else:
                 window.blit(timetext,timerect)
         else:
@@ -686,8 +692,82 @@ def partida(mapnumber,current_map_image,current_map_rect,np1,np2):
                 if event.key == pygame.K_UP:
                     pulo2=True
 
+        
+        # Confere se está na hora do poder cair
+        if (abs(time - (15 * 60) - time_init) > 30 * 60 ):
+            power=random.randint(0,len(power_list)-1)
+            atualpower=power_list[power]
+            atualpowerimage=dic_power[atualpower]
+            timepower=10*60
+            testpower=0
+            time_init = time
+        
+        if timepower>0:
+            atualpowerimage_rect=atualpowerimage.get_rect()
+            if testpower==0:
+                atualpowerwidth=random.randint(1,1200)
+                atualpowerheight=0
+            testpower=1
+            atualpowerimage_rect.center=(atualpowerwidth,atualpowerheight)
+            atualpowerarea=(atualpowerwidth-(powerimagewidth/2),atualpowerheight-(powerimageheight/2),powerimagewidth,powerimageheight)
+            window.blit(atualpowerimage,atualpowerimage_rect)
+            
+            # Se j1 pegou poder
+            if p1_area.colliderect(atualpowerarea):
+                timepower=0
+                if atualpower=='Escudo':
+                    escudo1=True
+                if atualpower=='Supervelocidade':
+                    velocidade1=True
+                if atualpower=='Superpulo':
+                    superpulo1=True
+                if atualpower=='Gigante':
+                    gigante1=True
+                if atualpower=='Superforça':
+                    forca1=True
+                timeusepower1=15*60
+            
+            # Se j2 pegou poder
+            elif p2_area.colliderect(atualpowerarea):
+                timepower=0
+                if atualpower=='Escudo':
+                    escudo2=True
+                if atualpower=='Supervelocidade':
+                    velocidade2=True
+                if atualpower=='Superpulo':
+                    superpulo2=True
+                if atualpower=='Gigante':
+                    gigante2=True
+                if atualpower=='Superforça':
+                    forca2=True
+                timeusepower2=15*60
+            
+            if hmapa>atualpowerheight:
+                atualpowerheight+=1
 
+            timepower-=1
+        
+        if timepower<=0:
+            timepower=0
+            atualpowerarea=(0,0,1,1)
 
+        if timeusepower1>0:
+            timeusepower1-=1
+        else:
+            escudo1=False
+            velocidade1=False
+            superpulo1=False
+            gigante1=False
+            velocidade1=False
+
+        if timeusepower2>0:
+            timeusepower2-=1
+        else:
+            velocidade2=False
+            escudo2=False
+            velocidade2=False
+            superpulo2=False
+            forca2=False
 
         # Movimentação personagens
         keys = pygame.key.get_pressed()
@@ -715,79 +795,9 @@ def partida(mapnumber,current_map_image,current_map_rect,np1,np2):
             else:
                 Px2_pos += 12
             last_keyj2='RIGHT'
-        
-        if (time+(15*60))%(30*60)==0:
-            power=random.randint(0,len(power_list)-1)
-            atualpower=power_list[power]
-            atualpowerimage=dic_power[atualpower]
-            timepower=10*60
-            testpower=0
-        
-        if timepower>0:
-            atualpowerimage_rect=atualpowerimage.get_rect()
-            if testpower==0:
-                atualpowerwidth=random.randint(1,1200)
-                atualpowerheight=0
-            testpower=1
-            atualpowerimage_rect.center=(atualpowerwidth,atualpowerheight)
-            atualpowerarea=(atualpowerwidth-(powerimagewidth/2),atualpowerheight+(powerimageheight/2),powerimagewidth,powerimageheight)
-            window.blit(atualpowerimage,atualpowerimage_rect)
-            
-            if p1_area.colliderect(atualpowerarea):
-                timepower=0
-                if atualpower=='Escudo':
-                    escudo1=True
-                if atualpower=='Supervelocidade':
-                    velocidade1=True
-                if atualpower=='Superpulo':
-                    superpulo1=True
-                if atualpower=='Gigante':
-                    gigante1=True
-                if atualpower=='Superforça':
-                    forca1=True
-                timeusepower=15*60
-            
-            elif p2_area.colliderect(atualpowerarea):
-                timepower=0
-                if atualpower=='Escudo':
-                    escudo2=True
-                if atualpower=='Supervelocidade':
-                    velocidade2=True
-                if atualpower=='Superpulo':
-                    superpulo2=True
-                if atualpower=='Gigante':
-                    gigante2=True
-                if atualpower=='Superforça':
-                    forca2=True
-                timeusepower=15*60
-            
-            if hmapa>atualpowerheight:
-                atualpowerheight+=1
-
-            timepower-=1
-        
-        if timepower<=0:
-            timepower=0
-            atualpowerarea=(0,0,0,0)
-
-
-        if timeusepower>0:
-            timeusepower-=1
-
-        else:
-            escudo1=False
-            velocidade1=False
-            superpulo1=False
-            gigante1=False
-            escudo2=False
-            velocidade2=False
-            superpulo2=False
-            gigante2=False            
-            forca1=False
-            forca2=False
 
         pygame.display.update()  # Mostra o novo frame para o jogador
-    
+
     return current_screen,game,hp1,hp2,song2variable,SecScreen,counting
 
 
