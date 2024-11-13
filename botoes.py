@@ -4,8 +4,8 @@ width=1200
 height=600
 
 # Importa Botões de mute e volume
-Muteimage = pygame.image.load('images/mudo.png')
-Volumeimage = pygame.image.load('images/som_ligado.png')
+Muteimage = pygame.image.load('images/botoes/mudo.png')
+Volumeimage = pygame.image.load('images/botoes/som_ligado.png')
 
 
 # Cria botão do play e musica:
@@ -22,7 +22,7 @@ volume_area=pygame.Rect(0, 5*(height/6), width/12, height/6)
 play_area=pygame.Rect(3*(width/8),(width/8),width/4,height/2)
 
 
-Playimage = pygame.image.load('images/botao_play.png')
+Playimage = pygame.image.load('images/botoes/botao_play.png')
 Playimagewidth = width/4
 Playimageheight = height/2
 Playimage = pygame.transform.scale(Playimage, (Playimagewidth, Playimageheight))
@@ -31,7 +31,7 @@ Playimage_rect.center=((width/2),(height/2))
 
 
 # Importa imagem seta
-Arrowimage=pygame.image.load('images/Setavoltar.png')
+Arrowimage=pygame.image.load('images/botoes/Setavoltar.png')
 Arrowimagewidth=width/16
 Arrowimageheight=height/12
 Arrowimage = pygame.transform.scale(Arrowimage, (Arrowimagewidth, Arrowimageheight))
@@ -42,8 +42,8 @@ arrow_area=pygame.Rect(0,0,(width/16),(height/12))
 
 
 # Botão de confirmar
-Confirmb=pygame.image.load('images/Confirmb.png')
-Confirmedb=pygame.image.load('images/Confirmedb.png')
+Confirmb=pygame.image.load('images/botoes/Confirmb.png')
+Confirmedb=pygame.image.load('images/botoes/Confirmedb.png')
 Confirmbwidth=300
 Confirmbheight=200
 Confirmb1 = pygame.transform.scale(Confirmb, (Confirmbwidth, Confirmbheight))
@@ -73,7 +73,7 @@ Confirmb2_area=pygame.Rect(650,450,300,200)
 
 
 # Cria botão de pausa
-Pauseb=pygame.image.load('images/Botaopausa.png')
+Pauseb=pygame.image.load('images/botoes/Botaopausa.png')
 Pausebwidth=width/12
 Pausebheight=height/6
 Pauseb = pygame.transform.scale(Pauseb, (Pausebwidth, Pausebheight))
@@ -83,7 +83,7 @@ Pause_area=pygame.Rect(550,0,Pausebwidth,Pausebheight)
 
 
 # Cria botões da tela de pausa
-vjogo=pygame.image.load('images/Voltjogo.png')
+vjogo=pygame.image.load('images/botoes/Voltjogo.png')
 vjogowidth=width/4
 vjogoheight=height/4
 vjogo = pygame.transform.scale(vjogo, (vjogowidth, vjogoheight))
@@ -92,7 +92,7 @@ vjogo_rect.center=(width/2,105)
 vjogo_area=pygame.Rect((width/2)-(vjogowidth/2),105-(vjogoheight/2),vjogowidth,vjogoheight)
 
 
-controles=pygame.image.load('images/Controlesb.png')
+controles=pygame.image.load('images/botoes/Controlesb.png')
 controleswidth=width/4
 controlesheight=height/4
 controles = pygame.transform.scale(controles, (controleswidth, controlesheight))
@@ -105,7 +105,7 @@ controles_area=pygame.Rect((width/2)-(controleswidth/2),285-(controlesheight/2),
 resfont=pygame.font.SysFont(None, 128)
 
 # Jogar de novo
-Jogardenovo=pygame.image.load(f'images/Jogardenovo.png')
+Jogardenovo=pygame.image.load(f'images/botoes/Jogardenovo.png')
 Jogardenovowidth=300
 Jogardenovoheight=150
 Jogardenovo = pygame.transform.scale(Jogardenovo, (Jogardenovowidth, Jogardenovoheight))
@@ -115,7 +115,7 @@ Jogardenovoarea=pygame.Rect(450,30,300,150)
 
 
 # Trocar personagem
-Trocarpers=pygame.image.load(f'images/Trocarpers.png')
+Trocarpers=pygame.image.load(f'images/botoes/Trocarpers.png')
 Trocarperswidth=300
 Trocarpersheight=150
 Trocarpers = pygame.transform.scale(Trocarpers, (Trocarperswidth, Trocarpersheight))
@@ -125,7 +125,7 @@ Trocarpersarea=pygame.Rect(450,210,300,150)
 
 
 # Retornar ao menu
-Retmenu=pygame.image.load(f'images/Retmenu.png')
+Retmenu=pygame.image.load(f'images/botoes/Retmenu.png')
 Retmenuwidth=300
 Retmenuheight=150
 Retmenu = pygame.transform.scale(Retmenu, (Retmenuwidth, Retmenuheight))

@@ -426,24 +426,24 @@ def partida(mapnumber,current_map_image,current_map_rect,np1,np2):
         window.blit(Pauseb, Pauseb_rect)
 
         if atual_pos1==0:    
-            mov1 = pygame.image.load(f'images/Personagenspartida/Perslado{np1}.png')
+            mov1 = pygame.image.load(f'images/Personagenspartida/lado/Perslado{np1}.png')
             mov1 = pygame.transform.scale(mov1, (DGwidth, DGheight))
         elif atual_pos1==1:
-            mov1 = pygame.image.load(f'images/Personagenspartida/Perssoco{np1}.png')
+            mov1 = pygame.image.load(f'images/Personagenspartida/soco/Perssoco{np1}.png')
             mov1 = pygame.transform.scale(mov1, (DGwidth, DGheight))
         else:
-            mov1 = pygame.image.load(f'images/Personagenspartida/Perschute{np1}.png')
+            mov1 = pygame.image.load(f'images/Personagenspartida/chute/Perschute{np1}.png')
             mov1 = pygame.transform.scale(mov1, (DGwidth, DGheight))
 
 
         if atual_pos2==0:    
-            mov2 = pygame.image.load(f'images/Personagenspartida/Perslado{np2}.png')
+            mov2 = pygame.image.load(f'images/Personagenspartida/lado/Perslado{np2}.png')
             mov2 = pygame.transform.scale(mov2, (DGwidth, DGheight))
         elif atual_pos2==1:
-            mov2 = pygame.image.load(f'images/Personagenspartida/Perssoco{np2}.png')
+            mov2 = pygame.image.load(f'images/Personagenspartida/soco/Perssoco{np2}.png')
             mov2 = pygame.transform.scale(mov2, (DGwidth, DGheight))
         else:
-            mov2 = pygame.image.load(f'images/Personagenspartida/Perschute{np2}.png')
+            mov2 = pygame.image.load(f'images/Personagenspartida/chute/Perschute{np2}.png')
             mov2 = pygame.transform.scale(mov2, (DGwidth, DGheight))
 
         # Inverte imagem se preciso

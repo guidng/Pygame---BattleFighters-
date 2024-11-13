@@ -10,7 +10,7 @@ dic_maps={}
 dic_mapsrect={}
 for counter in range(len(maps_list)):
     map=maps_list[counter]
-    Mapimage=pygame.image.load(f'images/Mapa{counter}.jpg')
+    Mapimage=pygame.image.load(f'images/mapas/Mapa{counter}.jpg')
     Mapimagewidth=width
     Mapimageheight=height
     Mapimage = pygame.transform.scale(Mapimage, (Mapimagewidth, Mapimageheight))
@@ -44,4 +44,3 @@ nrect=n1.get_rect()
 nsrect=nstart.get_rect()
 nrect.center=(width/2,125)
 nsrect.center=(width/2,125)
-
