@@ -1,6 +1,6 @@
 from imports import *
 import random
-import numpy
+import pygame
 
 # Iniciando estruturas de dados
 width=1200
@@ -10,7 +10,7 @@ sound2=True
 j1_wins=0
 j2_wins=0
 FPS=60
-window = pygame.display.set_mode((width, height))
+window = pygame.display.set_mode(width, height)
 pygame.display.set_caption('Battlefighters ⚔️')
 clock = pygame.time.Clock()
 clock.tick(FPS)
@@ -657,7 +657,8 @@ def partida(mapnumber,current_map_image,current_map_rect,np1,np2):
                         if p1_area.colliderect(p2_area):
                             if escudo2==False:
                                 if forca1==False:
-                                    hp2-=2
+                                    if gigante1==False:
+                                        hp2-=2
                                 else:
                                     hp2-=4
                 if event.key == pygame.K_b:
@@ -666,7 +667,10 @@ def partida(mapnumber,current_map_image,current_map_rect,np1,np2):
                         if p1_area.colliderect(p2_area):
                             if escudo2==False:
                                 if forca1==False:
-                                    hp2-=2
+                                    if gigante1==False:
+                                        hp2-=2
+                                    else:
+                                        hp2-=5
                                 else:
                                     hp2-=4
                 if event.key == pygame.K_k:
@@ -675,7 +679,8 @@ def partida(mapnumber,current_map_image,current_map_rect,np1,np2):
                         if p2_area.colliderect(p1_area):
                             if escudo1==False:
                                 if forca2==False:
-                                    hp1-=2
+                                    if gigante2==False:
+                                        hp1-=2
                                 else:
                                     hp1-=4
                 if event.key == pygame.K_l:
@@ -684,7 +689,10 @@ def partida(mapnumber,current_map_image,current_map_rect,np1,np2):
                         if p2_area.colliderect(p1_area):
                             if escudo1==False:
                                 if forca2==False:
-                                    hp1-=2
+                                    if gigante2==False:
+                                        hp1-=2
+                                    else:
+                                        hp1-=5
                                 else:
                                     hp1-=4
                 if event.key == pygame.K_w:
