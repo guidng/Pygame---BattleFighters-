@@ -652,22 +652,20 @@ def partida(mapnumber,current_map_image,current_map_rect,np1,np2):
                     if Punchj1==0:
                         Punchj1=30
                         if p1_area.colliderect(p2_area):
-                            if escudo2==False:
-                                if last_keyj1=='d':
-                                    if Px1_pos<Px2_pos:
-                                        if forca1==False:
-                                            if gigante1==False:
+                            if gigante1==False:
+                                if escudo2==False:
+                                    if last_keyj1=='d':
+                                        if Px1_pos<Px2_pos:
+                                            if forca1==False:
                                                 hp2-=2
-                                        else:
-                                            hp2-=4
-                                else:
-                                    if Px1_pos>=Px2_pos:
-                                        if forca1==False:
-                                            if gigante1==False:
+                                            else:
+                                                hp2-=4
+                                    else:
+                                        if Px1_pos>=Px2_pos:
+                                            if forca1==False:
                                                 hp2-=2
-                                        else:
-                                            hp2-=4
-
+                                            else:
+                                                hp2-=4
                 if event.key == pygame.K_b:
                     if Kickj1==0:
                         Kickj1=30
@@ -675,37 +673,40 @@ def partida(mapnumber,current_map_image,current_map_rect,np1,np2):
                             if escudo2==False:
                                 if last_keyj1=='d':
                                     if Px1_pos<Px2_pos:
-                                        if forca1==False:
-                                            if gigante1==False:
-                                                hp2-=2
+                                        if gigante1==True:
+                                            hp2-=5
                                         else:
-                                            hp2-=4
+                                            if forca1==False:
+                                                hp2-=2
+                                            else:
+                                                hp2-=4
                                 else:
                                     if Px1_pos>=Px2_pos:
-                                        if forca1==False:
-                                            if gigante1==False:
-                                                hp2-=2
+                                        if gigante1==True:
+                                            hp2-=5
                                         else:
-                                            hp2-=4
+                                            if forca1==False:
+                                                hp2-=2
+                                            else:
+                                                hp2-=4
                 if event.key == pygame.K_k:
                     if Punchj2==0:
                         Punchj2=30
                         if p2_area.colliderect(p1_area):
-                            if escudo1==False:
-                                if last_keyj2=='RIGHT':
-                                    if Px1_pos<Px2_pos:
-                                        if forca1==False:
-                                            if gigante1==False:
+                            if gigante2==False:
+                                if escudo1==False:
+                                    if last_keyj2=='RIGHT':
+                                        if Px1_pos<Px2_pos:
+                                            if forca2==False:
                                                 hp1-=2
-                                        else:
-                                            hp1-=4
-                                else:
-                                    if Px1_pos>=Px2_pos:
-                                        if forca1==False:
-                                            if gigante1==False:
+                                            else:
+                                                hp1-=4
+                                    else:
+                                        if Px1_pos>=Px2_pos:
+                                            if forca2==False:
                                                 hp1-=2
-                                        else:
-                                            hp1-=4
+                                            else:
+                                                hp1-=4
                 if event.key == pygame.K_l:
                     if Kickj2==0:
                         Kickj2=30
@@ -713,18 +714,22 @@ def partida(mapnumber,current_map_image,current_map_rect,np1,np2):
                             if escudo1==False:
                                 if last_keyj2=='RIGHT':
                                     if Px1_pos<Px2_pos:
-                                        if forca1==False:
-                                            if gigante1==False:
-                                                hp1-=2
+                                        if gigante2==True:
+                                            hp1-=5
                                         else:
-                                            hp1-=4
+                                            if forca2==False:
+                                                hp1-=2
+                                            else:
+                                                hp1-=4
                                 else:
                                     if Px1_pos>=Px2_pos:
-                                        if forca1==False:
-                                            if gigante1==False:
-                                                hp1-=2
+                                        if gigante2==True:
+                                            hp1-=5
                                         else:
-                                            hp1-=4
+                                            if forca2==False:
+                                                hp1-=2
+                                            else:
+                                                hp1-=4
                 if event.key == pygame.K_w:
                     pulo1=True
                 if event.key == pygame.K_UP:
@@ -796,12 +801,12 @@ def partida(mapnumber,current_map_image,current_map_rect,np1,np2):
             velocidade1=False
             superpulo1=False
             gigante1=False
-            velocidade1=False
+            forca1=False
 
         if timeusepower2>0:
             timeusepower2-=1
         else:
-            velocidade2=False
+            gigante2=False
             escudo2=False
             velocidade2=False
             superpulo2=False
@@ -837,7 +842,6 @@ def partida(mapnumber,current_map_image,current_map_rect,np1,np2):
         pygame.display.update()  # Mostra o novo frame para o jogador
 
     return current_screen,game,hp1,hp2,song2variable,SecScreen,counting
-
 
 # Menu de pausa
 def jogo_pausado(current_map_image,current_map_rect,atual_TS,sound2):
