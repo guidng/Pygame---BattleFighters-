@@ -18,7 +18,7 @@ while game:
 
     clock.tick(FPS)
    
-    # Troca tela
+    # Troca tela.
     if current_screen == 'tela carregamento':
         current_screen,game = tela_carregamento() 
 
