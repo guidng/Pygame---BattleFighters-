@@ -1,7 +1,40 @@
 # Iniciando jogo
 import pygame
 pygame.init()
+pygame.joystick.init()
+# configurações dos controles 
+joysticks = []
+for i in range(pygame.joystick.get_count()):
+    joystick = pygame.joystick.Joystick(i)
+    joystick.init()
+    joysticks.append(joystick)
+acoes =['pulo', 'ANALOGesquerda', 'soco', 'chute']
+calibracao = {} 
+if pygame.joystick.get_count()>0:
+    for n in range(pygame.joystick.get_count()):
+        calibracao[f'player{n}'] = {}
+    for player, controles in calibracao.items():
+        for acao in acoes:
+            print(f"{player} - Pressione o botão ou mova o eixo para '{acao}'...")
+
+            mapeado = False
+            while not mapeado:
+                for event in pygame.event.get():
+                    # Botões
+                    if event.type == pygame.JOYBUTTONDOWN and event.instance_id == list(calibracao.keys()).index(player):
+                        controles[acao] = ("botao", event.button)
+                        print(f"{acao} mapeado para botão {event.button}")
+                        mapeado = True
+                    elif event.type == pygame.JOYAXISMOTION and acao == 'ANALOGesquerda' and event.instance_id == list(calibracao.keys()).index(player):
+                        if abs(event.value) > 0.5:  # Evita leituras não intencionais de eixos neutros
+                            controles[acao] = ("eixo", event.axis, event.value)
+                            print(f"{acao} mapeado para eixo {event.axis} com direção {'positiva' if event.value > 0 else 'negativa'}")
+                            mapeado = True
+
+            pygame.time.delay(2000)
+    print(calibracao)
 current_screen='tela carregamento'
+
 
 # Importando outras janelas
 from imports import *
@@ -17,7 +50,7 @@ clock.tick(FPS)
 while game:
 
     clock.tick(FPS)
-   
+       
     # Troca tela
     if current_screen == 'tela carregamento':
         current_screen,game = tela_carregamento() 
