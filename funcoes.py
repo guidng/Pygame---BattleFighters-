@@ -849,7 +849,6 @@ def partida(mapnumber,current_map_image,current_map_rect,np1,np2,calibracao):
         # Movimentação personagens
         keys = pygame.key.get_pressed()
         if pygame.joystick.get_count() >= 1:
-            print(joysticks[0].get_axis(calibracao['player0']['ANALOGesquerda'][1]))
             if (joysticks[0].get_axis(calibracao['player0']['ANALOGesquerda'][1]) < -0.1):
                 if velocidade1==False:
                     Px1_pos -= 6
