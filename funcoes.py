@@ -662,12 +662,63 @@ def partida(mapnumber,current_map_image,current_map_rect,np1,np2,calibracao):
             # Controle
             if event.type == pygame.JOYBUTTONDOWN:
                 if event.instance_id == 0:
+
+                    # pulo
                     if event.button == calibracao["player0"]['pulo'][1]:
                         pulo1=True
+                    # soco
+                    if event.button == calibracao['player0']['soco'][1]:
+                        if Punchj1==0:
+                            Punchj1=30
+                            if p1_area.colliderect(p2_area):
+                                if escudo2==False:
+                                    if forca1==False:
+                                        if gigante1==False:
+                                            hp2-=2
+                                    else:
+                                        hp2-=4
+                    #chute
+                    if event.button == calibracao['player0']['chute'][1]:
+                        if Kickj1==0:
+                            Kickj1=30
+                            if p1_area.colliderect(p2_area):
+                                if escudo2==False:
+                                    if forca1==False:
+                                        if gigante1==False:
+                                            hp2-=2
+                                        else:
+                                            hp2-=5
+                                    else:
+                                        hp2-=4
+
                 if event.instance_id == 1:
+                    #pulo
                     if event.button == calibracao["player1"]['pulo'][1]:
                         pulo2=True
-                
+                    #soco
+                    if event.button == calibracao['player2']['soco'][1]:
+                        if Punchj2==0:
+                            Punchj2=30
+                            if p2_area.colliderect(p1_area):
+                                if escudo1==False:
+                                    if forca2==False:
+                                        if gigante2==False:
+                                            hp1-=2
+                                    else:
+                                        hp1-=4
+                    #chute
+                    if event.button == calibracao['player2']['chute'][1]:
+                        if Kickj2==0:
+                            Kickj2=30
+                            if p2_area.colliderect(p1_area):
+                                if escudo1==False:
+                                    if forca2==False:
+                                        if gigante2==False:
+                                            hp1-=2
+                                        else:
+                                            hp1-=5
+                                    else:
+                                        hp1-=4
             if event.type ==pygame.KEYDOWN:
                 if event.key == pygame.K_v:
                     if Punchj1==0:
