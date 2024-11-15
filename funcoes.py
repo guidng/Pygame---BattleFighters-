@@ -659,6 +659,15 @@ def partida(mapnumber,current_map_image,current_map_rect,np1,np2,calibracao):
                     mouse_pos=event.pos
                     if Pause_area.collidepoint(mouse_pos):
                         current_screen='Jogo pausado'
+            # Controle
+            if event.type == pygame.JOYBUTTONDOWN:
+                if event.instance_id == 0:
+                    if event.button == calibracao["player0"]['pulo'][1]:
+                        pulo1=True
+                if event.instance_id == 1:
+                    if event.button == calibracao["player1"]['pulo'][1]:
+                        pulo2=True
+                
             if event.type ==pygame.KEYDOWN:
                 if event.key == pygame.K_v:
                     if Punchj1==0:
@@ -704,7 +713,7 @@ def partida(mapnumber,current_map_image,current_map_rect,np1,np2,calibracao):
                                         hp1-=5
                                 else:
                                     hp1-=4
-                if event.key == pygame.K_w:
+                if event.key == pygame.K_w :
                     pulo1=True
                 if event.key == pygame.K_UP:
                     pulo2=True
