@@ -347,10 +347,9 @@ def prepartida(current_map_image,current_map_rect,Fullpicrect1,Fullpicrect2,Full
 
 
 # Partida
-def partida(mapnumber,current_map_image,current_map_rect,np1,np2):
-    # Variáveis controle
-    if pygame.joystick.get_count()>0:
-        from jogo import j1esquerda, j2esquerda, j1direita, j2direita, j1pulo, j2pulo, j1soco, j2soco, j1chute, j2chute
+def partida(mapnumber,current_map_image,current_map_rect,np1,np2,calibracao):
+    # Variáveis control
+
     # Parâmetros para inversão de imagem funcionar
     last_keyj1='d'
     last_keyj2='LEFT'
@@ -651,17 +650,7 @@ def partida(mapnumber,current_map_image,current_map_rect,np1,np2):
 
         # Trata eventos
         for event in pygame.event.get():
-            #vertifica analógicos
-            if event.type == pygame.JOYBUTTONDOWN:
-                #esquerda
-                if event.button == JESQUERDA:
-                        #player 1
-                        if event.instance_id == 0:
-                            if velocidade1==False:
-                                Px1_pos -= 6
-                            else:
-                                Px1_pos -= 12
-                            last_keyj1='a'
+            
             # Verifica consequências
             if event.type == pygame.QUIT:
                 game = False
@@ -717,7 +706,7 @@ def partida(mapnumber,current_map_image,current_map_rect,np1,np2):
                                     hp1-=4
                 if event.key == pygame.K_w:
                     pulo1=True
-                if event.key == pygame.K_UP or event.key == pygame.contro:
+                if event.key == pygame.K_UP:
                     pulo2=True
 
         
@@ -799,30 +788,59 @@ def partida(mapnumber,current_map_image,current_map_rect,np1,np2):
 
         # Movimentação personagens
         keys = pygame.key.get_pressed()
-        if keys[pygame.K_a]:
-            if velocidade1==False:
-                Px1_pos -= 6
-            else:
-                Px1_pos -= 12
-            last_keyj1='a'
-        if keys[pygame.K_d]:
-            if velocidade1==False:
-                Px1_pos += 6
-            else:
-                Px1_pos += 12
-            last_keyj1='d'
-        if keys[pygame.K_LEFT]:
-            if velocidade2==False:
-                Px2_pos -= 6
-            else:
-                Px2_pos -= 12 
-            last_keyj2='LEFT'
-        if keys[pygame.K_RIGHT]:
-            if velocidade2==False:
-                Px2_pos += 6
-            else:
-                Px2_pos += 12
-            last_keyj2='RIGHT'
+        if pygame.joystick.get_count() >= 1:
+            print(joysticks[0].get_axis(calibracao['player0']['ANALOGesquerda'][1]))
+            if (joysticks[0].get_axis(calibracao['player0']['ANALOGesquerda'][1]) < -0.1):
+                if velocidade1==False:
+                    Px1_pos -= 6
+                else:
+                    Px1_pos -= 12
+                last_keyj1='a'
+            elif (joysticks[0].get_axis(calibracao['player0']['ANALOGesquerda'][1]) > 0.1):
+                if velocidade1==False:
+                    Px1_pos += 6
+                else:
+                    Px1_pos += 12
+                last_keyj1='d'
+        if pygame.joystick.get_count() > 1:
+            if keys[pygame.K_LEFT]:
+                if velocidade2==False:
+                    Px2_pos -= 6
+                else:
+                    Px2_pos -= 12 
+                last_keyj2='LEFT'
+            if keys[pygame.K_RIGHT]:
+                if velocidade2==False:
+                    Px2_pos += 6
+                else:
+                    Px2_pos += 12
+                last_keyj2='RIGHT'
+
+        else:
+            if keys[pygame.K_a]:
+                if velocidade1==False:
+                    Px1_pos -= 6
+                else:
+                    Px1_pos -= 12
+                last_keyj1='a'
+            if keys[pygame.K_d]:
+                if velocidade1==False:
+                    Px1_pos += 6
+                else:
+                    Px1_pos += 12
+                last_keyj1='d'
+            if keys[pygame.K_LEFT]:
+                if velocidade2==False:
+                    Px2_pos -= 6
+                else:
+                    Px2_pos -= 12 
+                last_keyj2='LEFT'
+            if keys[pygame.K_RIGHT]:
+                if velocidade2==False:
+                    Px2_pos += 6
+                else:
+                    Px2_pos += 12
+                last_keyj2='RIGHT'
 
         pygame.display.update()  # Mostra o novo frame para o jogador
 

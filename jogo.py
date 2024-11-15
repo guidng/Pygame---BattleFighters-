@@ -73,7 +73,7 @@ while game:
 
     # Troca tela
     if current_screen=='partida':
-        current_screen,game,hp1,hp2,song2variable,SecScreen,counting = partida(mapnumber,current_map_image,current_map_rect,np1,np2)
+        current_screen,game,hp1,hp2,song2variable,SecScreen,counting = partida(mapnumber,current_map_image,current_map_rect,np1,np2,calibracao)
 
     # Troca tela
     if current_screen=='Jogo pausado':
