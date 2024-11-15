@@ -803,18 +803,19 @@ def partida(mapnumber,current_map_image,current_map_rect,np1,np2,calibracao):
                     Px1_pos += 12
                 last_keyj1='d'
         if pygame.joystick.get_count() > 1:
-            if keys[pygame.K_LEFT]:
+            if (joysticks[0].get_axis(calibracao['player1']['ANALOGesquerda'][1]) < -0.1):
                 if velocidade2==False:
                     Px2_pos -= 6
                 else:
-                    Px2_pos -= 12 
+                    Px2_pos -= 12
                 last_keyj2='LEFT'
-            if keys[pygame.K_RIGHT]:
+            elif (joysticks[0].get_axis(calibracao['player1']['ANALOGesquerda'][1]) > 0.1):
                 if velocidade2==False:
                     Px2_pos += 6
                 else:
                     Px2_pos += 12
                 last_keyj2='RIGHT'
+
 
         else:
             if keys[pygame.K_a]:
