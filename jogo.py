@@ -69,11 +69,11 @@ while game:
 
     # Troca tela
     if current_screen=='prepartida':
-        current_screen,game = prepartida(current_map_image,current_map_rect,Fullpicrect1,Fullpicrect2,Fullpic1,Fullpic2)
+        current_screen,game,time,timeMS = prepartida(current_map_image,current_map_rect,Fullpicrect1,Fullpicrect2,Fullpic1,Fullpic2)
 
     # Troca tela
     if current_screen=='partida':
-        current_screen,game,hp1,hp2,song2variable,SecScreen,counting = partida(mapnumber,current_map_image,current_map_rect,np1,np2,calibracao)
+        current_screen,game,hp1,hp2,song2variable,SecScreen,counting,time,timeMS = partida(mapnumber,current_map_image,current_map_rect,np1,np2,calibracao,time,timeMS)
 
     # Troca tela
     if current_screen=='Jogo pausado':

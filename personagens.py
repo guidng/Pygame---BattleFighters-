@@ -26,7 +26,7 @@ face_area_list=[]
 Fullbody_list=[]
 Full_list1={}
 Full_list2={}
-list_characters=['Fred Tio','Alekinho','Baiano','NiGOATlas','Leo Messi','J Viddy','Old Serra','Mr Fein','Fogaca','Marcio desoft','Pelicano','Dani Livros','TheNatDes','Cauezada','Irmaozin','Ninja 1','Ninja 2','Ninja 3','Gagui','Juba']
+list_characters=['Fred Tio','Alekinho','Baiano','NiGOATlas','Leo Messi','J Viddy','Old Serra','Mr Fein','Fogaca','Marcio desoft','Pelicano','Dani Livros','The NatDes','Cauezada','Irmaozin','Ninja 1','Ninja 2','Ninja 3','Gagui','Juba']
 for characters in range(20):
     Characimage = pygame.image.load(f'images/personagensface/Personagem{characters}.png')
     Fullbody = pygame.image.load(f'images/personagensfp/FullPerson{characters}.png')

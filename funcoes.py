@@ -304,6 +304,8 @@ def prepartida(current_map_image,current_map_rect,Fullpicrect1,Fullpicrect2,Full
     game=True
     current_screen='prepartida'
     frames=0
+    time=90*60
+    timeMS=30*60
 
     # Criando loop
     while current_screen=='prepartida' and game==True:
@@ -343,11 +345,11 @@ def prepartida(current_map_image,current_map_rect,Fullpicrect1,Fullpicrect2,Full
 
         pygame.display.update()  # Mostra o novo frame para o jogador
 
-    return current_screen,game
+    return current_screen,game,time,timeMS
 
 
 # Partida
-def partida(mapnumber,current_map_image,current_map_rect,np1,np2,calibracao):
+def partida(mapnumber,current_map_image,current_map_rect,np1,np2,calibracao,time,timeMS):
     # Variáveis control
 
     # Parâmetros para inversão de imagem funcionar
@@ -904,7 +906,7 @@ def partida(mapnumber,current_map_image,current_map_rect,np1,np2,calibracao):
 
         pygame.display.update()  # Mostra o novo frame para o jogador
 
-    return current_screen,game,hp1,hp2,song2variable,SecScreen,counting
+    return current_screen,game,hp1,hp2,song2variable,SecScreen,counting,time,timeMS
 
 
 # Menu de pausa
