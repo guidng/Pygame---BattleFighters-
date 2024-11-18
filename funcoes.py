@@ -389,9 +389,7 @@ def partida(mapnumber,current_map_image,current_map_rect,np1,np2,calibracao,time
     atual_pos1=0
     atual_pos2=0
     atual_pos1=0
-    atual_pos2=0       
-    time=90*60
-    timeMS=31*60
+    atual_pos2=0
     lim=0
     pulo1=False
     pulo2=False
